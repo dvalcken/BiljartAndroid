@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    Greeting("Biljart App 4")
+                    Greeting(name = getString(R.string.app_name))
                 }
             }
         }
