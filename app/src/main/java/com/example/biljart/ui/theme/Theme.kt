@@ -15,33 +15,37 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
+private val LightColorScheme = lightColorScheme(
+    primary = Green700,
+    secondary = Blue500,
+    tertiary = Amber500,
+    background = LightBackground,
+    surface = LightBackground,
+    onPrimary = ContentColorOnPrimaryLightMode, // Content color on primary
+    onSecondary = ContentColorOnSecondaryLightMode, // Content color on secondary
+    onTertiary = ContentColorOnTertiaryLightMode, // Content color on tertiary
+    onBackground = LightOnBackground, // Content color on background
+    onSurface = LightOnBackground, // Content color on surface
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val DarkColorScheme = darkColorScheme(
+    primary = Blue700,
+    secondary = Green700,
+    tertiary = Amber700,
+    background = DarkBackground,
+    surface = DarkBackground,
+    onPrimary = ContentColorOnPrimaryDarkMode, // Content color on primary
+    onSecondary = ContentColorOnSecondaryDarkMode, // Content color on secondary
+    onTertiary = ContentColorOnTertiaryDarkMode, // Content color on tertiary
+    onBackground = DarkOnBackground, // Content color on background
+    onSurface = DarkOnBackground, // Content color on surface
 )
 
 @Composable
-fun BiljartTheme(
+fun BilliardTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    // Dynamic color is available on Android 12+, put to false because not available in this app
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
