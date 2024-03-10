@@ -84,12 +84,12 @@ fun ScaffoldStructure(toggleTheme: () -> Unit, appName: String) {
                 )
             }
         },
-        floatingActionButton = {
-/*            FloatingActionButton(onClick = { presses++ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }*/
-        },
-    ) { innerPadding ->
+        /*        floatingActionButton = {
+                    FloatingActionButton(onClick = { presses++ }) {
+                        Icon(Icons.Default.Add, contentDescription = "Add")
+                    }
+                },*/
+    ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
         Column(
             modifier = Modifier
                 .padding(innerPadding),
