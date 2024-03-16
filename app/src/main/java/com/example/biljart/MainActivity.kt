@@ -60,7 +60,9 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
         },
         bottomBar = {
             MyBottomAppBar(
-                { navController.navigate(Destinations.Home.name) },
+                { navController.popBackStack(Destinations.Home.name, false) },
+                // popBackStack pops the back stack until the destination is found
+                // inclusive is false, so the destination itself is not popped
                 { navController.navigate(Destinations.About.name) },
                 { navController.navigate(Destinations.Ranking.name) },
             )
