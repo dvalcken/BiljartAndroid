@@ -3,18 +3,32 @@ package com.example.biljart
 import android.os.Bundle // ktlint-disable import-ordering
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.biljart.ui.theme.BilliardTheme
+
+enum class Destinations {
+    Start,
+    About,
+    Competition,
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +66,35 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
                     }
                 },*/
     ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
-        StartScreen(innerPadding)
+        NavHost(
+            navController = rememberNavController(),
+            startDestination = Destinations.Start.name,
+            modifier = Modifier.padding(innerPadding),
+        ) {
+            composable(Destinations.Start.name) {
+                // composable is an extension function on NavGraphBuilder (lesson 3, 1:13:30)
+                StartScreen()
+            }
+            composable(Destinations.About.name) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(), // fill the available space.
+                    verticalArrangement = Arrangement.Center, // center the content vertically.
+                    horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
+                ) {
+                    Text(text = "Temporary about screen")
+                }
+            }
+            composable(Destinations.Competition.name) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(), // fill the available space.
+                    verticalArrangement = Arrangement.Center, // center the content vertically.
+                    horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
+                ) {
+                    Text(text = "Temporary competition screen")
+                }
+            }
+        }
     }
 }
