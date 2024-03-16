@@ -1,5 +1,7 @@
 package com.example.biljart
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle // ktlint-disable import-ordering
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +28,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -60,14 +65,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
     val navController = rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10)
+    val currentBackStackEntry by navController.currentBackStackEntryAsState() // lesson 3, 1:55:00
+    val route = currentBackStackEntry?.destination?.route // lesson 3, 1:55:00
     Scaffold(
         topBar = {
             MyTopAppBar(
                 appName,
                 toggleTheme,
             ) {
-                val currentBackStackEntry by navController.currentBackStackEntryAsState() // lesson 3, 1:55:00
-                val isStartDestination = currentBackStackEntry?.destination?.route == Destinations.Home.name
+                val isStartDestination = route == Destinations.Home.name
                 if (isStartDestination) {
                     IconButton(onClick = { /* do nothing for now */ }) {
                         Icon(Icons.Filled.Home, contentDescription = "Home")
@@ -88,11 +94,23 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
                 { navController.navigate(Destinations.Ranking.name) },
             )
         },
-        /*        floatingActionButton = {
-                    FloatingActionButton(onClick = { presses++ }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
+        floatingActionButton = {
+            val context = LocalContext.current // context is needed to start an activity, in this case to open the email app in the about screen
+            when (route) {
+                Destinations.About.name -> {
+                    // open email app and sender is filled in with valckenierdimitri@hotmail.com
+                    FloatingActionButton(onClick = {
+                        val emailIntent = Intent(Intent.ACTION_SENDTO).apply { // Intent is used to start an activity.
+                            data = Uri.parse("mailto:valckenierdimitri@hotmail.com") // use a URI with the "mailto:" scheme to specify the email recipient
+                            putExtra(Intent.EXTRA_SUBJECT, "Email from billiard app on Android") // fill in the subject of the email
+                        }
+                        context.startActivity(Intent.createChooser(emailIntent, "Send email..."))
+                    }) {
+                        Icon(Icons.Default.Email, contentDescription = "Email the developer")
                     }
-                },*/
+                }
+            }
+        },
     ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
         NavHost(
             navController = navController,
