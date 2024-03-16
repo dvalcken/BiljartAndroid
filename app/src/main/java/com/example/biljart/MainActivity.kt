@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     BilliardApp(
                         toggleTheme = { isDarkTheme = !isDarkTheme },
-                        appName = getString(R.string.app_name), // app name is declared in strings.xml
+//                        appName = getString(R.string.app_name), // app name is declared in strings.xml
                     )
                 }
             }
@@ -63,15 +63,24 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
+fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
     val navController = rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10)
     val currentBackStackEntry by navController.currentBackStackEntryAsState() // lesson 3, 1:55:00
     val route = currentBackStackEntry?.destination?.route // lesson 3, 1:55:00
+
+    val titleResId = when (route) {
+        Destinations.Home.name -> R.string.home_title
+        Destinations.About.name -> R.string.about_title
+        Destinations.Ranking.name -> R.string.ranking_title
+        else -> R.string.app_name // Default title is the app name
+    }
+
     Scaffold(
         topBar = {
             MyTopAppBar(
-                appName,
+//                appName,
                 toggleTheme,
+                title = titleResId,
             ) {
                 val isStartDestination = route == Destinations.Home.name
                 if (isStartDestination) {

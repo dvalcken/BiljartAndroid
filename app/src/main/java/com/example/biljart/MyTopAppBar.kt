@@ -1,5 +1,6 @@
 package com.example.biljart
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.biljart.ui.theme.BilliardTheme
@@ -27,14 +29,14 @@ import com.example.biljart.ui.theme.BilliardTheme
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTopAppBar(
-    appName: String,
     toggleTheme: () -> Unit,
+    @StringRes title: Int, // lesson 3 2:33:00
     navigationIcon: @Composable () -> Unit,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     TopAppBar(
-        title = { Text(appName) },
+        title = { Text(stringResource(title)) },
         navigationIcon = navigationIcon,
         actions = {
             // show three dots icon to open the menu
@@ -81,7 +83,7 @@ fun MyTopAppBarPreview() {
     BilliardTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colorScheme.background) {
             Box {
-                MyTopAppBar(appName = "Biljart app", toggleTheme = {}) {
+                MyTopAppBar(title = R.string.app_name, toggleTheme = {}) {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Home")
                     }
