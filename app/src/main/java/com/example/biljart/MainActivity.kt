@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     BilliardApp(
                         toggleTheme = { isDarkTheme = !isDarkTheme },
-                        appName = getString(R.string.app_name), // Assuming you have defined the app name in your strings.xml
+                        appName = getString(R.string.app_name), // app name is declared in strings.xml
                     )
                 }
             }
@@ -55,21 +55,3 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
         StartScreen(innerPadding)
     }
 }
-
-// @Composable
-// fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = name,
-//        color = MaterialTheme.colorScheme.primary,
-//        style = MaterialTheme.typography.displayLarge,
-//        modifier = modifier,
-//    )
-// }
-
-// @Preview(showBackground = true)
-// @Composable
-// fun GreetingPreview() {
-//    BilliardTheme {
-//        Greeting("Android")
-//    }
-// }
