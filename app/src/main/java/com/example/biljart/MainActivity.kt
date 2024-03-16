@@ -25,9 +25,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.biljart.ui.theme.BilliardTheme
 
 enum class Destinations {
-    Start,
+    Home,
     About,
-    Competition,
+    Ranking,
 }
 
 class MainActivity : ComponentActivity() {
@@ -53,12 +53,17 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
+    val navController = rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10)
     Scaffold(
         topBar = {
             MyTopAppBar(appName, toggleTheme)
         },
         bottomBar = {
-            MyBottomAppBar()
+            MyBottomAppBar(
+                { navController.navigate(Destinations.Home.name) },
+                { navController.navigate(Destinations.About.name) },
+                { navController.navigate(Destinations.Ranking.name) },
+            )
         },
         /*        floatingActionButton = {
                     FloatingActionButton(onClick = { presses++ }) {
@@ -67,11 +72,11 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
                 },*/
     ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
         NavHost(
-            navController = rememberNavController(),
-            startDestination = Destinations.Start.name,
+            navController = navController,
+            startDestination = Destinations.Home.name,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(Destinations.Start.name) {
+            composable(Destinations.Home.name) {
                 // composable is an extension function on NavGraphBuilder (lesson 3, 1:13:30)
                 StartScreen()
             }
@@ -85,7 +90,7 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
                     Text(text = "Temporary about screen")
                 }
             }
-            composable(Destinations.Competition.name) {
+            composable(Destinations.Ranking.name) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize(), // fill the available space.
