@@ -11,10 +11,11 @@ val Green700 = Color(0xFF388E3C)
 val Amber200 = Color(0xFFFFE082)
 val Amber500 = Color(0xFFFFC107)
 val Amber700 = Color(0xFFFFA000)
+val Grey200 = Color(0xFFCFCCCC)
 
 val DarkGray = Color(0xFF252525)
 
-val LightBackground = Color.White
+val LightBackground = Grey200
 val LightOnBackground = Color(0xFF1C1B1F)
 val DarkBackground = DarkGray
 val DarkOnBackground = Color.White

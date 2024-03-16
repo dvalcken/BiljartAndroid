@@ -3,34 +3,17 @@ package com.example.biljart
 import android.os.Bundle // ktlint-disable import-ordering
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Brightness4
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import com.example.biljart.ui.theme.BilliardTheme
 
 class MainActivity : ComponentActivity() {
@@ -43,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    ScaffoldStructure(
+                    BilliardApp(
                         toggleTheme = { isDarkTheme = !isDarkTheme },
                         appName = getString(R.string.app_name), // Assuming you have defined the app name in your strings.xml
                     )
@@ -55,37 +38,13 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldStructure(toggleTheme: () -> Unit, appName: String) {
+fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(appName) },
-                actions = {
-                    IconButton(onClick = toggleTheme) {
-                        Icon(
-                            imageVector = Icons.Filled.Brightness4,
-                            contentDescription = "Toggle theme",
-                        )
-                    }
-                },
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-            )
+            MyTopAppBar(appName, toggleTheme)
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom app bar",
-                )
-            }
+            MyBottomAppBar()
         },
         /*        floatingActionButton = {
                     FloatingActionButton(onClick = { presses++ }) {
@@ -93,37 +52,7 @@ fun ScaffoldStructure(toggleTheme: () -> Unit, appName: String) {
                     }
                 },*/
     ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(), // fill the available space.
-            verticalArrangement = Arrangement.Center, // center the content vertically.
-            horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
-        ) {
-            /*Text(
-                modifier = Modifier.padding(8.dp),
-                text =
-                """
-                    Billiard app content comes here.
-
-                    This is just a placeholder for the main content of the app.
-                """.trimIndent(),
-//                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyMedium,
-            )*/
-
-            val logo = painterResource(R.drawable.logo8ball)
-            Surface {
-                // show the 8-ball logo
-                Image(
-                    painter = logo,
-                    contentDescription = "Logo",
-                    modifier = Modifier
-                        .fillMaxWidth() // uses  max available width
-                        .wrapContentHeight(align = Alignment.CenterVertically), // aligns the image vertically in the center
-                )
-            }
-        }
+        StartScreen(innerPadding)
     }
 }
 
