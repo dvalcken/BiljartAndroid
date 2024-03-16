@@ -3,6 +3,7 @@ package com.example.biljart
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -25,11 +26,16 @@ import com.example.biljart.ui.theme.BilliardTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTopAppBar(appName: String, toggleTheme: () -> Unit) {
+fun MyTopAppBar(
+    appName: String,
+    toggleTheme: () -> Unit,
+    navigationIcon: @Composable () -> Unit,
+) {
     val expanded = remember { mutableStateOf(false) }
 
     TopAppBar(
         title = { Text(appName) },
+        navigationIcon = navigationIcon,
         actions = {
             // show three dots icon to open the menu
             IconButton(onClick = { expanded.value = true }) {
@@ -75,7 +81,11 @@ fun MyTopAppBarPreview() {
     BilliardTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colorScheme.background) {
             Box {
-                MyTopAppBar(appName = "Biljart app", toggleTheme = {})
+                MyTopAppBar(appName = "Biljart app", toggleTheme = {}) {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Home")
+                    }
+                }
             }
         }
     }

@@ -7,7 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -21,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.biljart.ui.theme.BilliardTheme
 
@@ -56,7 +62,22 @@ fun BilliardApp(toggleTheme: () -> Unit, appName: String) {
     val navController = rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10)
     Scaffold(
         topBar = {
-            MyTopAppBar(appName, toggleTheme)
+            MyTopAppBar(
+                appName,
+                toggleTheme,
+            ) {
+                val currentBackStackEntry by navController.currentBackStackEntryAsState() // lesson 3, 1:55:00
+                val isStartDestination = currentBackStackEntry?.destination?.route == Destinations.Home.name
+                if (isStartDestination) {
+                    IconButton(onClick = { /* do nothing for now */ }) {
+                        Icon(Icons.Filled.Home, contentDescription = "Home")
+                    }
+                } else {
+                    IconButton(onClick = { navController.popBackStack() }) { // onUp function for the back icon
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            }
         },
         bottomBar = {
             MyBottomAppBar(
