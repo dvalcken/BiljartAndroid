@@ -26,6 +26,8 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = ContentColorOnTertiaryLightMode, // Content color on tertiary
     onBackground = LightOnBackground, // Content color on background
     onSurface = LightOnBackground, // Content color on surface
+    primaryContainer = Green500,
+    onPrimaryContainer = ContentColorOnPrimaryLightMode,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -39,6 +41,8 @@ private val DarkColorScheme = darkColorScheme(
     onTertiary = ContentColorOnTertiaryDarkMode, // Content color on tertiary
     onBackground = DarkOnBackground, // Content color on background
     onSurface = DarkOnBackground, // Content color on surface
+    primaryContainer = Green700,
+    onPrimaryContainer = DarkOnBackground,
 )
 
 @Composable
