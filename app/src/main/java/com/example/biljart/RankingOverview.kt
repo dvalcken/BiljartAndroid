@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,7 +24,16 @@ fun RankingOverview(modifier: Modifier = Modifier) {
     val ranks = rankUiState.ranks
 
     Box(modifier = modifier) {
-        LazyColumn {
+        val state = rememberLazyListState() // not needed, but added for reference (lesson 4 1:50:00)
+
+//        Code below is not needed, because the LazyColumn will automatically scroll to the last item
+//        just added here for reference (lesson 4 1:50:00)
+//        val coroutineScope = rememberCoroutineScope()
+//        coroutineScope.launch {
+//            state.animateScrollToItem(rankUiState.ranks.size)
+//        }
+
+        LazyColumn(state = state) { // state = state is not needed, but added for reference (lesson 4 1:50:00)
             items(ranks) {
                 RankItem(
                     player_id = it.player_id,

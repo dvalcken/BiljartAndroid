@@ -1,8 +1,10 @@
 package com.example.biljart
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,8 +18,9 @@ fun PlayingDayOverview(modifier: Modifier = Modifier) {
     val playingDayUiState by viewModel.playingDayUiState.collectAsState()
     val playingDays = playingDayUiState.playingDays
 
-    Box(modifier = modifier) {
-        LazyColumn {
+    val content: @Composable() (BoxScope.() -> Unit) = {
+        val state = rememberLazyListState()
+        LazyColumn(state = state) {
             items(playingDays) {
                 PlayingDayItem(
                     playingday_id = it.playingday_id,
@@ -27,4 +30,5 @@ fun PlayingDayOverview(modifier: Modifier = Modifier) {
             }
         }
     }
+    Box(modifier = modifier, content = content)
 }
