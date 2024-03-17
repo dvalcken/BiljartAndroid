@@ -14,20 +14,29 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun RankingOverview(modifier: Modifier = Modifier) {
-    val ranks = mutableStateOf(data.Rank.getAll())
+    // val ranks = mutableStateOf(data.Rank.getAll()) // this is the original line, but was moved to the view model
+
+    val viewModel: RankingViewModel = viewModel()
+    // this function 'viewModel' returns the same instance of the view model for the same composable
+    // function if it already exists, otherwise it creates a new instance.
+
+    val rankUiState by viewModel.rankUiState.collectAsState() // rankUiState is a flow, so we can collect it as a state
+    val ranks = rankUiState.ranks
 
     Box(modifier = modifier) {
         LazyColumn {
-            items(ranks.value) {
+            items(ranks) {
                 Rank(
                     player_id = it.player_id,
                     name = it.name,

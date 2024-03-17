@@ -39,9 +39,10 @@ enum class Destinations {
     Home,
     About,
     Ranking,
+    PlayingDays,
 }
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() { // this is the main activity of the app (lesson 4, 0:36:30)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -72,6 +73,7 @@ fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
         Destinations.Home.name -> R.string.home_title
         Destinations.About.name -> R.string.about_title
         Destinations.Ranking.name -> R.string.ranking_title
+        Destinations.PlayingDays.name -> R.string.playing_days_title
         else -> R.string.app_name // Default title is the app name
     }
 
@@ -96,11 +98,12 @@ fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
         },
         bottomBar = {
             MyBottomAppBar(
-                { navController.popBackStack(Destinations.Home.name, false) },
+                { navController.popBackStack(Destinations.Home.name, false) }, // onHome
                 // popBackStack pops the back stack until the destination is found
                 // inclusive is false, so the destination itself is not popped
-                { navController.navigate(Destinations.About.name) },
-                { navController.navigate(Destinations.Ranking.name) },
+                { navController.navigate(Destinations.About.name) }, // onAbout
+                { navController.navigate(Destinations.Ranking.name) }, // onRanking
+                { navController.navigate(Destinations.PlayingDays.name) }, // onPlayingDays
             )
         },
         floatingActionButton = {
@@ -149,6 +152,17 @@ fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
                 ) {
                     // Text(text = "Temporary competition screen")
                     RankingOverview()
+                }
+            }
+            composable(Destinations.PlayingDays.name) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(), // fill the available space.
+                    verticalArrangement = Arrangement.Center, // center the content vertically.
+                    horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
+                ) {
+                    // Text(text = "Temporary competition screen")
+                    PlayingDayOverview()
                 }
             }
         }

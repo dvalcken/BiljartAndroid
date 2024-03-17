@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +18,7 @@ fun MyBottomAppBar(
     onHome: () -> Unit,
     onAbout: () -> Unit,
     onRanking: () -> Unit,
+    onPlayingDays: () -> Unit,
 ) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -30,7 +32,10 @@ fun MyBottomAppBar(
                 Icon(Icons.Filled.Info, contentDescription = "About")
             }
             IconButton(onClick = onRanking) {
-                Icon(Icons.Filled.Menu, contentDescription = "Ranking")
+                Icon(Icons.Filled.Star, contentDescription = "Ranking")
+            }
+            IconButton(onClick = onPlayingDays) {
+                Icon(Icons.Filled.Menu, contentDescription = "Playingdays")
             }
         },
     )
@@ -49,6 +54,11 @@ fun MyBottomAppBar(
 @Composable
 fun MyBottomAppBarPreview() {
     BilliardTheme(darkTheme = false) {
-        MyBottomAppBar({ /*onHome*/ }, { /*onAbout*/ }) { /*onCompetition*/ }
+        MyBottomAppBar(
+            { /*onHome*/ },
+            { /*onAbout*/ },
+            { /*onCompetition*/ },
+            { /*onPlayingDays*/ },
+        )
     }
 }
