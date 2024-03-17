@@ -1,5 +1,8 @@
 package com.example.biljart
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -10,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.ui.theme.BilliardTheme
 
@@ -25,17 +29,26 @@ fun MyBottomAppBar(
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         actions = {
             // Add actions here
-            IconButton(onClick = onHome) {
-                Icon(Icons.Filled.Home, contentDescription = "Home")
-            }
-            IconButton(onClick = onAbout) {
-                Icon(Icons.Filled.Info, contentDescription = "About")
-            }
-            IconButton(onClick = onRanking) {
-                Icon(Icons.Filled.Star, contentDescription = "Ranking")
-            }
-            IconButton(onClick = onPlayingDays) {
-                Icon(Icons.Filled.Menu, contentDescription = "Playingdays")
+            // row with arrangement 'Space Evenly'
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                IconButton(onClick = onHome) {
+                    Icon(Icons.Filled.Home, contentDescription = "Home")
+                }
+                //            Spacer(modifier = Modifier.width(16.dp))
+                IconButton(onClick = onAbout) {
+                    Icon(Icons.Filled.Info, contentDescription = "About")
+                }
+                //            Spacer(modifier = Modifier.width(16.dp))
+                IconButton(onClick = onRanking) {
+                    Icon(Icons.Filled.Star, contentDescription = "Ranking")
+                }
+                //            Spacer(modifier = Modifier.width(16.dp))
+                IconButton(onClick = onPlayingDays) {
+                    Icon(Icons.Filled.Menu, contentDescription = "Playingdays")
+                }
             }
         },
     )
