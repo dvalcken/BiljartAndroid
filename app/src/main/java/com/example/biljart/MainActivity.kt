@@ -147,7 +147,8 @@ fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
                     verticalArrangement = Arrangement.Center, // center the content vertically.
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
-                    Text(text = "Temporary competition screen")
+                    // Text(text = "Temporary competition screen")
+                    RankingOverview()
                 }
             }
         }
