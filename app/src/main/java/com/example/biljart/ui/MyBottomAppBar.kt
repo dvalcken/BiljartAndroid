@@ -1,4 +1,4 @@
-package com.example.biljart
+package com.example.biljart.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

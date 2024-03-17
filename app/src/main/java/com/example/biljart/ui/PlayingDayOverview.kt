@@ -1,4 +1,4 @@
-package com.example.biljart
+package com.example.biljart.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun PlayingDayOverview(modifier: Modifier = Modifier) {
-    val viewModel: PlayingDayViewModel = viewModel()
+    val viewModel: PlayingDayOverviewViewModel = viewModel()
 
     val playingDayUiState by viewModel.playingDayUiState.collectAsState()
     val playingDays = playingDayUiState.playingDays

@@ -1,4 +1,4 @@
-package com.example.biljart
+package com.example.biljart.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PlayingDayItem(
-    playingday_id: Int,
-    date: String,
-    is_finished: Boolean,
+fun RankItem(
+    player_id: Int,
+    name: String,
+    rank: Int,
+    total_frames_won: Int,
+    total_frames_lost: Int,
+    total_matches_won: Int,
+    total_matches_played: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -32,9 +36,13 @@ fun PlayingDayItem(
             .padding(8.dp),
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = "Playing day ID: $playingday_id")
-            Text(text = "Date: $date")
-            Text(text = "Is finished: $is_finished")
+            Text(text = "Player ID: $player_id")
+            Text(text = "Name: $name")
+            Text(text = "Rank: $rank")
+            Text(text = "Total frames won: $total_frames_won")
+            Text(text = "Total frames lost: $total_frames_lost")
+            Text(text = "Total matches won: $total_matches_won")
+            Text(text = "Total matches played: $total_matches_played")
         }
     }
 }
