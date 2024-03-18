@@ -2,13 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="BilliardAppPreview">
-        <State />
-      </entry>
-      <entry key="GreetingPreview">
+      <entry key="BillardAppTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="test_app_shows_startscreen()">
+        <State />
+      </entry>
+      <entry key="test_app_shows_startscreen2()">
+        <State />
+      </entry>
+      <entry key="test_startscreen_shows_logo()">
+        <State />
+      </entry>
+      <entry key="test_startscreen_shows_playingdays_button()">
         <State />
       </entry>
     </value>

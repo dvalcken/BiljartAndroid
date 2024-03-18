@@ -1,4 +1,4 @@
-package com.example.biljart
+package com.example.biljart.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.biljart.R
 import com.example.biljart.ui.theme.BilliardTheme
 
 @Composable

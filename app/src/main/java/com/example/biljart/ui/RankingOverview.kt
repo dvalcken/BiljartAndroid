@@ -1,4 +1,4 @@
-package com.example.biljart
+package com.example.biljart.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -16,7 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun RankingOverview(modifier: Modifier = Modifier) {
     // val ranks = mutableStateOf(data.Rank.getAll()) // this is the original line, but was moved to the view model
 
-    val viewModel: RankingViewModel = viewModel()
+    val viewModel: RankingOverviewViewModel = viewModel()
     // this function 'viewModel' returns the same instance of the view model for the same composable
     // function if it already exists, otherwise it creates a new instance.
 

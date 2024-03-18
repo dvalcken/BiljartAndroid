@@ -1,9 +1,9 @@
-package com.example.biljart
+package com.example.biljart.ui
 
-import data.Rank
+import com.example.biljart.model.Rank
 
-data class RankingUiState(
-    val ranks: List<Rank> = emptyList(),
+data class RankingOverviewState(
+    val ranks: List<Rank>,
 ) {
 //    companion object {
 //        val sampleRanks = mutableListOf(
