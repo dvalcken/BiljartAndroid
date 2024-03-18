@@ -35,19 +35,19 @@ fun MyBottomAppBar(
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 IconButton(onClick = onHome) {
-                    Icon(Icons.Filled.Home, contentDescription = "Home")
+                    Icon(Icons.Filled.Home, contentDescription = "Bottombar Home")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onAbout) {
-                    Icon(Icons.Filled.Info, contentDescription = "About")
+                    Icon(Icons.Filled.Info, contentDescription = "Bottombar About")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onRanking) {
-                    Icon(Icons.Filled.Star, contentDescription = "Ranking")
+                    Icon(Icons.Filled.Star, contentDescription = "Bottombar Ranking")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onPlayingDays) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Playingdays")
+                    Icon(Icons.Filled.Menu, contentDescription = "Bottombar Playingdays")
                 }
             }
         },
