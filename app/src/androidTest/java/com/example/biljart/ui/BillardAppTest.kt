@@ -2,14 +2,19 @@ package com.example.biljart.ui
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.navigation.compose.ComposeNavigator
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.biljart.Destinations
 import com.example.biljart.R
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,11 +22,14 @@ import org.junit.Test
 class BillardAppTest {
     @get:Rule
     val composeTestRule = createComposeRule()
+    lateinit var navController: TestNavHostController // lateinit is used to initialize the variable later
 
     @Before
     fun initializeApp() {
         composeTestRule.setContent {
-            BilliardApp(toggleTheme = { })
+            navController = TestNavHostController(LocalContext.current)
+            navController.navigatorProvider.addNavigator(ComposeNavigator())
+            BilliardApp(toggleTheme = { }, navController)
         }
     }
 
@@ -97,9 +105,10 @@ class BillardAppTest {
         composeTestRule
             .onNodeWithContentDescription("Bottombar Ranking")
             .performClick()
-        composeTestRule
-            .onNodeWithText(getResourceString(R.string.ranking_title))
-            .assertIsDisplayed()
+//        composeTestRule // this works, but is not the best way to test. See next lines
+//            .onNodeWithText(getResourceString(R.string.ranking_title))
+//            .assertIsDisplayed()
+        assertEquals(Destinations.Ranking.name, navController.currentBackStackEntry?.destination?.route)
     }
 
     @Test
@@ -107,9 +116,10 @@ class BillardAppTest {
         composeTestRule
             .onNodeWithContentDescription("Bottombar About")
             .performClick()
-        composeTestRule
-            .onNodeWithText(getResourceString(R.string.about_title))
-            .assertIsDisplayed()
+//        composeTestRule // this works, but is not the best way to test. See next lines
+//            .onNodeWithText(getResourceString(R.string.about_title))
+//            .assertIsDisplayed()
+        assertEquals(Destinations.About.name, navController.currentBackStackEntry?.destination?.route)
     }
 
     @Test
@@ -117,8 +127,9 @@ class BillardAppTest {
         composeTestRule
             .onNodeWithContentDescription("Bottombar Playingdays")
             .performClick()
-        composeTestRule
-            .onNodeWithText(getResourceString(R.string.playing_days_title))
-            .assertIsDisplayed()
+//        composeTestRule // this works, but is not the best way to test. See next lines
+//            .onNodeWithText(getResourceString(R.string.playing_days_title))
+//            .assertIsDisplayed()
+        assertEquals(Destinations.PlayingDays.name, navController.currentBackStackEntry?.destination?.route)
     }
 }

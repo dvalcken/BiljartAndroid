@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -37,9 +38,9 @@ import com.example.biljart.ui.theme.BilliardTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BilliardApp(toggleTheme: () -> Unit /*appName: String,*/) {
-    val navController =
-        rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10)
+fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = rememberNavController()/*appName: String,*/) {
+//    val navController: NavHostController =
+//        rememberNavController() // hoisted the scope via ctrl+alt+v (lesson 3, 1:38:10) // moved to parameter for testing (Lesson 5 0:57:00)
     val currentBackStackEntry by navController.currentBackStackEntryAsState() // lesson 3, 1:55:00
     val route = currentBackStackEntry?.destination?.route // lesson 3, 1:55:00
 
