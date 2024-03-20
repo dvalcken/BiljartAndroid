@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Scoreboard
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,11 +43,11 @@ fun MyBottomAppBar(
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onRanking) {
-                    Icon(Icons.Filled.Star, contentDescription = "Bottombar Ranking")
+                    Icon(Icons.Filled.Scoreboard, contentDescription = "Bottombar Ranking")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onPlayingDays) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Bottombar Playingdays")
+                    Icon(Icons.Filled.CalendarMonth, contentDescription = "Bottombar Playingdays")
                 }
             }
         },

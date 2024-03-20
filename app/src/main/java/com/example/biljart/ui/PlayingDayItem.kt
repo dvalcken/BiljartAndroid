@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import com.example.biljart.R
 
 @Composable
 fun PlayingDayItem(
@@ -28,13 +30,13 @@ fun PlayingDayItem(
         modifier = modifier
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
-            .border(1.dp, Color.Black)
-            .padding(8.dp),
+            .border(dimensionResource(R.dimen.border_small), Color.Black)
+            .padding(dimensionResource(R.dimen.padding_small)),
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = "Playing day ID: $playingday_id")
-            Text(text = "Date: $date")
-            Text(text = "Is finished: $is_finished")
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))) {
+            Text(text = stringResource(R.string.Playingday_playing_day_id, playingday_id))
+            Text(text = stringResource(R.string.Playingday_date, date))
+            Text(text = stringResource(R.string.Playingday_is_finished, is_finished))
         }
     }
 }
