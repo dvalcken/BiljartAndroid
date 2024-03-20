@@ -36,6 +36,8 @@ fun MyBottomAppBar(
             ) {
                 IconButton(onClick = onHome) {
                     Icon(Icons.Filled.Home, contentDescription = "Bottombar Home")
+                    // Example of changing the icon based on a condition
+                    //  Icon(imageVector = if (true) Icons.Filled.Home else Icons.Filled.Face, contentDescription = "Bottombar Home")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onAbout) {
