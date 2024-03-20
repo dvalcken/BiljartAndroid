@@ -1,8 +1,10 @@
 package com.example.biljart.ui
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,20 +58,29 @@ fun RankItem(
             .padding(dimensionResource(R.dimen.padding_small)),
     ) {
         Column {
+            var expanded by rememberSaveable {
+                mutableStateOf(false)
+            }
+            val color by animateColorAsState(
+                targetValue = if (expanded) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.secondary
+                },
+                label = "colorAnimation",
+            )
+
             ElevatedCard(
                 modifier = Modifier
                     .padding(
                         dimensionResource(R.dimen.padding_small),
                         dimensionResource(R.dimen.padding_extra_small),
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(color),
 
 //                shape = MaterialTheme.shapes.medium,
             ) {
-                var expanded by rememberSaveable {
-                    mutableStateOf(false)
-                }
-
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(text = stringResource(R.string.Ranking_player_id, player_id))
                     IconButton(onClick = { expanded = !expanded }) {
