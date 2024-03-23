@@ -121,7 +121,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                     verticalArrangement = Arrangement.Center, // center the content vertically.
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
-                    Text(text = "Temporary about screen")
+                    Text(text = "Temporary about screen", style = MaterialTheme.typography.bodyMedium)
                 }
             }
             composable(Destinations.Ranking.name) {

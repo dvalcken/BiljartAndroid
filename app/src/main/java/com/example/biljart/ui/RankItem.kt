@@ -1,6 +1,10 @@
 package com.example.biljart.ui
 
-import androidx.compose.foundation.border
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -8,12 +12,25 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
+import com.example.biljart.R
 
 @Composable
 fun RankItem(
@@ -30,19 +47,91 @@ fun RankItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessMedium,
+                ),
+            )
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
-            .border(1.dp, Color.Black)
-            .padding(8.dp),
+//            .border(dimensionResource(R.dimen.border_small), Color.Black)
+            .padding(dimensionResource(R.dimen.padding_small)),
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = "Player ID: $player_id")
-            Text(text = "Name: $name")
-            Text(text = "Rank: $rank")
-            Text(text = "Total frames won: $total_frames_won")
-            Text(text = "Total frames lost: $total_frames_lost")
-            Text(text = "Total matches won: $total_matches_won")
-            Text(text = "Total matches played: $total_matches_played")
+        Column {
+            var expanded by rememberSaveable {
+                mutableStateOf(false)
+            }
+            val color by animateColorAsState(
+                targetValue = if (expanded) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.secondary
+                },
+                label = "colorAnimation",
+            )
+
+            ElevatedCard(
+                modifier = Modifier
+                    .padding(
+                        dimensionResource(R.dimen.padding_small),
+                        dimensionResource(R.dimen.padding_extra_small),
+                    )
+                    .fillMaxWidth()
+                    .background(color),
+
+//                shape = MaterialTheme.shapes.medium,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.Ranking_player_id, player_id),
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
+                    IconButton(onClick = { expanded = !expanded }) {
+                        Icon(
+                            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                            contentDescription = "Expand",
+                        )
+                    }
+                }
+                Text(
+                    text = stringResource(R.string.Ranking_name, name),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textDecoration = if (expanded) null else TextDecoration.Underline,
+                )
+                Text(
+                    text = stringResource(R.string.Ranking_rank, rank),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                if (expanded) {
+                    Text(
+                        text = stringResource(R.string.Ranking_total_frames_won, total_frames_won),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+
+                    Text(
+                        text = stringResource(
+                            R.string.Ranking_total_frames_lost,
+                            total_frames_lost,
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Text(
+                        text = stringResource(
+                            R.string.Ranking_total_matches_won,
+                            total_matches_won,
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Text(
+                        text = stringResource(
+                            R.string.Ranking_total_matches_played,
+                            total_matches_played,
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
         }
     }
 }

@@ -6,6 +6,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+// Example of custom font usage and the necessary imports
+/* import androidx.compose.ui.text.font.Font
+import com.example.biljart.R
+val AmaticScBold = FontFamily(
+    Font(R.font.amaticsc_bold),
+)
+val DefaultFontFamily = AmaticScBold*/
+
+// Default font: Roboto
 val DefaultFontFamily = FontFamily.Default
 
 val Typography = Typography(
