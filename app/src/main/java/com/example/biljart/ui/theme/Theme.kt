@@ -70,7 +70,7 @@ fun BilliardTheme(
         }
     }
 
-    MaterialTheme(
+    MaterialTheme( // Purpose: to apply the Material Design theme to the app with the colorScheme and typography defined in the theme
         colorScheme = colorScheme,
         typography = Typography,
         content = content,

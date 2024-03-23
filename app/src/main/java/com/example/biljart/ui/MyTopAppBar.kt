@@ -37,14 +37,19 @@ fun MyTopAppBar(
     val expanded = remember { mutableStateOf(false) }
 
     TopAppBar(
-        title = { Text(stringResource(title)) },
+        title = {
+            Text(
+                stringResource(title),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        },
         navigationIcon = navigationIcon,
         actions = {
             // show three dots icon to open the menu
             IconButton(onClick = { expanded.value = true }) {
                 Icon(
                     imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "Menu",
+                    contentDescription = stringResource(R.string.menu),
                 )
             }
 
@@ -56,7 +61,12 @@ fun MyTopAppBar(
             ) {
                 // menu item to toggle theme
                 DropdownMenuItem(
-                    text = { Text("Toggle theme") },
+                    text = {
+                        Text(
+                            stringResource(R.string.toggle_theme),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    },
                     onClick = {
                         toggleTheme()
                         expanded.value = false // close the menu after clicking
@@ -64,7 +74,7 @@ fun MyTopAppBar(
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Filled.Brightness4,
-                            contentDescription = "Toggle theme",
+                            contentDescription = stringResource(R.string.toggle_theme),
                         )
                     },
                 )

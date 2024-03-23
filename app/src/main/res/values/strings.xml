@@ -14,5 +14,7 @@
     <string name="Playingday_playing_day_id">Playing day ID: %1$s</string>
     <string name="Playingday_date">Date: %1$s</string>
     <string name="Playingday_is_finished">Is finished: %1$s</string>
+    <string name="toggle_theme">Toggle theme</string>
+    <string name="menu">Menu</string>
 
 </resources>

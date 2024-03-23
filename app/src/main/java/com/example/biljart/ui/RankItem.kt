@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import com.example.biljart.R
 
 @Composable
@@ -82,7 +83,10 @@ fun RankItem(
 //                shape = MaterialTheme.shapes.medium,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = stringResource(R.string.Ranking_player_id, player_id))
+                    Text(
+                        text = stringResource(R.string.Ranking_player_id, player_id),
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
                     IconButton(onClick = { expanded = !expanded }) {
                         Icon(
                             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
@@ -90,27 +94,41 @@ fun RankItem(
                         )
                     }
                 }
-                Text(text = stringResource(R.string.Ranking_name, name))
-                Text(text = stringResource(R.string.Ranking_rank, rank))
+                Text(
+                    text = stringResource(R.string.Ranking_name, name),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textDecoration = if (expanded) null else TextDecoration.Underline,
+                )
+                Text(
+                    text = stringResource(R.string.Ranking_rank, rank),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
                 if (expanded) {
-                    Text(text = stringResource(R.string.Ranking_total_frames_won, total_frames_won))
+                    Text(
+                        text = stringResource(R.string.Ranking_total_frames_won, total_frames_won),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_frames_lost,
                             total_frames_lost,
                         ),
+                        style = MaterialTheme.typography.bodySmall,
                     )
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_matches_won,
                             total_matches_won,
                         ),
+                        style = MaterialTheme.typography.bodySmall,
                     )
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_matches_played,
                             total_matches_played,
                         ),
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 }
             }
