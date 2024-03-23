@@ -4,12 +4,15 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.http.GET
 
 interface RankApiService {
+    @GET("api/season/android")
     suspend fun getRank(): List<ApiRank>
 }
 
-private const val BASE_URL = "http://10.0.2.2:3000/"
+private const val BASE_URL = "http://10.0.2.2:9000/"
+// private const val BASE_URL = "http://localhost:9000/"
 
 private var retrofit: Retrofit = Retrofit.Builder() // this creates a new instance of Retrofit
     .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // if the server returns JSON, this will convert it to a List<ApiRank>
