@@ -17,9 +17,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun RankingOverview(modifier: Modifier = Modifier) {
     // val ranks = mutableStateOf(data.Rank.getAll()) // this is the original line, but was moved to the view model
 
-    val rankingOverviewViewModel: RankingOverviewViewModel = viewModel()
+    val rankingOverviewViewModel: RankingOverviewViewModel = viewModel(factory = RankingOverviewViewModel.Factory)
     // this function 'viewModel' returns the same instance of the view model for the same composable
     // function if it already exists, otherwise it creates a new instance.
+    // added the factory to the view model (lesson 8 29'15")
 
     val rankUiState by rankingOverviewViewModel.rankUiState.collectAsState() // rankUiState is a flow, so we can collect it as a state
     val ranks = rankUiState.ranks
