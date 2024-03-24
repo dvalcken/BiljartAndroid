@@ -8,10 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.biljart.data.RankSampler
 import com.example.biljart.network.RankApi.rankService
+import com.example.biljart.network.asDomainObjects
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.SocketTimeoutException
 
 class RankingOverviewViewModel : ViewModel() { // Lesson 4: 1:12:00
     private val _rankUiState = MutableStateFlow(RankingOverviewState(RankSampler.getAll())) // private mutable state flow to update the state
@@ -27,8 +30,21 @@ class RankingOverviewViewModel : ViewModel() { // Lesson 4: 1:12:00
 
     private fun getApiRank() {
         viewModelScope.launch { // getRank is a suspend function, so we need to call it from a coroutine
-            val ranks = rankService.getRank()
-            println("RankingOverviewViewModel.getApiRank: $ranks")
+            Log.i("RankingOverviewViewModel", "getApiRank called")
+            try {
+                val ranks = rankService.getRank()
+                rankApiState = RankApiState.Success(ranks.asDomainObjects()) // update the state with the new ranks, les 7 1u22"
+                println("RankingOverviewViewModel.getApiRank: $ranks")
+            } catch (e: SocketTimeoutException) {
+                rankApiState = RankApiState.Error
+                Log.e("RankingOverviewViewModel SocketTimeoutException error", "getApiRank SocketTimeoutException error: ${e.message}", e)
+            } catch (e: IOException) {
+                rankApiState = RankApiState.Error
+                Log.e("RankingOverviewViewModel IOException error", "getApiRank IOException error: ${e.message}", e)
+            } catch (e: Exception) {
+                rankApiState = RankApiState.Error
+                Log.e("RankingOverviewViewModel loading error", "getApiRank loading error: ${e.message}", e)
+            }
         }
     }
 }

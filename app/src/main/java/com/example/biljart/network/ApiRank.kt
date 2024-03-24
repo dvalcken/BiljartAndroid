@@ -1,5 +1,6 @@
 package com.example.biljart.network
 
+import com.example.biljart.model.Rank
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,6 +13,20 @@ data class ApiRank(
     val total_matches_won: Int,
     val total_matches_played: Int,
 )
+
+fun List<ApiRank>.asDomainObjects(): List<Rank> { // extension function to convert ApiRank to Rank Les 7 1u22"
+    return this.map {
+        Rank(
+            player_id = it.player_id,
+            name = it.name,
+            rank = it.rank,
+            total_frames_won = it.total_frames_won,
+            total_frames_lost = it.total_frames_lost,
+            total_matches_won = it.total_matches_won,
+            total_matches_played = it.total_matches_played,
+        )
+    }
+}
 
 /*     {
     "player_id": 37,

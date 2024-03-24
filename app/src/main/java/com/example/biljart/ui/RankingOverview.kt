@@ -50,7 +50,7 @@ fun RankingOverview(modifier: Modifier = Modifier) {
             when (rankApiState) {
                 is RankApiState.Loading -> {
                     item {
-//                        LoadingRank()
+//                        Loading()
                         Text("Loading ranks...")
                     }
                 }
