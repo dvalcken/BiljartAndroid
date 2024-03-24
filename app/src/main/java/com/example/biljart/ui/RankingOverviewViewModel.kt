@@ -26,7 +26,7 @@ class RankingOverviewViewModel(
     private val _rankUiState = MutableStateFlow(RankingOverviewState(RankSampler.getAll())) // private mutable state flow to update the state
     val rankUiState: StateFlow<RankingOverviewState> = _rankUiState.asStateFlow() // craates a wrapper around the MutableStateFlow, expose the state as a flow, this is read-only (not mutable)
 
-    var rankApiState: RankApiState by mutableStateOf(RankApiState.Loading)
+    var rankingApiState: RankingApiState by mutableStateOf(RankingApiState.Loading)
         private set
 
     init {
@@ -40,19 +40,19 @@ class RankingOverviewViewModel(
             try {
 //                val ranks = rankService.getRank()
                 val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)
-                rankApiState = RankApiState.Success(ranks) // update the state with the new ranks, les 7 1u22" + les 8 25'30 removed the asDomainObjects() from the ranks
+                rankingApiState = RankingApiState.Success(ranks) // update the state with the new ranks, les 7 1u22" + les 8 25'30 removed the asDomainObjects() from the ranks
                 println("RankingOverviewViewModel.getApiRank: $ranks")
             } catch (e: SocketTimeoutException) {
                 /* TODO show a toast */
-                rankApiState = RankApiState.Error
+                rankingApiState = RankingApiState.Error
                 Log.e("RankingOverviewViewModel SocketTimeoutException error", "getApiRank SocketTimeoutException error: ${e.message}", e)
             } catch (e: IOException) {
                 /* TODO show a toast */
-                rankApiState = RankApiState.Error
+                rankingApiState = RankingApiState.Error
                 Log.e("RankingOverviewViewModel IOException error", "getApiRank IOException error: ${e.message}", e)
             } catch (e: Exception) {
                 /* TODO show a toast */
-                rankApiState = RankApiState.Error
+                rankingApiState = RankingApiState.Error
                 Log.e("RankingOverviewViewModel loading error", "getApiRank loading error: ${e.message}", e)
             }
         }

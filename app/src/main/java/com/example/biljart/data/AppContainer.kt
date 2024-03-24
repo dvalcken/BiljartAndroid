@@ -6,6 +6,9 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
+// the container contains all the dependencies of the app  (Les 8 40")
+// is responsible for initializing objects (and thus also for initializing the repository)
+// the container is initialized in the BiljartApplication.kt class (Les 8 41'30")
 interface AppContainer { // Les 8 8'
     val rankingRepository: RankingRepository // val is a property, so has getter and setter
     /* TODO: add other repositories here */

@@ -47,21 +47,21 @@ fun RankingOverview(modifier: Modifier = Modifier) {
 //                    total_matches_played = it.total_matches_played,
 //                )
 //            }
-            val rankApiState = rankingOverviewViewModel.rankApiState
+            val rankApiState = rankingOverviewViewModel.rankingApiState
             when (rankApiState) {
-                is RankApiState.Loading -> {
+                is RankingApiState.Loading -> {
                     item {
 //                        Loading()
                         Text("Loading ranks...")
                     }
                 }
-                is RankApiState.Error -> {
+                is RankingApiState.Error -> {
                     item {
 //                        ErrorRank()
                         Text("Error loading ranks")
                     }
                 }
-                is RankApiState.Success -> {
+                is RankingApiState.Success -> {
                     items(rankApiState.ranks) {
                         RankItem(
                             player_id = it.player_id,
