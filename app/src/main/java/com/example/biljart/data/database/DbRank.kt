@@ -3,7 +3,7 @@ package com.example.biljart.data.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "player")
 data class DbRank(
     @PrimaryKey // not auto-generated, because id is returned from the database
     var player_id: Int = 0,
