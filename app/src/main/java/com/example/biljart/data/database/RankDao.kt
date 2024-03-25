@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RankDao {
     @Query("SELECT * FROM player ORDER BY rank ASC")
-    fun getAll(): Flow<List<DbRank>>
+    fun getAllRanks(): Flow<List<DbRank>>
 
     @Query("SELECT * FROM player WHERE player_id = :playerId") // Not needed for the app, but useful for other entities
     fun getById(playerId: Int): Flow<DbRank>

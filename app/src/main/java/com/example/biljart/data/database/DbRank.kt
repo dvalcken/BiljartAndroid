@@ -2,6 +2,7 @@ package com.example.biljart.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.biljart.model.Rank
 
 @Entity(tableName = "player")
 data class DbRank(
@@ -14,3 +15,30 @@ data class DbRank(
     var total_matches_won: Int = 0,
     var total_matches_played: Int = 0,
 )
+
+fun Rank.asDbRank(): DbRank {
+    return DbRank(
+        player_id = player_id,
+        name = name,
+        rank = rank,
+        total_frames_won = total_frames_won,
+        total_frames_lost = total_frames_lost,
+        total_matches_won = total_matches_won,
+        total_matches_played = total_matches_played,
+    )
+}
+
+fun DbRank.asDomainObject(): Rank {
+    return Rank(
+        player_id = player_id,
+        name = name,
+        rank = rank,
+        total_frames_won = total_frames_won,
+        total_frames_lost = total_frames_lost,
+        total_matches_won = total_matches_won,
+        total_matches_played = total_matches_played,
+    )
+}
+fun List<DbRank>.asDomainObjects(): List<Rank> {
+    return map { it.asDomainObject() }
+}
