@@ -17,9 +17,6 @@
       <entry key="test_startscreen_shows_logo()">
         <State />
       </entry>
-      <entry key="test_startscreen_shows_playingdays_button()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>

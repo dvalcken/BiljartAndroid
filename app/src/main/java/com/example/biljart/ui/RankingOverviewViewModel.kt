@@ -30,13 +30,13 @@ class RankingOverviewViewModel(
         private set
 
     init {
-        Log.i("RankingViewModel", "creating new instance $this")
+//        Log.i("RankingViewModel", "creating new instance $this")
         getApiRank()
     }
 
     private fun getApiRank() {
         viewModelScope.launch { // getRank is a suspend function, so we need to call it from a coroutine
-            Log.i("RankingOverviewViewModel", "getApiRank called")
+//            Log.i("RankingOverviewViewModel", "getApiRank called")
             try {
 //                val ranks = rankService.getRank()
                 val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)
