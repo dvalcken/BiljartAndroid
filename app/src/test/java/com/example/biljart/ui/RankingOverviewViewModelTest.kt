@@ -17,6 +17,10 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class RankingOverviewViewModelTest {
+
+    // See https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/
+    // for more information this test setup
+
 //    private val viewModel = RankingOverviewViewModel(FakeApiRankingRepository())
     lateinit var viewModel: RankingOverviewViewModel
 
