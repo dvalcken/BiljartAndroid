@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalCoroutinesApi::class)
 
 package com.example.biljart.ui
 
@@ -16,12 +16,11 @@ import org.junit.Test
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class RankingOverviewViewModelTest {
+class RankingOverviewViewModelTest { // Lesson 8  47' until end
 
     // See https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/
-    // for more information this test setup
+    // for more information on this test setup
 
-//    private val viewModel = RankingOverviewViewModel(FakeApiRankingRepository())
     lateinit var viewModel: RankingOverviewViewModel
 
     @get:Rule
@@ -49,13 +48,11 @@ class RankingOverviewViewModelTest {
 class TestDispatchersRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun starting(description: Description?) {
         super.starting(description)
         Dispatchers.setMain(testDispatcher)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun finished(description: Description?) {
         super.finished(description)
         Dispatchers.resetMain()

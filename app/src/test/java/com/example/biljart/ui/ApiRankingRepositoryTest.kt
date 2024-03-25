@@ -8,16 +8,14 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class ApiRankingRepositoryTest {
+class ApiRankingRepositoryTest { // Lesson 8  47' until end
 
     @Test
     fun apiRankingRepository_getRanking_verifyRanksList() = runTest {
         // suspend function, see https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/  'runTest'
 
-        // Arrange
         val repository = ApiRankingRepository(FakeRankingApiService())
-        // Act
-        // Assert
+
         assertEquals(FakeDataSource.ranks.asDomainObjects(), repository.getRanking())
     }
 }
