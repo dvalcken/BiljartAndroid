@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.7" // updated from 1.5.0 to 1.5.7 due build error This version (1.5.0) of the Compose Compiler requires Kotlin version 1.9.0 but you appear to be using Kotlin version 1.9.21 which is not known to be compatible. see https://developer.android.com/jetpack/androidx/releases/compose-kotlin
     }
     packaging {
         resources {

@@ -1,9 +1,9 @@
 package com.example.biljart.ui
 
-import com.example.biljart.model.Rank
-
 data class RankingOverviewState(
-    val ranks: List<Rank>,
+    // val ranks: List<Rank>, // Les 9 1u29 removed, because the data is now fetched from the database
+    val scrollActionIdx: Int = 0,
+    val scrollToItemIndex: Int = 0,
 ) {
 //    companion object {
 //        val sampleRanks = mutableListOf(

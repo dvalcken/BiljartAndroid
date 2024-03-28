@@ -3,7 +3,6 @@ package com.example.biljart.ui
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,16 +13,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun RankingOverview(modifier: Modifier = Modifier) {
+fun RankingOverview(
+    modifier: Modifier = Modifier,
+    rankingOverviewViewModel: RankingOverviewViewModel = viewModel(factory = RankingOverviewViewModel.Factory),
+
+) {
     // val ranks = mutableStateOf(data.Rank.getAll()) // this is the original line, but was moved to the view model
 
-    val rankingOverviewViewModel: RankingOverviewViewModel = viewModel(factory = RankingOverviewViewModel.Factory)
     // this function 'viewModel' returns the same instance of the view model for the same composable
     // function if it already exists, otherwise it creates a new instance.
     // added the factory to the view model (lesson 8 29'15")
 
-    val rankUiState by rankingOverviewViewModel.rankUiState.collectAsState() // rankUiState is a flow, so we can collect it as a state
-    val ranks = rankUiState.ranks
+    val rankOverviewState by rankingOverviewViewModel.rankUiState.collectAsState() // rankUiState is a flow, so we can collect it as a state
+
+    val rankApiState = rankingOverviewViewModel.rankingApiState
+
+    val rankingListState = rankingOverviewViewModel.uiListState.collectAsState() // Les 9 1u35'
+    // val ranks = rankUiState.ranks
 
     Box(modifier = modifier) {
         val lazyListState = rememberLazyListState()
@@ -47,7 +53,7 @@ fun RankingOverview(modifier: Modifier = Modifier) {
 //                    total_matches_played = it.total_matches_played,
 //                )
 //            }
-            val rankApiState = rankingOverviewViewModel.rankingApiState
+
             when (rankApiState) {
                 is RankingApiState.Loading -> {
                     item {
@@ -61,18 +67,21 @@ fun RankingOverview(modifier: Modifier = Modifier) {
                         Text("Error loading ranks")
                     }
                 }
+                // is RankingApiState.Succes -> RankingListComponent(rankOverviewState = rankOverviewState, rankingListState = rankingListState)
                 is RankingApiState.Success -> {
-                    items(rankApiState.ranks) {
-                        RankItem(
-                            player_id = it.player_id,
-                            name = it.name,
-                            rank = it.rank,
-                            total_frames_won = it.total_frames_won,
-                            total_frames_lost = it.total_frames_lost,
-                            total_matches_won = it.total_matches_won,
-                            total_matches_played = it.total_matches_played,
-                        )
-                    }
+                    // FIXME!
+//                    items(rankingListState.uiListState) {
+//                        RankItem(
+//                            player_id = it.player_id,
+//                            name = it.name,
+//                            rank = it.rank,
+//                            total_frames_won = it.total_frames_won,
+//                            total_frames_lost = it.total_frames_lost,
+//                            total_matches_won = it.total_matches_won,
+//                            total_matches_played = it.total_matches_played,
+//                        )
+                }
+
 //                    for (item in rankApiState.data
 //                        item {
 //                            RankItem(
@@ -86,9 +95,9 @@ fun RankingOverview(modifier: Modifier = Modifier) {
 //                            )
 //                        }
 //                    }
-                }
             }
         }
+    }
 //        Column {
 //            for (item in ranks.value) {
 //                Rank(
@@ -103,5 +112,4 @@ fun RankingOverview(modifier: Modifier = Modifier) {
 //                )
 //            }
 //        }
-    }
 }
