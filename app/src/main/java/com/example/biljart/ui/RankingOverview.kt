@@ -70,6 +70,23 @@ fun RankingOverview(
                 // is RankingApiState.Succes -> RankingListComponent(rankOverviewState = rankOverviewState, rankingListState = rankingListState)
                 is RankingApiState.Success -> {
                     // FIXME!
+                    item {
+                        Text("Success loading ranks") // TODO remove this line after testing
+                        // print the ranks to the console
+                        for (item in rankingListState.value) {
+                            println(item) // TODO remove this line after testing
+                            RankItem(
+                                player_id = item.player_id,
+                                name = item.name,
+                                rank = item.rank,
+                                total_frames_won = item.total_frames_won,
+                                total_frames_lost = item.total_frames_lost,
+                                total_matches_won = item.total_matches_won,
+                                total_matches_played = item.total_matches_played,
+                            )
+                        }
+                    }
+                    // TODO previous code, to be removed after testing
 //                    items(rankingListState.uiListState) {
 //                        RankItem(
 //                            player_id = it.player_id,
