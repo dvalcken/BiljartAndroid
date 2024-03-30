@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.net.SocketTimeoutException
 
 class RankingOverviewViewModel(
@@ -49,47 +48,30 @@ class RankingOverviewViewModel(
     private fun getRepoRanks() { // Les 9 1u17: renamed from getApiRank to getRepoRank
         rankingApiState = RankingApiState.Loading
 
-        try {
-//            _toastMessage.postValue("Local data shown, fetching data from the API...")
-            viewModelScope.launch {
-                try {
-                    rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
-                    _toastMessage.postValue("Local data updated via the API...") // TODO consider removing this message after development
-                } catch (e: Exception) {
-                    Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
-                    rankingApiState = RankingApiState.Error
-//                    if (rankingListAsState.value.isNotEmpty()) {
-//                        _toastMessage.postValue("Local data shown, could not update via API.")
-//                        // Reset the message after x seconds
-//                        delay(5_000L)
-//                        _toastMessage.postValue(null)
-//                    }
-                }
+        viewModelScope.launch {
+            try {
+                rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                _toastMessage.postValue("Local data updated via the API...") // TODO consider removing this message after development
+            } catch (e: SocketTimeoutException) {
+                Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
+                _toastMessage.postValue("Timeout error fetching data via the API... Check the status of the server.")
+                rankingApiState = RankingApiState.Error
+            } catch (e: Exception) {
+                Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
+                _toastMessage.postValue("Error fetching data via the API...")
+                rankingApiState = RankingApiState.Error
             }
-
-            rankingListAsState = rankingRepository.getAllRanks()
-                .stateIn( // Les 9 1u20: get hot stateflow
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = listOf(), // empty list of ranks
-                )
-            // val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)  Les 9 1u24 commented because of the new way to get the ranks via the repository
-
-            rankingApiState = RankingApiState.Success
-            // println("RankingOverviewViewModel.getApiRank: $ranks")
-        } catch (e: SocketTimeoutException) {
-            /* TODO show a toast */
-            rankingApiState = RankingApiState.Error
-            Log.e("RankingOverviewViewModel SocketTimeoutException error", "getApiRank SocketTimeoutException error: ${e.message}", e)
-        } catch (e: IOException) {
-            /* TODO show a toast */
-            rankingApiState = RankingApiState.Error
-            Log.e("RankingOverviewViewModel IOException error", "getApiRank IOException error: ${e.message}", e)
-        } catch (e: Exception) {
-            /* TODO show a toast */
-            rankingApiState = RankingApiState.Error
-            Log.e("RankingOverviewViewModel loading error", "getApiRank loading error: ${e.message}", e)
         }
+
+        rankingListAsState = rankingRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
+            .stateIn( // Les 9 1u20: get hot stateflow
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = listOf(), // empty list of ranks
+            )
+        // val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)  Les 9 1u24 commented because of the new way to get the ranks via the repository
+
+        rankingApiState = RankingApiState.Success
     }
 
     fun clearToastMessage() {

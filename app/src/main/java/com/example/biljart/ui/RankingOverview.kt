@@ -29,13 +29,15 @@ fun RankingOverview(
     val rankApiState = rankingOverviewViewModel.rankingApiState
     val rankingListState = rankingOverviewViewModel.rankingListAsState.collectAsState() // Les 9 1u35'   rankUiState is a flow, so we can collect it as a state
 
+    // This is needed to show a toast message based on the toastMessage in the ViewModel
     val context = LocalContext.current
     val toastMessage by rankingOverviewViewModel.toastMessage.observeAsState() // This needed this dependency: implementation("androidx.compose.runtime:runtime-livedata")
 
+    // Show a toast message when the toastMessage is not null in the ViewModel
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            rankingOverviewViewModel.clearToastMessage()
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show() // show the toast message when it is not null for a long time (Toast.LENGTH_LONG)
+            rankingOverviewViewModel.clearToastMessage() // clear the toast message after showing it
         }
     }
 
