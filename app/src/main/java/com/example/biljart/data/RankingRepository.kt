@@ -42,7 +42,15 @@ class CashingRankingRepository( // Les 9 47'30"
         return rankDao.getAllRanks().map { it.asDomainObjects() }
             .onEach { // Les 9 58'40" To refresh the data in the database when it is empty
                 if (it.isEmpty()) {
-                    refreshRanking()
+                    try {
+                        refreshRanking()
+                    } catch (e: SocketTimeoutException) {
+                        Log.e("CashingRankingRepository getAllRanks on clean start SocketTimeoutException", "Network timeout on clean start when getAllRanks: ${e.message}", e)
+                        // throw e  // Error is not rethrown, RankingApiState.Error is set in the ViewModel, and user is informed with a ErrorMessageComponent
+                    } catch (e: Exception) {
+                        Log.w("CashingRankingRepository getAllRanks-method error", "CashingRankingRepository getAllRanks-method error: ${e.message}", e)
+                        throw e
+                    }
                 }
             }
     }
@@ -75,8 +83,7 @@ class CashingRankingRepository( // Les 9 47'30"
             }
         } catch (e: SocketTimeoutException) {
             Log.e("CashingRankingRepository refreshRanking SocketTimeoutException", "Network timeout: ${e.message}", e)
-            // throw e  // FIXME! This is commented out because the app should not crash when the network is down
-            // FIXME! but the user should be informed that the network is down
+            throw e
         } catch (e: Exception) {
             Log.w("CashingRankingRepository refreshRanking-method error", "CashingRankingRepository refreshRanking-method error: ${e.message}", e)
             throw e
