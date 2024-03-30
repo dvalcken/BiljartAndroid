@@ -28,7 +28,7 @@ class RankingOverviewViewModel(
     private val rankingRepository: RankingRepository, // Lesson 8 25'30 (added the repository) + Lesson 8 29'15" To fix the dependency injection with a factory (see below)
 ) : ViewModel() { // Lesson 4: 1:12:00 + Lesson 8 25'30 (added the repository)
     private val _rankUiState = MutableStateFlow(RankingOverviewState()) // private mutable state flow to update the state
-    val rankUiState: StateFlow<RankingOverviewState> = _rankUiState.asStateFlow() // craates a wrapper around the MutableStateFlow, expose the state as a flow, this is read-only (not mutable)
+    val rankUiState: StateFlow<RankingOverviewState> = _rankUiState.asStateFlow() // creates a wrapper around the MutableStateFlow, expose the state as a flow, this is read-only (not mutable)
 
     var rankingApiState: RankingApiState by mutableStateOf(RankingApiState.Loading)
         private set
@@ -39,7 +39,7 @@ class RankingOverviewViewModel(
     val toastMessage: LiveData<String?> = _toastMessage // This needed this dependency: implementation("androidx.compose.runtime:runtime-livedata")
 
     init {
-//        Log.i("RankingViewModel", "creating new instance $this")
+        Log.i("RankingViewModel", "creating new instance $this")
         getRepoRanks()
     }
 

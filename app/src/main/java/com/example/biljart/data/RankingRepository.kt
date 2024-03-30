@@ -12,6 +12,7 @@ import com.example.biljart.network.getRanksAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import java.net.SocketTimeoutException
 
 interface RankingRepository {
 //    suspend fun getRanking(): List<Rank> // Les 9 45' commented because getAllRanks from the RankDao is used instead
@@ -38,17 +39,12 @@ class CashingRankingRepository( // Les 9 47'30"
     private val rankDao: RankDao,
 ) : RankingRepository {
     override fun getAllRanks(): Flow<List<Rank>> {
-        try {
-            return rankDao.getAllRanks().map { it.asDomainObjects() }
-                .onEach { // Les 9 58'40" To refresh the data in the database when it is empty
-                    if (it.isEmpty()) {
-                        refreshRanking()
-                    }
+        return rankDao.getAllRanks().map { it.asDomainObjects() }
+            .onEach { // Les 9 58'40" To refresh the data in the database when it is empty
+                if (it.isEmpty()) {
+                    refreshRanking()
                 }
-        } catch (e: Exception) {
-            Log.w("CashingRankingRepository getAllRanks-method error", "CashingRankingRepository getAllRanks-method error: ${e.message}", e)
-            throw e
-        }
+            }
     }
 
     override fun getById(playerId: Int): Flow<Rank> {
@@ -77,6 +73,10 @@ class CashingRankingRepository( // Les 9 47'30"
                     rankDao.insert(rank.asDbRank())
                 }
             }
+        } catch (e: SocketTimeoutException) {
+            Log.e("CashingRankingRepository refreshRanking SocketTimeoutException", "Network timeout: ${e.message}", e)
+            // throw e  // FIXME! This is commented out because the app should not crash when the network is down
+            // FIXME! but the user should be informed that the network is down
         } catch (e: Exception) {
             Log.w("CashingRankingRepository refreshRanking-method error", "CashingRankingRepository refreshRanking-method error: ${e.message}", e)
             throw e
