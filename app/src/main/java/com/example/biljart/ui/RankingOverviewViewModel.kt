@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -13,6 +15,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.biljart.BiljartApplication
 import com.example.biljart.data.RankingRepository
 import com.example.biljart.model.Rank
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +36,9 @@ class RankingOverviewViewModel(
 
     lateinit var rankingListAsState: StateFlow<List<Rank>> // Lesson 9 1u23'
 
+    private val _toastMessage = MutableLiveData<String?>()
+    val toastMessage: LiveData<String?> = _toastMessage // This needed this dependency: implementation("androidx.compose.runtime:runtime-livedata")
+
     init {
 //        Log.i("RankingViewModel", "creating new instance $this")
         getRepoRanks()
@@ -45,12 +51,19 @@ class RankingOverviewViewModel(
         rankingApiState = RankingApiState.Loading
 
         try {
+            _toastMessage.postValue("Local data shown, fetching data from the API...")
             viewModelScope.launch {
                 try {
+                    _toastMessage.postValue("Local data shown, fetching data from the API...")
                     rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
                 } catch (e: Exception) {
                     Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
-                    rankingApiState = RankingApiState.Error
+                    if (rankingListAsState.value.isNotEmpty()) {
+                        _toastMessage.postValue("Local data shown, could not update via API.")
+                        // Reset the message after 3 seconds
+                        delay(5_000L)
+                        _toastMessage.postValue(null)
+                    }
                 }
             }
             // getRank is a suspend function, so we need to call it from a coroutine
@@ -82,6 +95,9 @@ class RankingOverviewViewModel(
         }
     }
 
+    fun clearToastMessage() {
+        _toastMessage.value = null
+    }
     companion object { // Lesson 8 29'15" To fix the dependency injection with a factory
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

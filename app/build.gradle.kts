@@ -103,4 +103,7 @@ dependencies {
     // ksp: see plugins id("com.google.devtools.ksp")
     testImplementation("androidx.room:room-testing:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // LiveData
+    implementation("androidx.compose.runtime:runtime-livedata")
 }
