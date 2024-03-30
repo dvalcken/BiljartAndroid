@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.R
+import com.example.biljart.ui.theme.BilliardTheme
 
 @Composable
 fun NoItemFoundComponent(message: String) {
@@ -24,5 +26,13 @@ fun NoItemFoundComponent(message: String) {
             text = message,
             modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small)),
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NoItemFoundComponentPreview() {
+    BilliardTheme(darkTheme = false) {
+        NoItemFoundComponent(message = "Not found...")
     }
 }

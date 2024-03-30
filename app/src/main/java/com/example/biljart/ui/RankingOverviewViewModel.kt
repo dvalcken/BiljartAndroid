@@ -48,6 +48,16 @@ class RankingOverviewViewModel(
     private fun getRepoRanks() { // Les 9 1u17: renamed from getApiRank to getRepoRank
         rankingApiState = RankingApiState.Loading
 
+        rankingListAsState = rankingRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
+            .stateIn( // Les 9 1u20: get hot stateflow
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = listOf(), // empty list of ranks
+            )
+        // val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)  Les 9 1u24 commented because of the new way to get the ranks via the repository
+
+        rankingApiState = RankingApiState.Success
+
         viewModelScope.launch {
             try {
                 rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
@@ -62,16 +72,6 @@ class RankingOverviewViewModel(
                 rankingApiState = RankingApiState.Error
             }
         }
-
-        rankingListAsState = rankingRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
-            .stateIn( // Les 9 1u20: get hot stateflow
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = listOf(), // empty list of ranks
-            )
-        // val ranks = rankingRepository.getRanking() // Lesson 8 25' (this is the new way to get the ranks with the repository)  Les 9 1u24 commented because of the new way to get the ranks via the repository
-
-        rankingApiState = RankingApiState.Success
     }
 
     fun clearToastMessage() {
