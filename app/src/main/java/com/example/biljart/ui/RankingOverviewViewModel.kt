@@ -42,9 +42,16 @@ class RankingOverviewViewModel(
 
     // get the ranks from the repository
     private fun getRepoRanks() { // Les 9 1u17: renamed from getApiRank to getRepoRank
+        rankingApiState = RankingApiState.Loading
+
         try {
             viewModelScope.launch {
-                rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                try {
+                    rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                } catch (e: Exception) {
+                    Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
+                    rankingApiState = RankingApiState.Error
+                }
             }
             // getRank is a suspend function, so we need to call it from a coroutine
 //            Log.i("RankingOverviewViewModel", "getApiRank called")

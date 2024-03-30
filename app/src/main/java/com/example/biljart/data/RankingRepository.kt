@@ -38,28 +38,48 @@ class CashingRankingRepository( // Les 9 47'30"
     private val rankDao: RankDao,
 ) : RankingRepository {
     override fun getAllRanks(): Flow<List<Rank>> {
-        return rankDao.getAllRanks().map { it.asDomainObjects() }
-            .onEach { // Les 9 58'40" To refresh the data in the database when it is empty
-                if (it.isEmpty()) {
-                    refreshRanking()
+        try {
+            return rankDao.getAllRanks().map { it.asDomainObjects() }
+                .onEach { // Les 9 58'40" To refresh the data in the database when it is empty
+                    if (it.isEmpty()) {
+                        refreshRanking()
+                    }
                 }
-            }
+        } catch (e: Exception) {
+            Log.w("CashingRankingRepository getAllRanks-method error", "CashingRankingRepository getAllRanks-method error: ${e.message}", e)
+            throw e
+        }
     }
 
     override fun getById(playerId: Int): Flow<Rank> {
-        return rankDao.getById(playerId).map { it.asDomainObject() }
+        try {
+            return rankDao.getById(playerId).map { it.asDomainObject() }
+        } catch (e: Exception) {
+            Log.w("CashingRankingRepository getById-method error", "CashingRankingRepository getById-method error: ${e.message}", e)
+            throw e
+        }
     }
 
     override suspend fun insert(rank: Rank) {
-        rankDao.insert(rank.asDbRank())
+        try {
+            rankDao.insert(rank.asDbRank())
+        } catch (e: Exception) {
+            Log.w("CashingRankingRepository insert-method error", "CashingRankingRepository insert-method error: ${e.message}", e)
+            throw e
+        }
     }
 
     override suspend fun refreshRanking() {
-        rankingApiService.getRanksAsFlow().collect {
-            for (rank in it.asDomainObjects()) {
-                Log.i("TEST", "Refreshing ranking: $rank")
-                rankDao.insert(rank.asDbRank())
+        try {
+            rankingApiService.getRanksAsFlow().collect {
+                for (rank in it.asDomainObjects()) {
+                    Log.i("refreshRanking", "Refreshing ranking: $rank")
+                    rankDao.insert(rank.asDbRank())
+                }
             }
+        } catch (e: Exception) {
+            Log.w("CashingRankingRepository refreshRanking-method error", "CashingRankingRepository refreshRanking-method error: ${e.message}", e)
+            throw e
         }
     }
 }

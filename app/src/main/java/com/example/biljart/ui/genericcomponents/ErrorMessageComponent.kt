@@ -21,7 +21,7 @@ fun ErrorMessageComponent(message: String) {
             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_small)),
         )
         Text(
-            text = "Error loading ranks: $message",
+            text = message,
             modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small)),
         )
     }
