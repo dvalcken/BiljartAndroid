@@ -16,5 +16,8 @@
     <string name="Playingday_is_finished">Is finished: %1$s</string>
     <string name="toggle_theme">Toggle theme</string>
     <string name="menu">Menu</string>
+    <string name="loading_ranks">Loading ranks…</string>
+    <string name="error_loading_ranks">Error loading ranks…</string>
+    <string name="no_rankings_available">No rankings available</string>
 
 </resources>

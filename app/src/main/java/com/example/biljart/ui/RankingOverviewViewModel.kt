@@ -31,7 +31,7 @@ class RankingOverviewViewModel(
     var rankingApiState: RankingApiState by mutableStateOf(RankingApiState.Loading)
         private set
 
-    lateinit var uiListState: StateFlow<List<Rank>> // Lesson 9 1u23'
+    lateinit var rankingListAsState: StateFlow<List<Rank>> // Lesson 9 1u23'
 
     init {
 //        Log.i("RankingViewModel", "creating new instance $this")
@@ -50,7 +50,7 @@ class RankingOverviewViewModel(
 //            Log.i("RankingOverviewViewModel", "getApiRank called")
             // use the repository instead of the service
             // val ranks = rankService.getRank()
-            uiListState = rankingRepository.getAllRanks()
+            rankingListAsState = rankingRepository.getAllRanks()
                 .stateIn( // Les 9 1u20: get hot stateflow
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5_000L),
