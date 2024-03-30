@@ -15,7 +15,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.biljart.BiljartApplication
 import com.example.biljart.data.RankingRepository
 import com.example.biljart.model.Rank
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -51,25 +50,23 @@ class RankingOverviewViewModel(
         rankingApiState = RankingApiState.Loading
 
         try {
-            _toastMessage.postValue("Local data shown, fetching data from the API...")
+//            _toastMessage.postValue("Local data shown, fetching data from the API...")
             viewModelScope.launch {
                 try {
-                    _toastMessage.postValue("Local data shown, fetching data from the API...")
                     rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                    _toastMessage.postValue("Local data updated via the API...") // TODO consider removing this message after development
                 } catch (e: Exception) {
                     Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
-                    if (rankingListAsState.value.isNotEmpty()) {
-                        _toastMessage.postValue("Local data shown, could not update via API.")
-                        // Reset the message after 3 seconds
-                        delay(5_000L)
-                        _toastMessage.postValue(null)
-                    }
+                    rankingApiState = RankingApiState.Error
+//                    if (rankingListAsState.value.isNotEmpty()) {
+//                        _toastMessage.postValue("Local data shown, could not update via API.")
+//                        // Reset the message after x seconds
+//                        delay(5_000L)
+//                        _toastMessage.postValue(null)
+//                    }
                 }
             }
-            // getRank is a suspend function, so we need to call it from a coroutine
-//            Log.i("RankingOverviewViewModel", "getApiRank called")
-            // use the repository instead of the service
-            // val ranks = rankService.getRank()
+
             rankingListAsState = rankingRepository.getAllRanks()
                 .stateIn( // Les 9 1u20: get hot stateflow
                     scope = viewModelScope,

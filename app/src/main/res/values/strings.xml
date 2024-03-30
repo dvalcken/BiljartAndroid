@@ -17,7 +17,7 @@
     <string name="toggle_theme">Toggle theme</string>
     <string name="menu">Menu</string>
     <string name="loading_ranks">Loading ranks…</string>
-    <string name="error_loading_ranks">Error loading ranks…</string>
+    <string name="error_loading_ranks">Something went wrong when updating the data from the server…</string>
     <string name="no_rankings_available">No rankings available</string>
 
 </resources>
