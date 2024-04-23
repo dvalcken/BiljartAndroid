@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.playingdaycomponents
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

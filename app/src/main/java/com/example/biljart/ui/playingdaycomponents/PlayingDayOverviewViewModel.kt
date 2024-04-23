@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.playingdaycomponents
 
 import androidx.lifecycle.ViewModel
 import com.example.biljart.data.PlayingDaySampler

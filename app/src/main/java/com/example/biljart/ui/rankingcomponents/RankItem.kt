@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.rankingcomponents
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize

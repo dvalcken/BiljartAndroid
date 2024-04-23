@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.rankingcomponents
 
 import android.annotation.SuppressLint
 import android.widget.Toast
