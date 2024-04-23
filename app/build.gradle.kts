@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20" // Les 7 51' Fix this error: Unable to create converter for java.util.List<com.example.biljart.network.ApiRank>
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -31,17 +32,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17 // changed from 1.8 to 17 Les 9 31'
+        targetCompatibility = JavaVersion.VERSION_17 // changed from 1.8 to 17 Les 9 31'
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17" // changed from 1.8 to 17 Les 9 31'
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.7" // updated from 1.5.0 to 1.5.7 due build error This version (1.5.0) of the Compose Compiler requires Kotlin version 1.9.0 but you appear to be using Kotlin version 1.9.21 which is not known to be compatible. see https://developer.android.com/jetpack/androidx/releases/compose-kotlin
     }
     packaging {
         resources {
@@ -94,8 +95,15 @@ dependencies {
     // For Material 3 icons
     implementation("androidx.compose.material:material-icons-extended")
 
-    // Database
-//    implementation("androidx.room:room-ktx:2.6.1")
-//    implementation("androidx.room:room-runtime:2.6.1")
-//    ksp("androidx.room:room-compiler:2.6.1")
+    // Database Room
+    val room_version = "2.6.1" // Les 9 32'30: gebruik 2.5.0 werkt wel, hogere versies niet altijd
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version") // see https://kotlinlang.org/docs/ksp-quickstart.html  -> in de andere gradle file: id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+    // ksp: see plugins id("com.google.devtools.ksp")
+    testImplementation("androidx.room:room-testing:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // LiveData
+    implementation("androidx.compose.runtime:runtime-livedata")
 }

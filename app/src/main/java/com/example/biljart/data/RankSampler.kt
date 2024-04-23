@@ -2,7 +2,7 @@ package com.example.biljart.data
 
 import com.example.biljart.model.Rank
 
-object RankSampler {
+object RankSampler { // Les 9 1u29 removed, because the data is now fetched from the repository
     val sampleRanks = mutableListOf(
         Rank(37, "Piet", 1, 12, 4, 2, 2),
         Rank(38, "Klaas", 2, 10, 6, 1, 2),

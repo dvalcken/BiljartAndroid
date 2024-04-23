@@ -11,6 +11,6 @@ class BiljartApplication : Application() { // should implement the Application c
 
     override fun onCreate() { // ctrl+o to override the onCreate method
         super.onCreate()
-        appContainer = DefaultAppContainer() // call constructor of DefaultAppContainer and assign it to appContainer
+        appContainer = DefaultAppContainer(applicationContext) // call constructor of DefaultAppContainer and assign it to appContainer
     }
 }

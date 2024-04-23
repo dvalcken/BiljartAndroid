@@ -1,5 +1,9 @@
 package com.example.biljart.data
 
+import android.content.Context
+import androidx.room.Room
+import com.example.biljart.data.database.BiljartDatabase
+import com.example.biljart.data.database.RankDao
 import com.example.biljart.network.RankingApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -14,7 +18,9 @@ interface AppContainer { // Les 8 8'
     /* TODO: add other repositories here */
 }
 
-class DefaultAppContainer() : AppContainer { // Les 8 8' and later
+class DefaultAppContainer(
+    private val applicationContext: Context,
+) : AppContainer { // Les 8 8' and later. Les 9 1u8' for applicationContext
     // this is now a class, so it should be created, and this will be done in the new BiljartApplication.kt class (Les 8 20'30")
 
     private val baseUrl = "http://10.0.2.2:9000/"
@@ -29,7 +35,16 @@ class DefaultAppContainer() : AppContainer { // Les 8 8' and later
         retrofit.create(RankingApiService::class.java) // this creates a new instance of the RankApiService using the Retrofit instance
     }
 
+    private val rankDb: BiljartDatabase by lazy { // Les 9 1u 12' this creates a new instance of the BiljartDatabase
+        Room.databaseBuilder(applicationContext, BiljartDatabase::class.java, "biljart-database")
+            .build()
+    }
+    private val rankDao: RankDao by lazy { // Les 9 1u 6' this creates a new instance of the RankDao
+        rankDb.rankDao()
+    }
+
     override val rankingRepository: RankingRepository by lazy {
-        ApiRankingRepository(rankingService) // this is a lambda function that creates a new instance of the ApiRankingRepository AND returns it
+        // ApiRankingRepository(rankingService) // this is a lambda function that creates a new instance of the ApiRankingRepository AND returns it
+        CashingRankingRepository(rankDao = rankDao, rankingApiService = rankingService) // This replaces the line above (Les 9 1u 05')
     }
 }

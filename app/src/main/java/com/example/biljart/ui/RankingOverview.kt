@@ -1,107 +1,72 @@
 package com.example.biljart.ui
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.biljart.R
+import com.example.biljart.ui.genericcomponents.ErrorMessageComponent
+import com.example.biljart.ui.genericcomponents.LoadingMessageComponent
+import com.example.biljart.ui.genericcomponents.NoItemFoundComponent
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun RankingOverview(modifier: Modifier = Modifier) {
-    // val ranks = mutableStateOf(data.Rank.getAll()) // this is the original line, but was moved to the view model
+fun RankingOverview(
+    modifier: Modifier = Modifier,
+    rankingOverviewViewModel: RankingOverviewViewModel = viewModel(factory = RankingOverviewViewModel.Factory),
 
-    val rankingOverviewViewModel: RankingOverviewViewModel = viewModel(factory = RankingOverviewViewModel.Factory)
-    // this function 'viewModel' returns the same instance of the view model for the same composable
-    // function if it already exists, otherwise it creates a new instance.
-    // added the factory to the view model (lesson 8 29'15")
+) {
+    val rankApiState = rankingOverviewViewModel.rankingApiState
+    val rankingListState = rankingOverviewViewModel.rankingListAsState.collectAsState() // Les 9 1u35'   rankUiState is a flow, so we can collect it as a state
 
-    val rankUiState by rankingOverviewViewModel.rankUiState.collectAsState() // rankUiState is a flow, so we can collect it as a state
-    val ranks = rankUiState.ranks
+    // This is needed to show a toast message based on the toastMessage in the ViewModel
+    val context = LocalContext.current
+    val toastMessage by rankingOverviewViewModel.toastMessage.observeAsState() // This needed this dependency: implementation("androidx.compose.runtime:runtime-livedata")
+
+    // Show a toast message when the toastMessage is not null in the ViewModel
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show() // show the toast message when it is not null for a long time (Toast.LENGTH_LONG)
+            rankingOverviewViewModel.clearToastMessage() // clear the toast message after showing it
+        }
+    }
 
     Box(modifier = modifier) {
-        val lazyListState = rememberLazyListState()
+        when (rankApiState) {
+            is RankingApiState.Loading -> LoadingMessageComponent(message = stringResource(R.string.loading_ranks))
 
-//        Code below is not needed, because the LazyColumn will automatically scroll to the last item
-//        just added here for reference (lesson 4 1:50:00)
-//        val coroutineScope = rememberCoroutineScope()
-//        coroutineScope.launch {
-//            state.animateScrollToItem(rankUiState.ranks.size)
-//        }
+            is RankingApiState.Error -> ErrorMessageComponent(message = stringResource(R.string.error_loading_ranks))
 
-        LazyColumn(state = lazyListState) { // state = state is not needed, but added for reference (lesson 4 1:50:00)
-//            items(ranks) {
-//                RankItem(
-//                    player_id = it.player_id,
-//                    name = it.name,
-//                    rank = it.rank,
-//                    total_frames_won = it.total_frames_won,
-//                    total_frames_lost = it.total_frames_lost,
-//                    total_matches_won = it.total_matches_won,
-//                    total_matches_played = it.total_matches_played,
-//                )
-//            }
-            val rankApiState = rankingOverviewViewModel.rankingApiState
-            when (rankApiState) {
-                is RankingApiState.Loading -> {
-                    item {
-//                        Loading()
-                        Text("Loading ranks...")
+            is RankingApiState.Success -> {
+                val rankingList = rankingListState.value
+                if (rankingList.isEmpty()) {
+                    NoItemFoundComponent(message = stringResource(R.string.no_rankings_available))
+                } else {
+                    LazyColumn {
+                        items(rankingList) { rank ->
+                            RankItem(
+                                player_id = rank.player_id,
+                                name = rank.name,
+                                rank = rank.rank,
+                                total_frames_won = rank.total_frames_won,
+                                total_frames_lost = rank.total_frames_lost,
+                                total_matches_won = rank.total_matches_won,
+                                total_matches_played = rank.total_matches_played,
+                            )
+                        }
                     }
-                }
-                is RankingApiState.Error -> {
-                    item {
-//                        ErrorRank()
-                        Text("Error loading ranks")
-                    }
-                }
-                is RankingApiState.Success -> {
-                    items(rankApiState.ranks) {
-                        RankItem(
-                            player_id = it.player_id,
-                            name = it.name,
-                            rank = it.rank,
-                            total_frames_won = it.total_frames_won,
-                            total_frames_lost = it.total_frames_lost,
-                            total_matches_won = it.total_matches_won,
-                            total_matches_played = it.total_matches_played,
-                        )
-                    }
-//                    for (item in rankApiState.data
-//                        item {
-//                            RankItem(
-//                                player_id = item.player_id,
-//                                name = item.name,
-//                                rank = item.rank,
-//                                total_frames_won = item.total_frames_won,
-//                                total_frames_lost = item.total_frames_lost,
-//                                total_matches_won = item.total_matches_won,
-//                                total_matches_played = item.total_matches_played,
-//                            )
-//                        }
-//                    }
                 }
             }
         }
-//        Column {
-//            for (item in ranks.value) {
-//                Rank(
-//                    player_id = item.player_id,
-//                    name = item.name,
-//                    rank = item.rank,
-//                    total_frames_won = item.total_frames_won,
-//                    total_frames_lost = item.total_frames_lost,
-//                    total_matches_won = item.total_matches_won,
-//                    total_matches_played = item.total_matches_played,
-//                    modifier = Modifier.fillMaxWidth(),
-//                )
-//            }
-//        }
     }
 }
