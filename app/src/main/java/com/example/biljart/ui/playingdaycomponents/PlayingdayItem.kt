@@ -18,10 +18,10 @@ import androidx.compose.ui.res.stringResource
 import com.example.biljart.R
 
 @Composable
-fun PlayingDayItem(
-    playingday_id: Int,
+fun PlayingdayItem(
+    playingdayId: Int,
     date: String,
-    is_finished: Boolean,
+    isFinished: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -34,9 +34,9 @@ fun PlayingDayItem(
             .padding(dimensionResource(R.dimen.padding_small)),
     ) {
         Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))) {
-            Text(text = stringResource(R.string.Playingday_playing_day_id, playingday_id))
+            Text(text = stringResource(R.string.Playingday_playing_day_id, playingdayId))
             Text(text = stringResource(R.string.Playingday_date, date))
-            Text(text = stringResource(R.string.Playingday_is_finished, is_finished))
+            Text(text = stringResource(R.string.Playingday_is_finished, isFinished))
         }
     }
 }

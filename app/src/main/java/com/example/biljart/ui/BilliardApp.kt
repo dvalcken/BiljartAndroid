@@ -34,7 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.biljart.Destinations
 import com.example.biljart.R
-import com.example.biljart.ui.playingdaycomponents.PlayingDayOverview
+import com.example.biljart.ui.playingdaycomponents.PlayingdayOverview
 import com.example.biljart.ui.rankingcomponents.RankingOverview
 import com.example.biljart.ui.theme.BilliardTheme
 
@@ -145,7 +145,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
                     // Text(text = "Temporary competition screen")
-                    PlayingDayOverview()
+                    PlayingdayOverview()
                 }
             }
         }

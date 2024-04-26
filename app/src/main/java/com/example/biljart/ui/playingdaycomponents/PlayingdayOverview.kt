@@ -12,20 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun PlayingDayOverview(modifier: Modifier = Modifier) {
-    val viewModel: PlayingDayOverviewViewModel = viewModel()
+fun PlayingdayOverview(modifier: Modifier = Modifier) {
+    val viewModel: PlayingdayOverviewViewModel = viewModel()
 
-    val playingDayUiState by viewModel.playingDayUiState.collectAsState()
-    val playingDays = playingDayUiState.playingDays
+    val playingDayUiState by viewModel.playingdayUiState.collectAsState()
+    val playingDays = playingDayUiState.playingdays
 
     val content: @Composable() (BoxScope.() -> Unit) = {
         val state = rememberLazyListState()
         LazyColumn(state = state) {
             items(playingDays) {
-                PlayingDayItem(
-                    playingday_id = it.playingdayId,
+                PlayingdayItem(
+                    playingdayId = it.playingdayId,
                     date = it.date,
-                    is_finished = it.isFinished,
+                    isFinished = it.isFinished,
                 )
             }
         }
