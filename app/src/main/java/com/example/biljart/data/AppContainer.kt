@@ -3,7 +3,9 @@ package com.example.biljart.data
 import android.content.Context
 import androidx.room.Room
 import com.example.biljart.data.database.BiljartDatabase
+import com.example.biljart.data.database.PlayingdayDao
 import com.example.biljart.data.database.RankDao
+import com.example.biljart.network.PlayingdayApiService
 import com.example.biljart.network.RankingApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -15,7 +17,8 @@ import retrofit2.Retrofit
 // the container is initialized in the BiljartApplication.kt class (Les 8 41'30")
 interface AppContainer { // Les 8 8'
     val rankingRepository: RankingRepository // val is a property, so has getter and setter
-    /* TODO: add other repositories here */
+    val playingdayRepository: PlayingdayRepository
+/* TODO: add other repositories here */
 }
 
 class DefaultAppContainer(
@@ -31,20 +34,33 @@ class DefaultAppContainer(
         .baseUrl(baseUrl)
         .build()
 
+    private val biljartDb: BiljartDatabase by lazy { // Les 9 1u 12' this creates a new instance of the BiljartDatabase
+        Room.databaseBuilder(applicationContext, BiljartDatabase::class.java, "biljart-database")
+            .build()
+    }
+
     private val rankingService: RankingApiService by lazy { // this creates a new instance of RankApiService only when it is needed via 'by lazy'
         retrofit.create(RankingApiService::class.java) // this creates a new instance of the RankApiService using the Retrofit instance
     }
 
-    private val rankDb: BiljartDatabase by lazy { // Les 9 1u 12' this creates a new instance of the BiljartDatabase
-        Room.databaseBuilder(applicationContext, BiljartDatabase::class.java, "biljart-database")
-            .build()
-    }
     private val rankDao: RankDao by lazy { // Les 9 1u 6' this creates a new instance of the RankDao
-        rankDb.rankDao()
+        biljartDb.rankDao()
     }
 
     override val rankingRepository: RankingRepository by lazy {
         // ApiRankingRepository(rankingService) // this is a lambda function that creates a new instance of the ApiRankingRepository AND returns it
         CashingRankingRepository(rankDao = rankDao, rankingApiService = rankingService) // This replaces the line above (Les 9 1u 05')
+    }
+
+    private val playingdayService: PlayingdayApiService by lazy {
+        retrofit.create(PlayingdayApiService::class.java)
+    }
+
+    private val playingdayDao: PlayingdayDao by lazy {
+        biljartDb.playingdayDao()
+    }
+
+    override val playingdayRepository: PlayingdayRepository by lazy {
+        CashingPlayingdayRepository(playingdayDao = playingdayDao, playingdayApiService = playingdayService)
     }
 }

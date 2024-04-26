@@ -15,5 +15,5 @@ interface RankDao {
     fun getById(playerId: Int): Flow<DbRank>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) // if there is a conflict, replace the old data with the new data
-    suspend fun insert(rank: DbRank) // Not needed for the app, but useful for other entities
+    suspend fun insert(rank: DbRank) // Needed in RankingRepository to insert data in the database
 }

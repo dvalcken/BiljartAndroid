@@ -82,7 +82,7 @@ class CashingRankingRepository( // Les 9 47'30"
                 }
             }
         } catch (e: SocketTimeoutException) {
-            Log.e("CashingRankingRepository refreshRanking SocketTimeoutException", "Network timeout: ${e.message}", e)
+            Log.e("CashingRankingRepository refreshRanking SocketTimeoutException", "Network timeout when refreshing rankings: ${e.message}", e)
             throw e
         } catch (e: Exception) {
             Log.w("CashingRankingRepository refreshRanking-method error", "CashingRankingRepository refreshRanking-method error: ${e.message}", e)
