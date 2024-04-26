@@ -3,5 +3,7 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="border_small">1dp</dimen>
+    <dimen name="border_extrasmall">0.5dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
+    <dimen name="cornerradius_small">4dp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.rankingcomponents
 
 sealed interface RankingApiState {
     object Error : RankingApiState
