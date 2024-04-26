@@ -28,13 +28,13 @@ object RankSampler { // Les 9 1u29 removed, because the data is now fetched from
         for (item in sampleRanks) {
             list.add(
                 Rank(
-                    item.player_id,
+                    item.playerId,
                     item.name,
                     item.rank,
-                    item.total_frames_won,
-                    item.total_frames_lost,
-                    item.total_matches_won,
-                    item.total_matches_played,
+                    item.totalFramesWon,
+                    item.totalFramesLost,
+                    item.totalMatchesWon,
+                    item.totalMatchesPlayed,
                 ),
             )
         }

@@ -56,7 +56,7 @@ fun RankRow(rank: Rank) {
     ) {
         Text(text = rank.rank.toString(), modifier = Modifier.weight(0.5f))
         Text(text = rank.name, modifier = Modifier.weight(2f))
-        Text(text = rank.total_frames_won.toString(), modifier = Modifier.weight(1f))
-        Text(text = rank.total_frames_lost.toString(), modifier = Modifier.weight(1f))
+        Text(text = rank.totalFramesWon.toString(), modifier = Modifier.weight(1f))
+        Text(text = rank.totalFramesLost.toString(), modifier = Modifier.weight(1f))
     }
 }

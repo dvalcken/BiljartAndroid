@@ -23,9 +23,9 @@ fun PlayingDayOverview(modifier: Modifier = Modifier) {
         LazyColumn(state = state) {
             items(playingDays) {
                 PlayingDayItem(
-                    playingday_id = it.playingday_id,
+                    playingday_id = it.playingdayId,
                     date = it.date,
-                    is_finished = it.is_finished,
+                    is_finished = it.isFinished,
                 )
             }
         }

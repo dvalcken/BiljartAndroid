@@ -34,13 +34,13 @@ import com.example.biljart.R
 
 @Composable
 fun RankItem(
-    player_id: Int,
+    playerId: Int,
     name: String,
     rank: Int,
-    total_frames_won: Int,
-    total_frames_lost: Int,
-    total_matches_won: Int,
-    total_matches_played: Int,
+    totalFramesWon: Int,
+    totalFramesLost: Int,
+    totalMatchesWon: Int,
+    totalMatchesPlayed: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -84,7 +84,7 @@ fun RankItem(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = stringResource(R.string.Ranking_player_id, player_id),
+                        text = stringResource(R.string.Ranking_player_id, playerId),
                         style = MaterialTheme.typography.headlineSmall,
                     )
                     IconButton(onClick = { expanded = !expanded }) {
@@ -105,28 +105,28 @@ fun RankItem(
                 )
                 if (expanded) {
                     Text(
-                        text = stringResource(R.string.Ranking_total_frames_won, total_frames_won),
+                        text = stringResource(R.string.Ranking_total_frames_won, totalFramesWon),
                         style = MaterialTheme.typography.bodySmall,
                     )
 
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_frames_lost,
-                            total_frames_lost,
+                            totalFramesLost,
                         ),
                         style = MaterialTheme.typography.bodySmall,
                     )
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_matches_won,
-                            total_matches_won,
+                            totalMatchesWon,
                         ),
                         style = MaterialTheme.typography.bodySmall,
                     )
                     Text(
                         text = stringResource(
                             R.string.Ranking_total_matches_played,
-                            total_matches_played,
+                            totalMatchesPlayed,
                         ),
                         style = MaterialTheme.typography.bodySmall,
                     )

@@ -28,9 +28,9 @@ object PlayingDaySampler {
         for (item in samplePlayingDays) {
             list.add(
                 PlayingDay(
-                    item.playingday_id,
+                    item.playingdayId,
                     item.date,
-                    item.is_finished,
+                    item.isFinished,
                 ),
             )
         }
