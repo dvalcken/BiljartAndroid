@@ -23,6 +23,7 @@ import com.example.biljart.ui.genericcomponents.NoItemFoundComponent
 fun PlayingdayOverview(
     modifier: Modifier = Modifier,
     playingdayOverviewViewModel: PlayingdayOverviewViewModel = viewModel(factory = PlayingdayOverviewViewModel.Factory),
+    onPlayingdaySelected: (Int) -> Unit,
 ) {
     val playingdayApiState = playingdayOverviewViewModel.playingdayApiState
     val playingdayListState = playingdayOverviewViewModel.playingdayListAsState.collectAsState()
@@ -51,6 +52,7 @@ fun PlayingdayOverview(
                                 playingdayId = playingday.playingdayId,
                                 date = playingday.date,
                                 isFinished = playingday.isFinished,
+                                onClick = { onPlayingdaySelected(playingday.playingdayId) },
                             )
                         }
                     }

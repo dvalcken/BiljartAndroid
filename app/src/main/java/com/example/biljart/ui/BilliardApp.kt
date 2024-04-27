@@ -34,6 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.biljart.Destinations
 import com.example.biljart.R
+import com.example.biljart.ui.playingdaycomponents.PlayingdayDetailScreen
 import com.example.biljart.ui.playingdaycomponents.PlayingdayOverview
 import com.example.biljart.ui.rankingcomponents.RankingOverview
 import com.example.biljart.ui.theme.BilliardTheme
@@ -47,10 +48,10 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
     val route = currentBackStackEntry?.destination?.route // lesson 3, 1:55:00
 
     val titleResId = when (route) {
-        Destinations.Home.name -> R.string.home_title
-        Destinations.About.name -> R.string.about_title
-        Destinations.Ranking.name -> R.string.ranking_title
-        Destinations.PlayingDays.name -> R.string.playing_days_title
+        Destinations.Home.route -> R.string.home_title
+        Destinations.About.route -> R.string.about_title
+        Destinations.Ranking.route -> R.string.ranking_title
+        Destinations.Playingdays.route -> R.string.playing_days_title
         else -> R.string.app_name // Default title is the app name
     }
 
@@ -61,7 +62,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                 toggleTheme,
                 title = titleResId,
             ) {
-                val isStartDestination = route == Destinations.Home.name
+                val isStartDestination = route == Destinations.Home.route
                 if (isStartDestination) {
                     IconButton(onClick = { /* do nothing for now */ }) {
                         Icon(Icons.Filled.Home, contentDescription = "Home")
@@ -75,19 +76,19 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
         },
         bottomBar = {
             MyBottomAppBar(
-                { navController.popBackStack(Destinations.Home.name, false) }, // onHome
+                { navController.popBackStack(Destinations.Home.route, false) }, // onHome
                 // popBackStack pops the back stack until the destination is found
                 // inclusive is false, so the destination itself is not popped
-                { navController.navigate(Destinations.About.name) }, // onAbout
-                { navController.navigate(Destinations.Ranking.name) }, // onRanking
-                { navController.navigate(Destinations.PlayingDays.name) }, // onPlayingDays
+                { navController.navigate(Destinations.About.route) }, // onAbout
+                { navController.navigate(Destinations.Ranking.route) }, // onRanking
+                { navController.navigate(Destinations.Playingdays.route) }, // onPlayingDays
             )
         },
         floatingActionButton = {
             val context =
                 LocalContext.current // context is needed to start an activity, in this case to open the email app in the about screen
             when (route) {
-                Destinations.About.name -> {
+                Destinations.About.route -> {
                     // open email app and sender is filled in with valckenierdimitri@hotmail.com
                     FloatingActionButton(onClick = {
                         val emailIntent =
@@ -109,14 +110,14 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
     ) { innerPadding -> // without innerPadding, the content will be placed at the top of the screen, so behind the top app bar
         NavHost(
             navController = navController,
-            startDestination = Destinations.Home.name,
+            startDestination = Destinations.Home.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(Destinations.Home.name) {
+            composable(Destinations.Home.route) {
                 // composable is an extension function on NavGraphBuilder (lesson 3, 1:13:30)
                 StartScreen()
             }
-            composable(Destinations.About.name) {
+            composable(Destinations.About.route) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize(), // fill the available space.
@@ -126,27 +127,33 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                     Text(text = "Temporary about screen", style = MaterialTheme.typography.bodyMedium)
                 }
             }
-            composable(Destinations.Ranking.name) {
+            composable(Destinations.Ranking.route) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize(), // fill the available space.
                     verticalArrangement = Arrangement.Center, // center the content vertically.
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
-                    // Text(text = "Temporary competition screen")
                     RankingOverview()
                 }
             }
-            composable(Destinations.PlayingDays.name) {
+            composable(Destinations.Playingdays.route) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize(), // fill the available space.
                     verticalArrangement = Arrangement.Center, // center the content vertically.
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
-                    // Text(text = "Temporary competition screen")
-                    PlayingdayOverview()
+                    PlayingdayOverview(onPlayingdaySelected = { playingdayId ->
+                        navController.navigate(
+                            Destinations.PlayingdayDetail.route.replace("{playingdayId}", playingdayId.toString()), // dynamic route via the replace function
+                        )
+                    })
                 }
+            }
+            composable(Destinations.PlayingdayDetail.route) { backStackEntry ->
+                val playingdayId = backStackEntry.arguments?.getString("playingdayId")?.toInt() ?: 0
+                PlayingdayDetailScreen(playingdayId)
             }
         }
     }

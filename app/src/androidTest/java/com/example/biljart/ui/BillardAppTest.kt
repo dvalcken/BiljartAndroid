@@ -130,6 +130,6 @@ class BillardAppTest {
 //        composeTestRule // this works, but is not the best way to test. See next lines
 //            .onNodeWithText(getResourceString(R.string.playing_days_title))
 //            .assertIsDisplayed()
-        assertEquals(Destinations.PlayingDays.name, navController.currentBackStackEntry?.destination?.route)
+        assertEquals(Destinations.Playingdays.name, navController.currentBackStackEntry?.destination?.route)
     }
 }

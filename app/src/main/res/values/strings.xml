@@ -23,5 +23,8 @@
     <string name="player">Player</string>
     <string name="frames_won">Frames won</string>
     <string name="frames_lost">Frames lost</string>
+    <string name="playingday_id">Playingday ID: %1$s</string>
+    <string name="date">Date: %1$s</string>
+    <string name="is_finished">Is Finished: %1$s</string>
 
 </resources>
