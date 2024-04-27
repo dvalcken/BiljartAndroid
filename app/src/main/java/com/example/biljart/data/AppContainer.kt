@@ -29,8 +29,18 @@ class DefaultAppContainer(
     private val baseUrl = "http://10.0.2.2:9000/"
 // private const val BASE_URL = "http://localhost:9000/"
 
+    // this is the JSON parser that will be used by Retrofit to parse the JSON data
+    // It is configured to ignore unknown keys, be lenient in JSON format, and to coerce input values
+    // ! This is different from the JSON parser that is used in the lesson, and used to avoid errors in the JSON parsing when the server returns extra keys that are not in the data class
+    private val json = Json {
+        ignoreUnknownKeys = true // Ignore unknown JSON keys (if the server returns extra keys that are not in the data class)
+        isLenient = true // Allow some leniency in JSON format, e.g. trailing commas
+        coerceInputValues = true // Try to coerce incorrect JSON values into expected types, e.g. coerce a null value to a default value for primitives)
+    }
+
     private var retrofit: Retrofit = Retrofit.Builder() // this creates a new instance of Retrofit
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // if the server returns JSON, this will convert it to a List<ApiRank>
+        // in the following line, the default JSON parser (Json) is replaced by the JSON parser that is defined above (json)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType())) // if the server returns JSON, this will convert it to a List<ApiRank>
         .baseUrl(baseUrl)
         .build()
 
