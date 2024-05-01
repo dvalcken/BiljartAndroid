@@ -1,10 +1,10 @@
 package com.example.biljart.network
 
-import com.example.biljart.model.Rank
+import com.example.biljart.model.Player
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiRank(
+data class ApiPlayer(
     val player_id: Int,
     val name: String,
     val rank: Int,
@@ -14,16 +14,16 @@ data class ApiRank(
     val total_matches_played: Int,
 )
 
-fun List<ApiRank>.asDomainObjects(): List<Rank> { // extension function to convert ApiRank to Rank Les 7 1u22"
+fun List<ApiPlayer>.asDomainObjects(): List<Player> { // extension function to convert ApiRank to Rank Les 7 1u22"
     return this.map {
-        Rank(
-            player_id = it.player_id,
+        Player(
+            playerId = it.player_id,
             name = it.name,
             rank = it.rank,
-            total_frames_won = it.total_frames_won,
-            total_frames_lost = it.total_frames_lost,
-            total_matches_won = it.total_matches_won,
-            total_matches_played = it.total_matches_played,
+            totalFramesWon = it.total_frames_won,
+            totalFramesLost = it.total_frames_lost,
+            totalMatchesWon = it.total_matches_won,
+            totalMatchesPlayed = it.total_matches_played,
         )
     }
 }

@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import com.example.biljart.ui.BilliardApp
 import com.example.biljart.ui.theme.BilliardTheme
 
-enum class Destinations {
-    Home,
-    About,
-    Ranking,
-    PlayingDays,
+enum class Destinations(val route: String) { // route is added to support dynamic routes (needed for PlayingdayDetailScreen route)
+    Home("home"),
+    About("about"),
+    Ranking("ranking"),
+    Playingdays("playingDays"),
+    PlayingdayDetail("playingdayDetail/{playingdayId}"),
 }
 
 class MainActivity : ComponentActivity() { // this is the main activity of the app (lesson 4, 0:36:30)
@@ -40,4 +41,3 @@ class MainActivity : ComponentActivity() { // this is the main activity of the a
         }
     }
 }
-

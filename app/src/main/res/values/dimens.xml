@@ -6,4 +6,6 @@
     <dimen name="border_extrasmall">0.5dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="cornerradius_small">4dp</dimen>
+    <dimen name="elevation_small">4dp</dimen>
+    <dimen name="icon_medium">24dp</dimen>
 </resources>

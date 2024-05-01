@@ -28,10 +28,11 @@ private val LightColorScheme = lightColorScheme(
     onSurface = LightOnBackground, // Content color on surface
     primaryContainer = Green500,
     onPrimaryContainer = ContentColorOnPrimaryLightMode,
+    error = Amber700,
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Blue700,
+    primary = Green700,
     secondary = Green700,
     tertiary = Amber700,
     background = DarkBackground,
@@ -43,6 +44,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = DarkOnBackground, // Content color on surface
     primaryContainer = Green700,
     onPrimaryContainer = DarkOnBackground,
+    error = Amber700,
 )
 
 @Composable
