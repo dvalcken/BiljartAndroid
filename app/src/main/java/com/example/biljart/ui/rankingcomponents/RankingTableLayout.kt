@@ -14,15 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.biljart.R
-import com.example.biljart.model.Rank
+import com.example.biljart.model.Player
 
 @Composable
-fun RankingTableLayout(ranks: List<Rank>) {
+fun RankingTableLayout(players: List<Player>) {
     LazyColumn(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
         item {
             HeaderRow()
         }
-        items(ranks) { rank ->
+        items(players) { rank ->
             RankRow(rank)
         }
     }
@@ -46,7 +46,7 @@ fun HeaderRow() {
 }
 
 @Composable
-fun RankRow(rank: Rank) {
+fun RankRow(player: Player) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,9 +54,9 @@ fun RankRow(rank: Rank) {
             .border(dimensionResource(R.dimen.border_extrasmall), MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(dimensionResource(R.dimen.cornerradius_small)))
             .padding(dimensionResource(R.dimen.padding_small)),
     ) {
-        Text(text = rank.rank.toString(), modifier = Modifier.weight(0.5f))
-        Text(text = rank.name, modifier = Modifier.weight(2f))
-        Text(text = rank.totalFramesWon.toString(), modifier = Modifier.weight(1f))
-        Text(text = rank.totalFramesLost.toString(), modifier = Modifier.weight(1f))
+        Text(text = player.rank.toString(), modifier = Modifier.weight(0.5f))
+        Text(text = player.name, modifier = Modifier.weight(2f))
+        Text(text = player.totalFramesWon.toString(), modifier = Modifier.weight(1f))
+        Text(text = player.totalFramesLost.toString(), modifier = Modifier.weight(1f))
     }
 }

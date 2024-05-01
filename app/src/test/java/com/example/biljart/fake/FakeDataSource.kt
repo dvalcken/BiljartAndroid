@@ -1,9 +1,9 @@
 package com.example.biljart.fake
 
-import com.example.biljart.network.ApiRank
+import com.example.biljart.network.ApiPlayer
 
 object FakeDataSource {
-    val player1 = ApiRank(
+    val player1 = ApiPlayer(
         player_id = 1,
         name = "Piet",
         rank = 1,
@@ -12,7 +12,7 @@ object FakeDataSource {
         total_matches_won = 2,
         total_matches_played = 2,
     )
-    val player2 = ApiRank(
+    val player2 = ApiPlayer(
         player_id = 2,
         name = "Klaas",
         rank = 2,
@@ -21,7 +21,7 @@ object FakeDataSource {
         total_matches_won = 1,
         total_matches_played = 2,
     )
-    val player3 = ApiRank(
+    val player3 = ApiPlayer(
         player_id = 3,
         name = "Jan",
         rank = 3,
@@ -30,7 +30,7 @@ object FakeDataSource {
         total_matches_won = 1,
         total_matches_played = 2,
     )
-    val player4 = ApiRank(
+    val player4 = ApiPlayer(
         player_id = 4,
         name = "Kees",
         rank = 4,

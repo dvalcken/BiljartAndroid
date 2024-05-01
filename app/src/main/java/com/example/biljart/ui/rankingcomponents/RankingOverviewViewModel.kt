@@ -13,8 +13,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.biljart.BiljartApplication
-import com.example.biljart.data.RankingRepository
-import com.example.biljart.model.Rank
+import com.example.biljart.data.PlayerRepository
+import com.example.biljart.model.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 
 class RankingOverviewViewModel(
-    private val rankingRepository: RankingRepository, // Lesson 8 25'30 (added the repository) + Lesson 8 29'15" To fix the dependency injection with a factory (see below)
+    private val playerRepository: PlayerRepository, // Lesson 8 25'30 (added the repository) + Lesson 8 29'15" To fix the dependency injection with a factory (see below)
 ) : ViewModel() { // Lesson 4: 1:12:00 + Lesson 8 25'30 (added the repository)
     private val _rankUiState = MutableStateFlow(RankingOverviewState()) // private mutable state flow to update the state
     val rankUiState: StateFlow<RankingOverviewState> = _rankUiState.asStateFlow() // creates a wrapper around the MutableStateFlow, expose the state as a flow, this is read-only (not mutable)
@@ -32,7 +32,7 @@ class RankingOverviewViewModel(
     var rankingApiState: RankingApiState by mutableStateOf(RankingApiState.Loading)
         private set
 
-    lateinit var rankingListAsState: StateFlow<List<Rank>> // Lesson 9 1u23'
+    lateinit var rankingListAsState: StateFlow<List<Player>> // Lesson 9 1u23'
 
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage // This needed this dependency: implementation("androidx.compose.runtime:runtime-livedata")
@@ -48,7 +48,7 @@ class RankingOverviewViewModel(
     private fun getRepoRanks() { // Les 9 1u17: renamed from getApiRank to getRepoRank
         rankingApiState = RankingApiState.Loading
 
-        rankingListAsState = rankingRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
+        rankingListAsState = playerRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
             .stateIn( // Les 9 1u20: get hot stateflow
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
@@ -60,7 +60,7 @@ class RankingOverviewViewModel(
 
         viewModelScope.launch {
             try {
-                rankingRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                playerRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
                 _toastMessage.postValue("Local data updated via the API...") // TODO consider removing this message after development
             } catch (e: SocketTimeoutException) {
                 Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
@@ -81,7 +81,7 @@ class RankingOverviewViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as BiljartApplication
-                val rankingRepository = application.appContainer.rankingRepository
+                val rankingRepository = application.appContainer.playerRepository
                 RankingOverviewViewModel(rankingRepository)
             }
         }

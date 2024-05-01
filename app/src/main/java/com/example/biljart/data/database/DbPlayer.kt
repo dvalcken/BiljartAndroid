@@ -2,10 +2,10 @@ package com.example.biljart.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.biljart.model.Rank
+import com.example.biljart.model.Player
 
 @Entity(tableName = "player")
-data class DbRank(
+data class DbPlayer(
     @PrimaryKey // not auto-generated, because id is returned from the database
     var playerId: Int = 0,
     var name: String = "",
@@ -16,8 +16,8 @@ data class DbRank(
     var totalMatchesPlayed: Int = 0,
 )
 
-fun Rank.asDbRank(): DbRank {
-    return DbRank(
+fun Player.asDbPlayer(): DbPlayer {
+    return DbPlayer(
         playerId = playerId,
         name = name,
         rank = rank,
@@ -28,8 +28,8 @@ fun Rank.asDbRank(): DbRank {
     )
 }
 
-fun DbRank.asDomainObject(): Rank {
-    return Rank(
+fun DbPlayer.asDomainObject(): Player {
+    return Player(
         playerId = playerId,
         name = name,
         rank = rank,
@@ -39,6 +39,6 @@ fun DbRank.asDomainObject(): Rank {
         totalMatchesPlayed = totalMatchesPlayed,
     )
 }
-fun List<DbRank>.asDomainObjects(): List<Rank> {
+fun List<DbPlayer>.asDomainObjects(): List<Player> {
     return map { it.asDomainObject() }
 }

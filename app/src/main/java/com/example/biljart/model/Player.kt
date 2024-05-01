@@ -1,6 +1,6 @@
 package com.example.biljart.model
 
-data class Rank(
+data class Player(
     var playerId: Int,
     var name: String,
     var rank: Int,

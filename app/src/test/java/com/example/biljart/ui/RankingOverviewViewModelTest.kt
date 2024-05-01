@@ -2,8 +2,8 @@
 
 package com.example.biljart.ui
 
-import com.example.biljart.fake.FakeApiRankingRepository
-import com.example.biljart.model.Rank
+import com.example.biljart.fake.FakeApiPlayerRepository
+import com.example.biljart.model.Player
 import com.example.biljart.ui.rankingcomponents.RankingOverviewViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +29,7 @@ class RankingOverviewViewModelTest { // Lesson 8  47' until end
 
     @Before
     fun initializeViewModel() {
-        viewModel = RankingOverviewViewModel(FakeApiRankingRepository())
+        viewModel = RankingOverviewViewModel(FakeApiPlayerRepository())
     }
 
     @Test
@@ -42,7 +42,7 @@ class RankingOverviewViewModelTest { // Lesson 8  47' until end
     fun `test if the rankUiState contains a list of Ranks`() {
         assert(viewModel.rankUiState.value.ranks != null)
         // assert that items in the are of type Rank
-        assert(viewModel.rankUiState.value.ranks[0] is Rank)
+        assert(viewModel.rankUiState.value.ranks[0] is Player)
     }
 }
 
