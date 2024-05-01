@@ -3,7 +3,7 @@
     <string name="home_title">Home</string>
     <string name="about_title">About</string>
     <string name="ranking_title">Ranking</string>
-    <string name="playing_days_title">PlayingDays</string>
+    <string name="playing_days_title">Playingdays</string>
     <string name="Ranking_player_id">Player ID: %1$s</string>
     <string name="Ranking_name">Name: %1$s</string>
     <string name="Ranking_rank">Rank: %1$s</string>
@@ -23,8 +23,10 @@
     <string name="player">Player</string>
     <string name="frames_won">Frames won</string>
     <string name="frames_lost">Frames lost</string>
-    <string name="playingday_id">Playingday ID: %1$s</string>
+    <string name="playingday_id">Playingday: %1$s</string>
     <string name="date">Date: %1$s</string>
     <string name="is_finished">Is Finished: %1$s</string>
+    <string name="finished">Finished</string>
+    <string name="not_finished">Ongoing</string>
 
 </resources>

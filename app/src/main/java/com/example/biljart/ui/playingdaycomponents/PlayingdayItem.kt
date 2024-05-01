@@ -5,12 +5,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -35,6 +39,9 @@ fun PlayingdayItem(
     modifier: Modifier = Modifier,
 ) {
     val formattedDate = DateUtils.formatDateFromIso(date)
+    val status = stringResource(if (isFinished) R.string.finished else R.string.not_finished)
+    val icon = if (isFinished) Icons.Filled.CheckCircle else Icons.Filled.HourglassEmpty
+    val iconColor = if (isFinished) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
 
     Card(
         modifier = Modifier
@@ -59,9 +66,24 @@ fun PlayingdayItem(
                     text = stringResource(R.string.date, formattedDate),
                     style = MaterialTheme.typography.bodyLarge,
                 )
+//                Text(
+//                    text = stringResource(R.string.is_finished, isFinished),
+//                    style = MaterialTheme.typography.bodySmall,
+//                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = status,
+                    tint = iconColor,
+                    modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
+                )
+                Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
                 Text(
-                    text = stringResource(R.string.is_finished, isFinished),
-                    style = MaterialTheme.typography.bodySmall,
+                    text = status,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
             Icon(
