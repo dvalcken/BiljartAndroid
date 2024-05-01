@@ -1,11 +1,11 @@
-package com.example.biljart.ui.playingdaycomponents
+package com.example.biljart.ui.matchcomponents
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun PlayingdayDetailScreen(playingdayId: Int) {
+fun MatchOverviewScreen(playingdayId: Int) {
     // Detail view implementation
     /* TODO: Implement the detail view for a playing day, by showing the list of matches */
 
