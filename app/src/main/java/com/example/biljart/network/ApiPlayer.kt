@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiPlayer(
+    // TODO: fix naming convention errors with @JsonNames like in ApiMatch
     val player_id: Int,
     val name: String,
     val rank: Int,

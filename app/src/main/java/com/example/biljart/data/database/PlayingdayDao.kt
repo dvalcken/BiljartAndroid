@@ -11,6 +11,10 @@ interface PlayingdayDao {
     @Query("SELECT * FROM playingday")
     fun getAllPlayingdays(): Flow<List<DbPlayingday>>
 
+    // Needed in MatchRepository
+    @Query("SELECT * FROM playingday WHERE playingdayId = :playingdayId")
+    fun getById(playingdayId: Int): Flow<DbPlayingday>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(playingday: DbPlayingday)
 }
