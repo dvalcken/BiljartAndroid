@@ -24,6 +24,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.R
+import com.example.biljart.util.DateUtils
 
 @Composable
 fun PlayingdayItem(
@@ -33,6 +34,8 @@ fun PlayingdayItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val formattedDate = DateUtils.formatDateFromIso(date)
+
     Card(
         modifier = Modifier
             .padding(dimensionResource(R.dimen.padding_small))
@@ -53,7 +56,7 @@ fun PlayingdayItem(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = stringResource(R.string.date, date),
+                    text = stringResource(R.string.date, formattedDate),
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
