@@ -33,8 +33,8 @@ import com.example.biljart.model.Playingday
 data class DbMatch(
     @PrimaryKey
     val matchId: Int,
-    val player1FramesWon: Int,
-    val player2FramesWon: Int,
+    val player1FramesWon: Int?, // Nullable because the match might not have been played yet
+    val player2FramesWon: Int?, // Nullable because the match might not have been played yet
     val playingdayId: Int,
     val player1Id: Int,
     val player2Id: Int,

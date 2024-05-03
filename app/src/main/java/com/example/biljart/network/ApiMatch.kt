@@ -13,8 +13,8 @@ import kotlinx.serialization.json.JsonNames
 @Serializable
 data class ApiMatch(
     @JsonNames("match_id") val matchId: Int,
-    @JsonNames("player1FramesWon") val player1FramesWon: Int,
-    @JsonNames("player2FramesWon") val player2FramesWon: Int,
+    @JsonNames("player1FramesWon") val player1FramesWon: Int?, // Nullable because the match might not have been played yet
+    @JsonNames("player2FramesWon") val player2FramesWon: Int?, // Nullable because the match might not have been played yet
     @JsonNames("playingDay") val playingday: ApiPlayingday,
     @JsonNames("player1") val player1: ApiPlayer,
     @JsonNames("player2") val player2: ApiPlayer,

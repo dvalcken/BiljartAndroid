@@ -82,13 +82,16 @@ fun MatchItem(
     matchId: Int,
     player1: String,
     player2: String,
-    player1FramesWon: Int,
-    player2FramesWon: Int,
+    player1FramesWon: Int?,
+    player2FramesWon: Int?,
     modifier: Modifier = Modifier,
 ) {
     // Layout for a single match item
     Box(modifier = modifier.padding(dimensionResource(R.dimen.padding_small))) {
-        // Implement the UI details for displaying match details here.
-        Text(text = "Match $matchId: $player1 vs $player2 ($player1FramesWon : $player2FramesWon)")
+        if (player1FramesWon == null || player2FramesWon == null) {
+            Text(text = "Match $matchId: $player1 vs $player2 not yet played")
+        } else {
+            Text(text = "Match $matchId: $player1 vs $player2 ($player1FramesWon : $player2FramesWon)")
+        }
     }
 }
