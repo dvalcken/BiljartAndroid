@@ -11,6 +11,7 @@ import com.example.biljart.model.Match
 import com.example.biljart.model.Player
 import com.example.biljart.network.MatchApiService
 import com.example.biljart.network.asDbMatch
+import com.example.biljart.network.getMatchesByPlayingDayAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -72,13 +73,21 @@ class CashingMatchRepository(
 
     override suspend fun refreshMatches(playingdayId: Int) {
         try {
-            val apiMatches = matchApiService.getMatchesByPlayingDayAsFlow(playingdayId) // Assuming '31' is a sample Playing Day ID
-            apiMatches.collect { matches ->
-                matches.forEach { apiMatch ->
-                    val dbMatch = apiMatch.asDbMatch()
-                    matchDao.insertMatch(dbMatch)
+            // TODO - Remove this not working code
+//            val apiMatches = matchApiService.getMatchesByPlayingDayAsFlow(playingdayId)
+//            apiMatches.collect { matches ->
+//                matches.forEach { apiMatch ->
+//                    val dbMatch = apiMatch.asDbMatch()
+//                    matchDao.insertMatch(dbMatch)
+//                }
+//            }
+            matchApiService.getMatchesByPlayingDayAsFlow(playingdayId)
+                .collect { matches ->
+                    matches.forEach { apiMatch ->
+                        val dbMatch = apiMatch.asDbMatch()
+                        matchDao.insertMatch(dbMatch)
+                    }
                 }
-            }
         } catch (e: Exception) {
             Log.e("MatchRepository", "Error refreshing matches: ${e.message}", e)
             throw e
