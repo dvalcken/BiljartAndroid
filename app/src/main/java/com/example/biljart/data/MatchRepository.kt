@@ -73,12 +73,15 @@ class CashingMatchRepository(
     override suspend fun refreshMatches(playingdayId: Int) {
         try {
             // First refresh players to ensure all are available, avoid foreign key constraint errors
-            playerRepository.refreshRanking()
+            Log.i("MatchRepository", "Refreshing players before refreshing matches")
+            playerRepository.refreshPlayers()
 
+            Log.i("MatchRepository", "Refreshing matches for playing day $playingdayId after refreshing players")
             matchApiService.getMatchesByPlayingDayAsFlow(playingdayId)
                 .collect { matches ->
                     matches.forEach { apiMatch ->
                         val dbMatch = apiMatch.asDbMatch()
+                        Log.i("MatchRepository", "Refreshing match: $dbMatch")
                         matchDao.insertMatch(dbMatch)
                     }
                 }

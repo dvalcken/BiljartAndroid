@@ -8,11 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.biljart.BiljartApplication
+import com.example.biljart.data.AppContainer
 import com.example.biljart.data.MatchRepository
 import com.example.biljart.model.Match
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +22,7 @@ import java.net.SocketTimeoutException
 
 class MatchOverviewViewModel(
     private val matchRepository: MatchRepository,
+    private val playingdayId: Int,
 ) : ViewModel() {
     private val _matchUiState = MutableStateFlow(MatchOverviewState())
     val matchUiState: StateFlow<MatchOverviewState> = _matchUiState.asStateFlow()
@@ -37,15 +35,14 @@ class MatchOverviewViewModel(
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage
 
-    // init can not be used here, because the playingdayId is not known at the time of creation
-    // The method getRepoMatches() is called explicitly from the composable MatchOverview
     init {
         Log.i("MatchViewModel", "creating new instance $this")
-        getRepoMatches(31)
+        getRepoMatches(playingdayId)
     }
 
     // public instead of private, because it is called from the composable MatchOverview to pass the playingdayId
-    fun getRepoMatches(playingdayId: Int) {
+    // TODO back to private after passing playingdayId to the ViewModel factory
+    private fun getRepoMatches(playingdayId: Int) {
         matchApiState = MatchOverviewApiState.Loading
 
         matchListAsState = matchRepository.getMatchesByPlayingDay(playingdayId)
@@ -78,11 +75,22 @@ class MatchOverviewViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY] as BiljartApplication
-                val matchRepository = application.appContainer.matchRepository
-                MatchOverviewViewModel(matchRepository)
+        // The factory is used to pass the playingdayId to the ViewModel
+        // This is different from the PlayingdayOverviewViewModel,
+        // because no parameters are needed in other viewmodels
+        // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
+        fun provideFactory(
+            appContainer: AppContainer,
+            playingdayId: Int,
+        ): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    if (modelClass.isAssignableFrom(MatchOverviewViewModel::class.java)) {
+                        @Suppress("UNCHECKED_CAST")
+                        return MatchOverviewViewModel(appContainer.matchRepository, playingdayId) as T
+                    }
+                    throw IllegalArgumentException("Unknown ViewModel class")
+                }
             }
         }
     }

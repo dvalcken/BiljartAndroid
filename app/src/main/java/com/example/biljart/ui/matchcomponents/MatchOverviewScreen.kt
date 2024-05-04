@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.biljart.BiljartApplication
 import com.example.biljart.R
 import com.example.biljart.ui.genericcomponents.ErrorMessageComponent
 import com.example.biljart.ui.genericcomponents.LoadingMessageComponent
@@ -24,20 +25,26 @@ import com.example.biljart.ui.genericcomponents.NoItemFoundComponent
 @Composable
 fun MatchOverviewScreen(
     playingdayId: Int,
-    matchOverviewViewModel: MatchOverviewViewModel = viewModel(factory = MatchOverviewViewModel.Factory),
+    // The ViewModel is created in the composable, because the playingdayId must be passed to the ViewModel factory
+    // So different approach than in the PlayingdayOverview composable
+//    matchOverviewViewModel: MatchOverviewViewModel = viewModel(factory = MatchOverviewViewModel.Factory),
     modifier: Modifier = Modifier,
 ) {
-    // Detail view implementation
-    /* TODO: Implement the detail view for a playing day, by showing the list of matches */
-
-    // show a text with the playingdayId
+    // Following 2 lines are needed to create the ViewModel with the playingdyId parameter in the composable, instead of using
+    // the same approach as in the PlayingdayOverview composable
+    val appContainer = LocalContext.current.applicationContext as BiljartApplication
+    val matchOverviewViewModel: MatchOverviewViewModel = viewModel(
+        factory = MatchOverviewViewModel.provideFactory(appContainer.appContainer, playingdayId),
+    )
+    // show a text with the playingdayId TODO remove after testing
     Text(text = "Playingday ID: $playingdayId", style = MaterialTheme.typography.titleMedium)
 
+    // TODO remove the lines below, because they are not needed anymore after the implementation of the dynamic passing of the playingdayId to the viewmodel factory
     // Explicitly call the method to get the matches for the playing day,
     // because the playingdayId is not known at the time of creation of the ViewModel
-    LaunchedEffect(playingdayId) {
-        matchOverviewViewModel.getRepoMatches(playingdayId)
-    }
+//    LaunchedEffect(playingdayId) {
+//        matchOverviewViewModel.getRepoMatches(playingdayId)
+//    }
 
     val matchApiState = matchOverviewViewModel.matchApiState
     val matchListState = matchOverviewViewModel.matchListAsState.collectAsState()
@@ -77,6 +84,7 @@ fun MatchOverviewScreen(
     }
 }
 
+// TODO create a MatchItem composable, this is a placeholder for testing
 @Composable
 fun MatchItem(
     matchId: Int,
