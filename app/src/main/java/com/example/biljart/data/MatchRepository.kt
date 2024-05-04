@@ -2,10 +2,8 @@ package com.example.biljart.data
 
 import android.util.Log
 import com.example.biljart.data.database.MatchDao
-import com.example.biljart.data.database.PlayerDao
 import com.example.biljart.data.database.PlayingdayDao
 import com.example.biljart.data.database.asDbMatch
-import com.example.biljart.data.database.asDbPlayer
 import com.example.biljart.data.database.asDomainObject
 import com.example.biljart.model.Match
 import com.example.biljart.model.Player
@@ -25,17 +23,18 @@ interface MatchRepository {
 
 class CashingMatchRepository(
     private val matchDao: MatchDao,
-    private val playerDao: PlayerDao,
+//    private val playerDao: PlayerDao,
     private val playingdayDao: PlayingdayDao,
     private val matchApiService: MatchApiService,
+    private val playerRepository: PlayerRepository, // Dependency injection of PlayerRepository
 ) : MatchRepository {
 
     override fun getMatchesByPlayingDay(playingDayId: Int): Flow<List<Match>> {
         return matchDao.getMatchesByPlayingDay(playingDayId).map { dbMatches ->
             dbMatches.map { dbMatch ->
                 // Fetch players and convert them to domain objects
-                val player1 = playerDao.getById(dbMatch.player1Id).firstOrNull()?.asDomainObject()
-                val player2 = playerDao.getById(dbMatch.player2Id).firstOrNull()?.asDomainObject()
+                val player1 = playerRepository.getById(dbMatch.player1Id).firstOrNull()
+                val player2 = playerRepository.getById(dbMatch.player2Id).firstOrNull()
                 val playingday = playingdayDao.getById(dbMatch.playingdayId).firstOrNull()?.asDomainObject()
 
                 // Ensure all required data is not null, throw an exception if any are null
@@ -73,14 +72,9 @@ class CashingMatchRepository(
 
     override suspend fun refreshMatches(playingdayId: Int) {
         try {
-            // TODO - Remove this not working code
-//            val apiMatches = matchApiService.getMatchesByPlayingDayAsFlow(playingdayId)
-//            apiMatches.collect { matches ->
-//                matches.forEach { apiMatch ->
-//                    val dbMatch = apiMatch.asDbMatch()
-//                    matchDao.insertMatch(dbMatch)
-//                }
-//            }
+            // First refresh players to ensure all are available, avoid foreign key constraint errors
+            playerRepository.refreshRanking()
+
             matchApiService.getMatchesByPlayingDayAsFlow(playingdayId)
                 .collect { matches ->
                     matches.forEach { apiMatch ->
@@ -94,7 +88,7 @@ class CashingMatchRepository(
         }
     }
     private suspend fun ensurePlayersExist(player1: Player, player2: Player) {
-        playerDao.getById(player1.playerId).firstOrNull() ?: playerDao.insert(player1.asDbPlayer())
-        playerDao.getById(player2.playerId).firstOrNull() ?: playerDao.insert(player2.asDbPlayer())
+        playerRepository.getById(player1.playerId).firstOrNull() ?: playerRepository.insert(player1)
+        playerRepository.getById(player2.playerId).firstOrNull() ?: playerRepository.insert(player2)
     }
 }

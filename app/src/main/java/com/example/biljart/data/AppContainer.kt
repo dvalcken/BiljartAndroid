@@ -86,6 +86,6 @@ class DefaultAppContainer(
     }
 
     override val matchRepository: MatchRepository by lazy {
-        CashingMatchRepository(matchDao = matchDao, playerDao = playerDao, playingdayDao = playingdayDao, matchApiService = matchService)
+        CashingMatchRepository(matchDao = matchDao, playingdayDao = playingdayDao, matchApiService = matchService, playerRepository = playerRepository)
     }
 }
