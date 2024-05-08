@@ -39,13 +39,6 @@ fun MatchOverviewScreen(
     // show a text with the playingdayId TODO remove after testing
     Text(text = "Playingday ID: $playingdayId", style = MaterialTheme.typography.titleMedium)
 
-    // TODO remove the lines below, because they are not needed anymore after the implementation of the dynamic passing of the playingdayId to the viewmodel factory
-    // Explicitly call the method to get the matches for the playing day,
-    // because the playingdayId is not known at the time of creation of the ViewModel
-//    LaunchedEffect(playingdayId) {
-//        matchOverviewViewModel.getRepoMatches(playingdayId)
-//    }
-
     val matchApiState = matchOverviewViewModel.matchApiState
     val matchListState = matchOverviewViewModel.matchListAsState.collectAsState()
 
@@ -75,31 +68,12 @@ fun MatchOverviewScreen(
                                 player2 = match.player2.name,
                                 player1FramesWon = match.player1FramesWon,
                                 player2FramesWon = match.player2FramesWon,
+                                onEditClick = { /* TODO open edit dialog */ },
                             )
                         }
                     }
                 }
             }
-        }
-    }
-}
-
-// TODO create a MatchItem composable, this is a placeholder for testing
-@Composable
-fun MatchItem(
-    matchId: Int,
-    player1: String,
-    player2: String,
-    player1FramesWon: Int?,
-    player2FramesWon: Int?,
-    modifier: Modifier = Modifier,
-) {
-    // Layout for a single match item
-    Box(modifier = modifier.padding(dimensionResource(R.dimen.padding_small))) {
-        if (player1FramesWon == null || player2FramesWon == null) {
-            Text(text = "Match $matchId: $player1 vs $player2 not yet played")
-        } else {
-            Text(text = "Match $matchId: $player1 vs $player2 ($player1FramesWon : $player2FramesWon)")
         }
     }
 }
