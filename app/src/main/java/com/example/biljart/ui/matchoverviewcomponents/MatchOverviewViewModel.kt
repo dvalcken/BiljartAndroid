@@ -1,4 +1,4 @@
-package com.example.biljart.ui.matchcomponents
+package com.example.biljart.ui.matchoverviewcomponents
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -40,8 +40,6 @@ class MatchOverviewViewModel(
         getRepoMatches(playingdayId)
     }
 
-    // public instead of private, because it is called from the composable MatchOverview to pass the playingdayId
-    // TODO back to private after passing playingdayId to the ViewModel factory
     private fun getRepoMatches(playingdayId: Int) {
         matchApiState = MatchOverviewApiState.Loading
 
