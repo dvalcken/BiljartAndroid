@@ -12,13 +12,12 @@ import kotlinx.coroutines.launch
 
 class EditPlayingdayViewModel(
     private val playingdayRepository: PlayingdayRepository,
-    private val playingdayId: Int,
 ) : ViewModel() {
 
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage
 
-    fun updateStatus(isFinished: Boolean) {
+    fun updateStatus(playingdayId: Int, isFinished: Boolean) {
         viewModelScope.launch {
             try {
                 Log.i("EditPlayingdayStatusViewModel", "Updating playingday status for playingdayId $playingdayId to isFinished $isFinished")
@@ -39,13 +38,12 @@ class EditPlayingdayViewModel(
     companion object {
         fun provideFactory(
             appContainer: AppContainer,
-            playingdayId: Int,
         ): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     if (modelClass.isAssignableFrom(EditPlayingdayViewModel::class.java)) {
                         @Suppress("UNCHECKED_CAST")
-                        return EditPlayingdayViewModel(appContainer.playingdayRepository, playingdayId) as T
+                        return EditPlayingdayViewModel(appContainer.playingdayRepository) as T
                     }
                     throw IllegalArgumentException("Unknown ViewModel class")
                 }

@@ -38,7 +38,7 @@ fun EditPlayingdayDialog(
 ) {
     val appContainer = LocalContext.current.applicationContext as BiljartApplication
     val editPlayingdayViewModel: EditPlayingdayViewModel = viewModel(
-        factory = EditPlayingdayViewModel.provideFactory(appContainer.appContainer, playingdayId),
+        factory = EditPlayingdayViewModel.provideFactory(appContainer.appContainer),
     )
 
     var finishedStatus: Boolean by remember { mutableStateOf(isFinished) }
@@ -51,7 +51,8 @@ fun EditPlayingdayDialog(
                 tint = MaterialTheme.colorScheme.primary,
             )
         },
-        title = { Text(text = stringResource(R.string.edit_playingday)) },
+//        title = { Text(text = stringResource(R.string.edit_playingday)) },
+        title = { Text(text = playingdayId.toString()) },
         text = {
 //            Column {
             Row(
@@ -94,7 +95,7 @@ fun EditPlayingdayDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = {
-                editPlayingdayViewModel.updateStatus(finishedStatus)
+                editPlayingdayViewModel.updateStatus(playingdayId, finishedStatus)
                 onDismiss()
             }) {
                 Text(stringResource(R.string.save))
