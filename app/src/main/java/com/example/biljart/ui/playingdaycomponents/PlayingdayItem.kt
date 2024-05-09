@@ -14,20 +14,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.R
+import com.example.biljart.ui.playingdayeditcomponens.EditPlayingdayDialog
 import com.example.biljart.util.DateUtils
 
 @Composable
@@ -42,6 +48,15 @@ fun PlayingdayItem(
     val status = stringResource(if (isFinished) R.string.finished else R.string.not_finished)
     val icon = if (isFinished) Icons.Filled.CheckCircle else Icons.Filled.HourglassEmpty
     val iconColor = if (isFinished) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        EditPlayingdayDialog(
+            playingdayId = playingdayId,
+            isFinished = isFinished,
+            onDismiss = { showDialog = false },
+        )
+    }
 
     Card(
         modifier = Modifier
@@ -53,15 +68,35 @@ fun PlayingdayItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.padding_small)),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.playingday_id, playingdayId),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column {
-                Text(
-                    text = stringResource(R.string.playingday_id, playingdayId),
-                    style = MaterialTheme.typography.titleMedium,
-                )
+//                Text(
+//                    text = stringResource(R.string.playingday_id, playingdayId),
+//                    style = MaterialTheme.typography.titleMedium,
+//                    modifier = Modifier.align(Alignment.CenterHorizontally),
+//                )
+//
+//                Spacer(Modifier.height(dimensionResource(R.dimen.padding_small)))
+
                 Text(
                     text = stringResource(R.string.date, formattedDate),
                     style = MaterialTheme.typography.bodyLarge,
@@ -70,21 +105,30 @@ fun PlayingdayItem(
 //                    text = stringResource(R.string.is_finished, isFinished),
 //                    style = MaterialTheme.typography.bodySmall,
 //                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = status,
+                        tint = iconColor,
+                        modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
+                    )
+                    Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
+                    Text(
+                        text = status,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = status,
-                    tint = iconColor,
-                    modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
-                )
-                Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
-                Text(
-                    text = status,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+            Column {
+                IconButton(onClick = { showDialog = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = stringResource(R.string.edit_playingday),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
             Icon(
                 imageVector = Icons.Filled.ArrowForward,

@@ -65,6 +65,7 @@ class CashingMatchRepository(
         try {
             // First, update the remote API
             val response = matchApiService.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
+            Log.i("MatchRepository", "Response from updating match scores: $response")
 
             // If response is not successful, throw exception
             if (!response.isSuccessful) {
