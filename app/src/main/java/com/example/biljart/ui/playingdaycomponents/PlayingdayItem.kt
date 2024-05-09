@@ -68,15 +68,35 @@ fun PlayingdayItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.padding_small)),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.playingday_id, playingdayId),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column {
-                Text(
-                    text = stringResource(R.string.playingday_id, playingdayId),
-                    style = MaterialTheme.typography.titleMedium,
-                )
+//                Text(
+//                    text = stringResource(R.string.playingday_id, playingdayId),
+//                    style = MaterialTheme.typography.titleMedium,
+//                    modifier = Modifier.align(Alignment.CenterHorizontally),
+//                )
+//
+//                Spacer(Modifier.height(dimensionResource(R.dimen.padding_small)))
+
                 Text(
                     text = stringResource(R.string.date, formattedDate),
                     style = MaterialTheme.typography.bodyLarge,
@@ -85,21 +105,23 @@ fun PlayingdayItem(
 //                    text = stringResource(R.string.is_finished, isFinished),
 //                    style = MaterialTheme.typography.bodySmall,
 //                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = status,
+                        tint = iconColor,
+                        modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
+                    )
+                    Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
+                    Text(
+                        text = status,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = status,
-                    tint = iconColor,
-                    modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
-                )
-                Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
-                Text(
-                    text = status,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+            Column {
                 IconButton(onClick = { showDialog = true }) {
                     Icon(
                         imageVector = Icons.Filled.Edit,
