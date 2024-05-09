@@ -3,8 +3,10 @@ package com.example.biljart.data
 import android.content.Context
 import androidx.room.Room
 import com.example.biljart.data.database.BiljartDatabase
+import com.example.biljart.data.database.MatchDao
 import com.example.biljart.data.database.PlayerDao
 import com.example.biljart.data.database.PlayingdayDao
+import com.example.biljart.network.MatchApiService
 import com.example.biljart.network.PlayerApiService
 import com.example.biljart.network.PlayingdayApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -18,6 +20,7 @@ import retrofit2.Retrofit
 interface AppContainer { // Les 8 8'
     val playerRepository: PlayerRepository // val is a property, so has getter and setter
     val playingdayRepository: PlayingdayRepository
+    val matchRepository: MatchRepository
 /* TODO: add other repositories here */
 }
 
@@ -72,5 +75,17 @@ class DefaultAppContainer(
 
     override val playingdayRepository: PlayingdayRepository by lazy {
         CashingPlayingdayRepository(playingdayDao = playingdayDao, playingdayApiService = playingdayService)
+    }
+
+    private val matchService: MatchApiService by lazy {
+        retrofit.create(MatchApiService::class.java)
+    }
+
+    private val matchDao: MatchDao by lazy {
+        biljartDb.matchDao()
+    }
+
+    override val matchRepository: MatchRepository by lazy {
+        CashingMatchRepository(matchDao = matchDao, playingdayDao = playingdayDao, matchApiService = matchService, playerRepository = playerRepository)
     }
 }

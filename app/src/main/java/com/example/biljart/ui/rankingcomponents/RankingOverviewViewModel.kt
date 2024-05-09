@@ -48,7 +48,7 @@ class RankingOverviewViewModel(
     private fun getRepoRanks() { // Les 9 1u17: renamed from getApiRank to getRepoRank
         rankingApiState = RankingApiState.Loading
 
-        rankingListAsState = playerRepository.getAllRanks() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
+        rankingListAsState = playerRepository.getAllPlayers() // this immediately returns a state flow of the ranks from the database, so the loading message disappears immediately
             .stateIn( // Les 9 1u20: get hot stateflow
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
@@ -60,7 +60,7 @@ class RankingOverviewViewModel(
 
         viewModelScope.launch {
             try {
-                playerRepository.refreshRanking() // refresh the data in the database when the viewmodel is created
+                playerRepository.refreshPlayers() // refresh the data in the database when the viewmodel is created
                 _toastMessage.postValue("Local data updated via the API...") // TODO consider removing this message after development
             } catch (e: SocketTimeoutException) {
                 Log.w("RankingOverviewViewModel rankingRepository.refreshRanking() error", "RankingOverviewViewModel rankingRepository.refreshRanking() error: ${e.message}", e)
