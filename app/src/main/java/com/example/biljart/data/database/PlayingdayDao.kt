@@ -17,4 +17,8 @@ interface PlayingdayDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(playingday: DbPlayingday)
+
+    // Update isFinished for a playingday
+    @Query("UPDATE playingday SET isFinished = :isFinished WHERE playingdayId = :playingdayId")
+    suspend fun updatePlayingdayStatus(playingdayId: Int, isFinished: Boolean)
 }

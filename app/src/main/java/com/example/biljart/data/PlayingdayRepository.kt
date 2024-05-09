@@ -19,6 +19,8 @@ interface PlayingdayRepository {
     suspend fun insert(playingday: Playingday)
 
     suspend fun refreshPlayingdays()
+
+    suspend fun updatePlayingdayStatus(playingdayId: Int, isFinished: Boolean)
 }
 
 class CashingPlayingdayRepository(
@@ -64,6 +66,25 @@ class CashingPlayingdayRepository(
             throw e
         } catch (e: Exception) {
             Log.w("CashingPlayingdayRepository refreshPlayingdays-method error", "CashingPlayingdayRepository refreshPlayingdays-method error: ${e.message}", e)
+            throw e
+        }
+    }
+
+    override suspend fun updatePlayingdayStatus(playingdayId: Int, isFinished: Boolean) {
+        try {
+            // Update the remote API
+            val response = playingdayApiService.updatePlayingdayStatus(playingdayId, isFinished)
+            Log.i("CashingPlayingdayRepository", "Response from updating playingday isFinished: $response")
+
+            // If response is not successful, throw exception
+            if (!response.isSuccessful) {
+                throw IllegalStateException("Failed to update playingday status: ${response.errorBody()?.string()}")
+            }
+
+            // If response is successful, update the local database
+            playingdayDao.updatePlayingdayStatus(playingdayId, isFinished)
+        } catch (e: Exception) {
+            Log.e("CashingPlayingdayRepository", "Error updating playingday status: ${e.message}", e)
             throw e
         }
     }
