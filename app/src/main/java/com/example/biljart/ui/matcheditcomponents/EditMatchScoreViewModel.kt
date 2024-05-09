@@ -1,5 +1,6 @@
 package com.example.biljart.ui.matcheditcomponents
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
@@ -29,10 +30,13 @@ class EditMatchScoreViewModel(
     fun updateScores(player1FramesWon: Int, player2FramesWon: Int) {
         viewModelScope.launch {
             try {
+                Log.i("EditMatchScoreViewModel", "Updating match score for matchId $matchId, player1FramesWon $player1FramesWon, player2FramesWon $player2FramesWon")
                 matchRepository.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
                 _toastMessage.postValue("Match score updated successfully")
+                Log.i("EditMatchScoreViewModel", "Match score updated successfully")
             } catch (e: Exception) {
                 _toastMessage.postValue("Error updating the match score...")
+                Log.w("EditMatchScoreViewModel", "Error updating the match score: ${e.message}", e)
             }
         }
     }
