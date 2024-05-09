@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.biljart.BiljartApplication
 import com.example.biljart.R
@@ -28,17 +30,19 @@ import com.example.biljart.R
 @Composable
 fun EditMatchScoreDialog(
     matchId: Int,
-//    matchRepository: MatchRepository,
+    player1: String,
+    player2: String,
+    player1FramesWon: Int?,
+    player2FramesWon: Int?,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val appContainer = LocalContext.current.applicationContext as BiljartApplication
     val editMatchScoreViewModel: EditMatchScoreViewModel = viewModel(
         factory = EditMatchScoreViewModel.provideFactory(appContainer.appContainer, matchId),
     )
 
-    var player1Score: Int by remember { mutableIntStateOf(0) }
-    var player2Score: Int by remember { mutableIntStateOf(0) }
+    var player1Score: Int by remember { mutableIntStateOf(player1FramesWon ?: 0) } // Default to 0 if null
+    var player2Score: Int by remember { mutableIntStateOf(player2FramesWon ?: 0) }
 
     AlertDialog(
         // This is a Material M3 AlertDialog: https://developer.android.com/develop/ui/compose/components/dialog
@@ -54,15 +58,25 @@ fun EditMatchScoreDialog(
             Column {
                 OutlinedTextField(
                     value = player1Score.toString(),
-                    onValueChange = { player1Score = it.toIntOrNull() ?: 0 },
-                    label = { Text("Player 1 score") },
+                    // check if the input is a number AND not negative, if not default to 0
+                    onValueChange = {
+                        val newValue = it.toIntOrNull() ?: 0
+                        if (newValue >= 0) player1Score = newValue
+                    },
+                    label = { Text(stringResource(R.string.player_score, player1)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))
                 OutlinedTextField(
                     value = player2Score.toString(),
-                    onValueChange = { player2Score = it.toIntOrNull() ?: 0 },
-                    label = { Text("Player 2 score") },
+                    // check if the input is a number AND not negative, if not default to 0
+                    onValueChange = {
+                        val newValue = it.toIntOrNull() ?: 0
+                        if (newValue >= 0) player2Score = newValue
+                    },
+                    label = { Text(stringResource(R.string.player_score, player2)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -70,15 +84,16 @@ fun EditMatchScoreDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = {
+                // Handle the save button click in the viewmodel, and dismiss the dialog
                 editMatchScoreViewModel.updateScores(player1Score, player2Score)
                 onDismiss()
             }) {
-                Text("Save")
+                Text(stringResource(R.string.save))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         },
     )

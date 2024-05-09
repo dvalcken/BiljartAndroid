@@ -85,7 +85,6 @@ fun MatchOverviewScreen(
                                     player2 = match.player2.name,
                                     player1FramesWon = match.player1FramesWon,
                                     player2FramesWon = match.player2FramesWon,
-//                                    onEditClick = { /* TODO open edit dialog */ },
                                 )
                             }
                         }

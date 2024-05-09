@@ -39,7 +39,6 @@ fun MatchItem(
     player2: String,
     player1FramesWon: Int?,
     player2FramesWon: Int?,
-//    onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -47,7 +46,10 @@ fun MatchItem(
     if (showDialog) {
         EditMatchScoreDialog(
             matchId = matchId,
-//            matchRepository = matchRepository,
+            player1 = player1,
+            player2 = player2,
+            player1FramesWon = player1FramesWon,
+            player2FramesWon = player2FramesWon,
             onDismiss = { showDialog = false },
         )
     }
@@ -55,7 +57,7 @@ fun MatchItem(
     Card(
         modifier = modifier
             .padding(dimensionResource(R.dimen.padding_small))
-            .clickable { /* TODO open edit dialog action here */ },
+            .clickable { /* TODO open edit dialog action here also? */ },
         shape = RoundedCornerShape(dimensionResource(R.dimen.cornerradius_small)),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = dimensionResource(R.dimen.elevation_small)),
     ) {
@@ -104,6 +106,7 @@ fun MatchItem(
                     imageVector = Icons.Filled.Edit,
                     contentDescription = stringResource(R.string.edit_match),
                     modifier = Modifier.size(dimensionResource(R.dimen.icon_medium)),
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
@@ -120,7 +123,6 @@ fun PreviewMatchItem() {
             player2 = "Jane",
             player1FramesWon = 6,
             player2FramesWon = 3,
-//            onEditClick = { /* Blanc for preview */ },
         )
     }
 }
