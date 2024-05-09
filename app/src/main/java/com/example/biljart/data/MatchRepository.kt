@@ -63,6 +63,14 @@ class CashingMatchRepository(
 
     override suspend fun updateMatchScores(matchId: Int, player1FramesWon: Int, player2FramesWon: Int) {
         try {
+            // First, update the remote API
+            val response = matchApiService.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
+
+            // If response is not successful, throw exception
+            if (!response.isSuccessful) {
+                throw IllegalStateException("Failed to update match scores: ${response.errorBody()?.string()}")
+            }
+            // If response is successful, update the local database
             matchDao.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
         } catch (e: Exception) {
             Log.e("MatchRepository", "Error updating match scores: ${e.message}", e)

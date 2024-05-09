@@ -1,4 +1,4 @@
-package com.example.biljart.ui.matchcomponents
+package com.example.biljart.ui.matchoverviewcomponents
 
 class MatchOverviewState {
     val scrollActionIdx: Int = 0

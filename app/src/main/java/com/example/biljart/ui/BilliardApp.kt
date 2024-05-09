@@ -34,7 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.biljart.Destinations
 import com.example.biljart.R
-import com.example.biljart.ui.matchcomponents.MatchOverviewScreen
+import com.example.biljart.ui.matchoverviewcomponents.MatchOverviewScreen
 import com.example.biljart.ui.playingdaycomponents.PlayingdayOverview
 import com.example.biljart.ui.rankingcomponents.RankingOverview
 import com.example.biljart.ui.theme.BilliardTheme

@@ -1,4 +1,4 @@
-package com.example.biljart.ui.matchcomponents
+package com.example.biljart.ui.matchoverviewcomponents
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -85,7 +85,6 @@ fun MatchOverviewScreen(
                                     player2 = match.player2.name,
                                     player1FramesWon = match.player1FramesWon,
                                     player2FramesWon = match.player2FramesWon,
-                                    onEditClick = { /* TODO open edit dialog */ },
                                 )
                             }
                         }
