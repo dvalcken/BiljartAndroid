@@ -42,7 +42,7 @@ private val DarkColorScheme = darkColorScheme(
     onTertiary = ContentColorOnTertiaryDarkMode, // Content color on tertiary
     onBackground = DarkOnBackground, // Content color on background
     onSurface = DarkOnBackground, // Content color on surface
-    primaryContainer = Green700,
+    primaryContainer = Green500,
     onPrimaryContainer = DarkOnBackground,
     error = Amber700,
 )

@@ -25,7 +25,7 @@
     <string name="frames_lost">Frames lost</string>
     <string name="playingday_id">Playingday: %1$s</string>
     <string name="date">Date: %1$s</string>
-    <string name="is_finished">Is Finished: %1$s</string>
+    <string name="is_finished">Is finished?</string>
     <string name="finished">Finished</string>
     <string name="not_finished">Ongoing</string>
     <string name="player1_vs_player2_match_not_yet_played">%1$s vs %2$s\n(Match not yet played)</string>
@@ -35,5 +35,7 @@
     <string name="player_score">%1$s score</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="edit_playingday">Edit playingday</string>
+    <string name="playingday_finished">Playingday finished</string>
 
 </resources>
