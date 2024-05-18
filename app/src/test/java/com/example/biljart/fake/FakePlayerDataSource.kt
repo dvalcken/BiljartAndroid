@@ -1,8 +1,9 @@
 package com.example.biljart.fake
 
+import com.example.biljart.model.Player
 import com.example.biljart.network.ApiPlayer
 
-object FakeDataSource {
+object FakePlayerDataSource {
     val player1 = ApiPlayer(
         player_id = 1,
         name = "Piet",
@@ -40,5 +41,15 @@ object FakeDataSource {
         total_matches_played = 2,
     )
 
-    val ranks = listOf(player1, player2, player3, player4)
+    val players = listOf(player1, player2, player3, player4)
 }
+
+fun ApiPlayer.asDomainObject(): Player = Player(
+    playerId = player_id,
+    name = name,
+    rank = rank,
+    totalFramesWon = total_frames_won,
+    totalFramesLost = total_frames_lost,
+    totalMatchesWon = total_matches_won,
+    totalMatchesPlayed = total_matches_played,
+)
