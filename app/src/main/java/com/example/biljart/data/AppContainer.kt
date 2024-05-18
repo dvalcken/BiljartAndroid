@@ -29,7 +29,8 @@ class DefaultAppContainer(
 ) : AppContainer { // Les 8 8' and later. Les 9 1u8' for applicationContext
     // this is now a class, so it should be created, and this will be done in the new BiljartApplication.kt class (Les 8 20'30")
 
-    private val baseUrl = "http://10.0.2.2:9000/"
+    private val baseUrl = "https://biljart-webservice.onrender.com/"
+//    private val baseUrl = "http://10.0.2.2:9000/"
 // private const val BASE_URL = "http://localhost:9000/"
 
     // this is the JSON parser that will be used by Retrofit to parse the JSON data
