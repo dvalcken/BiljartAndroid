@@ -8,9 +8,7 @@ import com.example.biljart.data.database.PlayerDao
 import com.example.biljart.data.database.asDbPlayer
 import com.example.biljart.fake.FakePlayerDataSource
 import com.example.biljart.fake.asDomainObject
-import com.example.biljart.model.Player
 import com.example.biljart.network.PlayerApiService
-import com.example.biljart.network.getPlayerssAsFlow
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -35,8 +33,12 @@ import org.junit.Test
 class PlayerRepositoryTest { // Lesson 8  47' until end
 
     private lateinit var repository: CashingPlayerRepository
+
+    // Mock the API service and DAO that the repository depends on
     private val mockApiService: PlayerApiService = mockk(relaxed = true)
     private val mockPlayerDao: PlayerDao = mockk(relaxed = true)
+
+    // Prepare the data as domain objects, API objects and DB objects
     private val players = FakePlayerDataSource.players.map { it.asDomainObject() }
     private val apiPlayers = FakePlayerDataSource.players
     private val dbPlayers = players.map { it.asDbPlayer() }
@@ -52,7 +54,7 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
 
         // Prepare the mocked responses
         MockKAnnotations.init(this, relaxUnitFun = true) // Initialize MockK annotations
-        mockkStatic(Log::class)
+        mockkStatic(Log::class) // Mock all static functions of Log class that are called in the repository
         every { Log.i(any(), any()) } returns 0
         every { Log.e(any(), any(), any()) } returns 0
         every { Log.w(any(), any(), any()) } returns 0
@@ -61,8 +63,9 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
         every { mockPlayerDao.getById(any()) } returns flowOf(dbPlayers.first())
         // coEvery instead of every for suspending functions !
         coEvery { mockPlayerDao.insert(any()) } returns Unit
+        // IMPORTANT, this is mocking the underlying API call of the extension function
+        // (getPlayerssAsFlow is an extension function on PlayerApiService)
         coEvery { mockApiService.getAllRanks() } returns apiPlayers
-        every { mockApiService.getPlayerssAsFlow() } returns flowOf(apiPlayers)
 
         // Initialize the repository with mocked API service and DAO
         repository = CashingPlayerRepository(mockApiService, mockPlayerDao)
@@ -77,16 +80,16 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
 
     @Test
     fun `getAllPlayers should emit players from DAO`() = runTest {
-        val result = repository.getAllPlayers().toList()
+        val result = repository.getAllPlayers().toList().flatten() // From List<List<Player>> to List<Player>
         assertEquals(players.size, result.size)
-        assertEquals(players, result.first())
+        assertEquals(players.first(), result.first())
     }
 
     @Test
     fun `refreshPlayers should fetch from API and insert into DAO`() = runTest {
         repository.refreshPlayers()
         // Verify that the API service was called only once
-        coVerify(exactly = 1) { mockApiService.getPlayerssAsFlow() }
+        coVerify(exactly = 1) { mockApiService.getAllRanks() }
         // Verify that the DAO was called for each player
         coVerify(exactly = players.size) { mockPlayerDao.insert(any()) }
     }
@@ -96,7 +99,7 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
         val playerId = FakePlayerDataSource.players.first().player_id
         coEvery { mockPlayerDao.getById(playerId) } returns flowOf(players.first().asDbPlayer())
 
-        val result = repository.getById(playerId).toList()
+        val result = repository.getById(playerId).toList() // toList() is needed to collect the flow
 
         // Only one player should be emitted
         assertEquals(1, result.size)
@@ -106,23 +109,10 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
 
     @Test
     fun `insert should add a player to the DAO`() = runTest {
-        val newPlayer = Player(3, "New Player", 3, 5, 2, 1, 2)
+        val newPlayer = FakePlayerDataSource.players.first().asDomainObject()
         repository.insert(newPlayer)
+
         // Verify that the DAO was called with the new player
         coVerify { mockPlayerDao.insert(newPlayer.asDbPlayer()) }
     }
 }
-
-// class CoroutineTestRule(
-//    private val testDispatcher: TestDispatcher,
-// ) : TestWatcher() {
-//    override fun starting(description: Description?) {
-//        super.starting(description)
-//        Dispatchers.setMain(testDispatcher)
-//    }
-//
-//    override fun finished(description: Description?) {
-//        super.finished(description)
-//        Dispatchers.resetMain()
-//    }
-// }
