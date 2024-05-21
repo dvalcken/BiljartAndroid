@@ -4,6 +4,7 @@ package com.example.biljart.ui
 
 import android.util.Log
 import com.example.biljart.data.CashingPlayerRepository
+import com.example.biljart.data.database.DbPlayer
 import com.example.biljart.data.database.PlayerDao
 import com.example.biljart.data.database.asDbPlayer
 import com.example.biljart.fake.FakePlayerDataSource
@@ -60,9 +61,8 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
         every { Log.w(any(), any(), any()) } returns 0
 
         every { mockPlayerDao.getAllPlayers() } returns flowOf(dbPlayers)
-        every { mockPlayerDao.getById(any()) } returns flowOf(dbPlayers.first())
         // coEvery instead of every for suspending functions !
-        coEvery { mockPlayerDao.insert(any()) } returns Unit
+        coEvery { mockPlayerDao.insert(DbPlayer()) } returns Unit
         // IMPORTANT, this is mocking the underlying API call of the extension function
         // (getPlayerssAsFlow is an extension function on PlayerApiService)
         coEvery { mockApiService.getAllRanks() } returns apiPlayers
@@ -109,10 +109,11 @@ class PlayerRepositoryTest { // Lesson 8  47' until end
 
     @Test
     fun `insert should add a player to the DAO`() = runTest {
-        val newPlayer = FakePlayerDataSource.players.first().asDomainObject()
+        val newId = players.maxOf { it.playerId } + 1 // Create a new ID that is higher than all existing IDs
+        val newPlayer = players.first().copy(playerId = newId) // Create a new player with a different ID
         repository.insert(newPlayer)
 
         // Verify that the DAO was called with the new player
-        coVerify { mockPlayerDao.insert(newPlayer.asDbPlayer()) }
+        coVerify(exactly = 1) { mockPlayerDao.insert(newPlayer.asDbPlayer()) }
     }
 }
