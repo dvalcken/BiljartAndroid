@@ -11,8 +11,8 @@ object FakePlayingdayDataSource {
     val playingdays = listOf(playingday1, playingday2, playingday3, playingday4)
 }
 
-fun Playingday.asDomainObject(): Playingday = Playingday(
-    playingdayId = playingdayId,
+fun ApiPlayingday.asDomainObject(): Playingday = Playingday(
+    playingdayId = playingday_id,
     date = date,
-    isFinished = isFinished,
+    isFinished = is_finished,
 )
