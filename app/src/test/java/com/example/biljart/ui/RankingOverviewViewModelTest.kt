@@ -10,6 +10,7 @@ import com.example.biljart.fake.FakePlayerDataSource
 import com.example.biljart.network.asDomainObjects
 import com.example.biljart.ui.rankingcomponents.RankingApiState
 import com.example.biljart.ui.rankingcomponents.RankingOverviewViewModel
+import com.example.biljart.util.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -24,7 +25,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -34,8 +34,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -138,16 +136,16 @@ class RankingOverviewViewModelTest { // Lesson 8  47' until end
     }
 }
 
-class CoroutineTestRule(
-    private val testDispatcher: TestDispatcher,
-) : TestWatcher() {
-    override fun starting(description: Description?) {
-        super.starting(description)
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    override fun finished(description: Description?) {
-        super.finished(description)
-        Dispatchers.resetMain()
-    }
-}
+// class CoroutineTestRule(
+//    private val testDispatcher: TestDispatcher,
+// ) : TestWatcher() {
+//    override fun starting(description: Description?) {
+//        super.starting(description)
+//        Dispatchers.setMain(testDispatcher)
+//    }
+//
+//    override fun finished(description: Description?) {
+//        super.finished(description)
+//        Dispatchers.resetMain()
+//    }
+// }

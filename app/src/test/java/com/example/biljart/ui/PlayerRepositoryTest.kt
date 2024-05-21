@@ -10,6 +10,7 @@ import com.example.biljart.data.database.asDbPlayer
 import com.example.biljart.fake.FakePlayerDataSource
 import com.example.biljart.fake.asDomainObject
 import com.example.biljart.network.PlayerApiService
+import com.example.biljart.util.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
