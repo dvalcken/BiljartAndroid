@@ -135,17 +135,3 @@ class RankingOverviewViewModelTest { // Lesson 8  47' until end
         assertEquals(RankingApiState.Error, state, "ViewModel should reflect error state")
     }
 }
-
-// class CoroutineTestRule(
-//    private val testDispatcher: TestDispatcher,
-// ) : TestWatcher() {
-//    override fun starting(description: Description?) {
-//        super.starting(description)
-//        Dispatchers.setMain(testDispatcher)
-//    }
-//
-//    override fun finished(description: Description?) {
-//        super.finished(description)
-//        Dispatchers.resetMain()
-//    }
-// }
