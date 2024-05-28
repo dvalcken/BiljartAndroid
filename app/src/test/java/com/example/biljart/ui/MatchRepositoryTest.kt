@@ -85,22 +85,12 @@ class MatchRepositoryTest {
         }
 
         coEvery { mockPlayerRepository.insert(any()) } returns Unit
+        coEvery { mockPlayerRepository.refreshPlayers() } returns Unit
 
         coEvery { mockApiService.updateMatchScores(any(), any(), any()) } returns Response.success(Unit)
 
-//
-//        every { mockMatchDao.getMatchesByPlayingDay(any()) } returns flowOf(dbMatches)
-//        coEvery { mockMatchDao.insertMatch(any()) } returns Unit
-//        coEvery { mockMatchDao.updateMatchScores(any(), any(), any()) } returns Unit
-//        every { mockPlayingdayDao.getById(any()) } returns flowOf(dbPlayingdays.first())
-//
-//        coEvery { mockApiService.getMatchesByPlayingDayAsFlow(any()) } returns flowOf(apiMatches)
-//        coEvery { mockApiService.updateMatchScores(any(), any(), any()) } returns Response.success(Unit)
-//
-//        // Mocking player repository calls
-//        coEvery { mockPlayerRepository.getById(any()) } returns flowOf(players.first())
-//        coEvery { mockPlayerRepository.insert(any()) } returns Unit
-//        coEvery { mockPlayerRepository.refreshPlayers() } returns Unit
+        // IMPORTANT, this is mocking the underlying API call of the extension function of the API service
+        coEvery { mockApiService.getMatchesByPlayingDay(any()) } returns FakeMatchDataSource.matches
 
         // Initialize the repository with mocked dependencies
         repository = CashingMatchRepository(mockMatchDao, mockPlayingdayDao, mockApiService, mockPlayerRepository)
@@ -145,14 +135,20 @@ class MatchRepositoryTest {
         // Verify that the DAO was called to update the match scores
         coVerify(exactly = 1) { mockMatchDao.updateMatchScores(matchId, player1FramesWon, player2FramesWon) }
     }
-//
-//    @Test
-//    fun `refreshMatches should fetch from API and insert into DAO`() = runTest {
-//        val playingDayId = FakePlayingdayDataSource.playingdays.first().playingday_id
-//        repository.refreshMatches(playingDayId)
-//        // Verify that the API service was called only once
-//        coVerify(exactly = 1) { mockApiService.getMatchesByPlayingDayAsFlow(playingDayId) }
-//        // Verify that the DAO was called for each match
-//        coVerify(exactly = apiMatches.size) { mockMatchDao.insertMatch(any()) }
-//    }
+
+    @Test
+    fun `refreshMatches should fetch from API and insert into DAO`() = runTest {
+        val playingDayId = FakePlayingdayDataSource.playingdays.first().playingday_id
+
+        repository.refreshMatches(playingDayId)
+
+        // Verify that the playerRepository's refreshPlayers method was called
+        coVerify(exactly = 1) { mockPlayerRepository.refreshPlayers() }
+
+        // Verify that the API service was called to fetch matches
+        coVerify(exactly = 1) { mockApiService.getMatchesByPlayingDay(playingDayId) }
+
+        // Verify that the DAO's insertMatch method was called for each match
+        coVerify(exactly = FakeMatchDataSource.matches.size) { mockMatchDao.insertMatch(any()) }
+    }
 }
