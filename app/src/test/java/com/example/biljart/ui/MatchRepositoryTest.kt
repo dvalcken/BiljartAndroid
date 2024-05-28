@@ -18,6 +18,7 @@ import com.example.biljart.network.asDbMatch
 import com.example.biljart.util.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -50,6 +51,10 @@ class MatchRepositoryTest {
     private val dbMatches = matches.map { it.asDbMatch() }
     private val playingdays = FakePlayingdayDataSource.playingdays.map { it.asDomainObject() }
     private val players = FakePlayerDataSource.players.map { it.asDomainObject() }
+
+    //  player1 and player2 in the test result may never be the same
+    //  To ensure that the mocks for PlayerRepository.getById return the correct player for each ID,
+    //  this is changed to map the player IDs to player objects.
     private val playerMap = players.associateBy { it.playerId }
 
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -77,6 +82,8 @@ class MatchRepositoryTest {
             val playerId = arg<Int>(0)
             flowOf(playerMap[playerId]!!)
         }
+
+        coEvery { mockPlayerRepository.insert(any()) } returns Unit
 
 //
 //        every { mockMatchDao.getMatchesByPlayingDay(any()) } returns flowOf(dbMatches)
@@ -111,15 +118,16 @@ class MatchRepositoryTest {
         assertEquals(matches.first(), result.first())
     }
 
-//    @Test
-//    fun `insertMatch should add a match to the DAO`() = runTest {
-//        val newId = matches.maxOf { it.matchId } + 1 // Create a new ID that is higher than all existing IDs
-//        val newMatch = matches.first().copy(matchId = newId) // Create a new match with a different ID
-//        repository.insertMatch(newMatch)
-//
-//        // Verify that the DAO was called with the new match
-//        coVerify(exactly = 1) { mockMatchDao.insertMatch(newMatch.asDbMatch()) }
-//    }
+    @Test
+    fun `insertMatch should add a match to the DAO`() = runTest {
+        val newId = matches.maxOf { it.matchId } + 1 // Create a new ID that is higher than all existing IDs
+        val newMatch = matches.first().copy(matchId = newId) // Create a new match with a different ID
+        repository.insertMatch(newMatch)
+
+        // Verify that the DAO was called with the new match
+        coVerify(exactly = 1) { mockMatchDao.insertMatch(newMatch.asDbMatch()) }
+    }
+
 //
 //    @Test
 //    fun `updateMatchScores should update scores in API and DAO`() = runTest {
