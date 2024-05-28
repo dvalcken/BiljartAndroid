@@ -36,6 +36,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
 
 class MatchRepositoryTest {
     private lateinit var repository: CashingMatchRepository
@@ -85,6 +86,8 @@ class MatchRepositoryTest {
 
         coEvery { mockPlayerRepository.insert(any()) } returns Unit
 
+        coEvery { mockApiService.updateMatchScores(any(), any(), any()) } returns Response.success(Unit)
+
 //
 //        every { mockMatchDao.getMatchesByPlayingDay(any()) } returns flowOf(dbMatches)
 //        coEvery { mockMatchDao.insertMatch(any()) } returns Unit
@@ -128,21 +131,20 @@ class MatchRepositoryTest {
         coVerify(exactly = 1) { mockMatchDao.insertMatch(newMatch.asDbMatch()) }
     }
 
-//
-//    @Test
-//    fun `updateMatchScores should update scores in API and DAO`() = runTest {
-//        val testMatch = FakeMatchDataSource.matches.first()
-//        val matchId = testMatch.matchId
-//        val player1FramesWon = 3
-//        val player2FramesWon = 2
-//
-//        repository.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
-//
-//        // Verify that the API service was called to update the match scores
-//        coVerify(exactly = 1) { mockApiService.updateMatchScores(matchId, player1FramesWon, player2FramesWon) }
-//        // Verify that the DAO was called to update the match scores
-//        coVerify(exactly = 1) { mockMatchDao.updateMatchScores(matchId, player1FramesWon, player2FramesWon) }
-//    }
+    @Test
+    fun `updateMatchScores should update scores in API and DAO`() = runTest {
+        val testMatch = FakeMatchDataSource.matches.first()
+        val matchId = testMatch.matchId
+        val player1FramesWon = 3
+        val player2FramesWon = 2
+
+        repository.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
+
+        // Verify that the API service was called to update the match scores
+        coVerify(exactly = 1) { mockApiService.updateMatchScores(matchId, player1FramesWon, player2FramesWon) }
+        // Verify that the DAO was called to update the match scores
+        coVerify(exactly = 1) { mockMatchDao.updateMatchScores(matchId, player1FramesWon, player2FramesWon) }
+    }
 //
 //    @Test
 //    fun `refreshMatches should fetch from API and insert into DAO`() = runTest {
