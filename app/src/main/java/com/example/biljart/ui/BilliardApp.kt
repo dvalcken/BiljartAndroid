@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -65,11 +66,11 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                 val isStartDestination = route == Destinations.Home.route
                 if (isStartDestination) {
                     IconButton(onClick = { /* do nothing for now */ }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Home")
+                        Icon(Icons.Filled.Home, contentDescription = stringResource(R.string.home))
                     }
                 } else {
                     IconButton(onClick = { navController.popBackStack() }) { // onUp function for the back icon
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             }
