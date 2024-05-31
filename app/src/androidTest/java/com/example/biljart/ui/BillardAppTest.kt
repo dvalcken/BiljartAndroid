@@ -108,7 +108,7 @@ class BillardAppTest {
 //        composeTestRule // this works, but is not the best way to test. See next lines
 //            .onNodeWithText(getResourceString(R.string.ranking_title))
 //            .assertIsDisplayed()
-        assertEquals(Destinations.Ranking.name, navController.currentBackStackEntry?.destination?.route)
+        assertEquals(Destinations.Ranking.route, navController.currentBackStackEntry?.destination?.route)
     }
 
     @Test
@@ -119,7 +119,7 @@ class BillardAppTest {
 //        composeTestRule // this works, but is not the best way to test. See next lines
 //            .onNodeWithText(getResourceString(R.string.about_title))
 //            .assertIsDisplayed()
-        assertEquals(Destinations.About.name, navController.currentBackStackEntry?.destination?.route)
+        assertEquals(Destinations.About.route, navController.currentBackStackEntry?.destination?.route)
     }
 
     @Test
@@ -130,6 +130,6 @@ class BillardAppTest {
 //        composeTestRule // this works, but is not the best way to test. See next lines
 //            .onNodeWithText(getResourceString(R.string.playing_days_title))
 //            .assertIsDisplayed()
-        assertEquals(Destinations.Playingdays.name, navController.currentBackStackEntry?.destination?.route)
+        assertEquals(Destinations.Playingdays.route, navController.currentBackStackEntry?.destination?.route)
     }
 }
