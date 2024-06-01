@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Scoreboard
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -22,7 +21,7 @@ import com.example.biljart.ui.theme.BilliardTheme
 @Composable
 fun MyBottomAppBar(
     onHome: () -> Unit,
-    onAbout: () -> Unit,
+//    onAbout: () -> Unit,  // -> Moved to top bar dropdown menu
     onRanking: () -> Unit,
     onPlayingDays: () -> Unit,
 ) {
@@ -42,9 +41,9 @@ fun MyBottomAppBar(
                     //  Icon(imageVector = if (true) Icons.Filled.Home else Icons.Filled.Face, contentDescription = "Bottombar Home")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
-                IconButton(onClick = onAbout) {
-                    Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.bottombar_about))
-                }
+//                IconButton(onClick = onAbout) {
+//                    Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.bottombar_about))
+//                }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onRanking) {
                     Icon(Icons.Filled.Scoreboard, contentDescription = stringResource(R.string.bottombar_ranking))
@@ -73,7 +72,7 @@ fun MyBottomAppBarPreview() {
     BilliardTheme(darkTheme = false) {
         MyBottomAppBar(
             { /*onHome*/ },
-            { /*onAbout*/ },
+//            { /*onAbout*/ },
             { /*onCompetition*/ },
             { /*onPlayingDays*/ },
         )

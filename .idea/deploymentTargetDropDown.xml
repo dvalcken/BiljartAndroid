@@ -8,16 +8,13 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="click_on_about_navigates_to_PlayingDays_page()">
+      <entry key="click_on_topbar_more_icon()">
         <State />
       </entry>
-      <entry key="test_back_navigation()">
+      <entry key="click_on_topbar_more_icon_shows_about_item()">
         <State />
       </entry>
       <entry key="test_navigate_to_playingday_detail()">
-        <State />
-      </entry>
-      <entry key="test_startscreen_shows_logo()">
         <State />
       </entry>
     </value>

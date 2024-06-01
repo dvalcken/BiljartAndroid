@@ -63,14 +63,15 @@ class BillardAppTest {
             .assertIsEnabled()
     }
 
-    @Test
-    fun test_startscreen_shows_about_button() {
-        composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
-            .assertExists()
-            .assertIsDisplayed()
-            .assertIsEnabled()
-    }
+    // Moved to top bar dropdown menu
+//    @Test
+//    fun test_startscreen_shows_about_button() {
+//        composeTestRule
+//            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
+//            .assertExists()
+//            .assertIsDisplayed()
+//            .assertIsEnabled()
+//    }
 
     @Test
     fun test_startscreen_shows_ranking_button() {
@@ -99,7 +100,7 @@ class BillardAppTest {
     }
 
     @Test
-    fun click_on_about_navigates_to_RankingOverview_page() {
+    fun click_on_RankingIcon_navigates_to_RankingOverview_page() {
         composeTestRule
             .onNodeWithContentDescription(getResourceString(R.string.bottombar_ranking))
             .performClick()
@@ -110,33 +111,53 @@ class BillardAppTest {
     }
 
     @Test
-    fun click_on_about_navigates_to_About_page() {
+    fun click_on_topbar_more_icon_shows_toggle_theme_item() {
         composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
+            .onNodeWithContentDescription(getResourceString(R.string.menu))
             .performClick()
+
+        composeTestRule
+            .onNodeWithText(getResourceString(R.string.toggle_theme))
+            .assertExists()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun click_on_topbar_more_icon_shows_about_item_and_navigates_to_aboutscreen() {
+        composeTestRule
+            .onNodeWithContentDescription(getResourceString(R.string.menu))
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(getResourceString(R.string.about_title))
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
         assertEquals(Destinations.About.route, navController.currentBackStackEntry?.destination?.route)
     }
 
     @Test
-    fun click_on_about_navigates_to_PlayingDays_page() {
+    fun click_on_PlayingdayIcon_navigates_to_Playingdays_page() {
         composeTestRule
             .onNodeWithContentDescription(getResourceString(R.string.bottombar_playingdays))
             .performClick()
         assertEquals(Destinations.Playingdays.route, navController.currentBackStackEntry?.destination?.route)
     }
 
-    @Test
-    fun test_fab_visibility_and_functionality() {
-        composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
-            .performClick()
-
-        // Check if FAB is displayed -> temporarily test, component will be adapted
-        composeTestRule
-            .onNodeWithContentDescription("Email the developer")
-            .assertExists()
-            .assertIsDisplayed()
-    }
+    // Moved to top bar dropdown menu
+//    @Test
+//    fun test_fab_visibility_and_functionality() {
+//        composeTestRule
+//            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
+//            .performClick()
+//
+//        // Check if FAB is displayed -> temporarily test, component will be adapted
+//        composeTestRule
+//            .onNodeWithContentDescription("Email the developer")
+//            .assertExists()
+//            .assertIsDisplayed()
+//    }
 
     @Test
     fun test_back_navigation() {

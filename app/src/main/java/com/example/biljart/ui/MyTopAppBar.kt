@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -31,6 +32,7 @@ import com.example.biljart.ui.theme.BilliardTheme
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTopAppBar(
     toggleTheme: () -> Unit,
+    onAbout: () -> Unit,
     @StringRes title: Int, // lesson 3 2:33:00
     navigationIcon: @Composable () -> Unit,
 ) {
@@ -78,6 +80,26 @@ fun MyTopAppBar(
                         )
                     },
                 )
+                // About menu item
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            stringResource(R.string.about_title),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    },
+                    onClick = {
+                        // navigate to the about screen
+                        onAbout()
+                        expanded.value = false // close the menu after clicking
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = stringResource(R.string.toggle_theme),
+                        )
+                    },
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -94,7 +116,7 @@ fun MyTopAppBarPreview() {
     BilliardTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colorScheme.background) {
             Box {
-                MyTopAppBar(title = R.string.app_name, toggleTheme = {}) {
+                MyTopAppBar(title = R.string.app_name, toggleTheme = {}, onAbout = {}) {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Home")
                     }
