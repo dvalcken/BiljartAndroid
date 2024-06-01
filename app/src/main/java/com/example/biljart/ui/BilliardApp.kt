@@ -103,7 +103,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                             }
                         context.startActivity(Intent.createChooser(emailIntent, "Send email..."))
                     }) {
-                        Icon(Icons.Default.Email, contentDescription = "Email the developer")
+                        Icon(Icons.Default.Email, contentDescription = stringResource(R.string.email_the_developer))
                     }
                 }
             }

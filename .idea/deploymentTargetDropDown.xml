@@ -2,19 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="BillardAppTest">
+      <entry key="Tests in 'com.example.biljart.ui'">
+        <State />
+      </entry>
+      <entry key="TopBarMenuTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="click_on_topbar_more_icon()">
+      <entry key="click_on_topbar_more_icon_shows_about_item_and_navigates_to_aboutscreen()">
         <State />
       </entry>
-      <entry key="click_on_topbar_more_icon_shows_about_item()">
+      <entry key="click_on_topbar_more_icon_shows_toggle_theme_item()">
         <State />
       </entry>
-      <entry key="test_navigate_to_playingday_detail()">
+      <entry key="test_startscreen_shows_about_button()">
         <State />
       </entry>
     </value>
