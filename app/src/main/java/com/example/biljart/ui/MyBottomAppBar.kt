@@ -14,7 +14,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.biljart.R
 import com.example.biljart.ui.theme.BilliardTheme
 
 @Composable
@@ -35,21 +37,21 @@ fun MyBottomAppBar(
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 IconButton(onClick = onHome) {
-                    Icon(Icons.Filled.Home, contentDescription = "Bottombar Home")
+                    Icon(Icons.Filled.Home, contentDescription = stringResource(R.string.bottombar_home))
                     // Example of changing the icon based on a condition
                     //  Icon(imageVector = if (true) Icons.Filled.Home else Icons.Filled.Face, contentDescription = "Bottombar Home")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onAbout) {
-                    Icon(Icons.Filled.Info, contentDescription = "Bottombar About")
+                    Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.bottombar_about))
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onRanking) {
-                    Icon(Icons.Filled.Scoreboard, contentDescription = "Bottombar Ranking")
+                    Icon(Icons.Filled.Scoreboard, contentDescription = stringResource(R.string.bottombar_ranking))
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onPlayingDays) {
-                    Icon(Icons.Filled.CalendarMonth, contentDescription = "Bottombar Playingdays")
+                    Icon(Icons.Filled.CalendarMonth, contentDescription = stringResource(R.string.bottombar_playingdays))
                 }
             }
         },

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.R
 import com.example.biljart.ui.theme.BilliardTheme
@@ -40,7 +41,7 @@ fun StartScreen() {
             // show the 8-ball logo
             Image(
                 painter = logo,
-                contentDescription = "Logo",
+                contentDescription = stringResource(R.string.logo),
                 modifier = Modifier
                     .fillMaxWidth() // use max available width
                     .wrapContentHeight(align = Alignment.CenterVertically), // aligns the image vertically in the center

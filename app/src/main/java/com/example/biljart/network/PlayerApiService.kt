@@ -12,5 +12,5 @@ interface PlayerApiService {
 
 // base URL and retrofit code: moved to AppContainer.kt (lesson 8 16')
 
-// helper function
+// helper function: this is in fact an extension function on PlayerApiService
 fun PlayerApiService.getPlayerssAsFlow() = flow { emit(getAllRanks()) } // this function is used in the RankingRepository (lesson 9 58'40") to convert the List<ApiRank> to a Flow<List<ApiRank>>

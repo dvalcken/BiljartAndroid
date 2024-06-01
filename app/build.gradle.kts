@@ -84,6 +84,12 @@ dependencies {
     // Android testing
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.21") // Same as kotlin version in other gradle
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.21") // Same as kotlin version in other gradle
+
+    // see https://mockk.io/ -> mocking library for Kotlin
+    testImplementation("io.mockk:mockk:1.13.11")
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))

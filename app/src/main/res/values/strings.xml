@@ -37,5 +37,12 @@
     <string name="cancel">Cancel</string>
     <string name="edit_playingday">Edit playingday</string>
     <string name="playingday_finished">Playingday finished</string>
+    <string name="bottombar_home">Bottombar Home</string>
+    <string name="bottombar_about">Bottombar About</string>
+    <string name="bottombar_ranking">Bottombar Ranking</string>
+    <string name="bottombar_playingdays">Bottombar Playingdays</string>
+    <string name="logo">Logo</string>
+    <string name="home">Home</string>
+    <string name="back">Back</string>
 
 </resources>
