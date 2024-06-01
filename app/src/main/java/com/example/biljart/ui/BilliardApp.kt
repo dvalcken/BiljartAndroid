@@ -80,7 +80,6 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                 { navController.popBackStack(Destinations.Home.route, false) }, // onHome
                 // popBackStack pops the back stack until the destination is found
                 // inclusive is false, so the destination itself is not popped
-                // { navController.navigate(Destinations.About.route) }, // onAbout  -> Moved to top bar dropdown menu
                 { navController.navigate(Destinations.Ranking.route) }, // onRanking
                 { navController.navigate(Destinations.Playingdays.route) }, // onPlayingDays
             )

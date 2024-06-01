@@ -21,7 +21,6 @@ import com.example.biljart.ui.theme.BilliardTheme
 @Composable
 fun MyBottomAppBar(
     onHome: () -> Unit,
-//    onAbout: () -> Unit,  // -> Moved to top bar dropdown menu
     onRanking: () -> Unit,
     onPlayingDays: () -> Unit,
 ) {
@@ -41,10 +40,6 @@ fun MyBottomAppBar(
                     //  Icon(imageVector = if (true) Icons.Filled.Home else Icons.Filled.Face, contentDescription = "Bottombar Home")
                 }
                 //            Spacer(modifier = Modifier.width(16.dp))
-//                IconButton(onClick = onAbout) {
-//                    Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.bottombar_about))
-//                }
-                //            Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = onRanking) {
                     Icon(Icons.Filled.Scoreboard, contentDescription = stringResource(R.string.bottombar_ranking))
                 }
@@ -55,14 +50,6 @@ fun MyBottomAppBar(
             }
         },
     )
-//    ) {
-//        Text(
-//            modifier = Modifier
-//                .fillMaxWidth(),
-//            textAlign = TextAlign.Center,
-//            text = "Bottom app bar",
-//        )
-//    }
 }
 
 // preview
@@ -72,7 +59,6 @@ fun MyBottomAppBarPreview() {
     BilliardTheme(darkTheme = false) {
         MyBottomAppBar(
             { /*onHome*/ },
-//            { /*onAbout*/ },
             { /*onCompetition*/ },
             { /*onPlayingDays*/ },
         )

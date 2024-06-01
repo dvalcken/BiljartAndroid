@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="BillardAppTest">
+        <State />
+      </entry>
+      <entry key="Tests in 'com.example.biljart'">
+        <State />
+      </entry>
       <entry key="Tests in 'com.example.biljart.ui'">
         <State />
       </entry>
@@ -9,12 +15,6 @@
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="click_on_topbar_more_icon_shows_about_item_and_navigates_to_aboutscreen()">
-        <State />
-      </entry>
-      <entry key="click_on_topbar_more_icon_shows_toggle_theme_item()">
         <State />
       </entry>
       <entry key="test_startscreen_shows_about_button()">

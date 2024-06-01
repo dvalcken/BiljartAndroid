@@ -33,9 +33,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
     ) {
         Column(
             modifier = Modifier
-//                .padding(
-//                    dimensionResource(R.dimen.padding_medium),
-//                )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(R.dimen.spacer_large),
@@ -52,7 +49,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 elevation = CardDefaults.cardElevation(
                     dimensionResource(R.dimen.elevation_medium),
                 ),
-//                contentPadding = PaddingValues(16.dp),
             ) {
                 Column(
                     modifier = Modifier.padding(
