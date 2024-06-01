@@ -9,4 +9,7 @@
     <dimen name="elevation_small">4dp</dimen>
     <dimen name="icon_medium">24dp</dimen>
     <dimen name="spacer_small">8dp</dimen>
+    <dimen name="elevation_medium">8dp</dimen>
+    <dimen name="spacer_medium">8dp</dimen>
+    <dimen name="spacer_large">16dp</dimen>
 </resources>

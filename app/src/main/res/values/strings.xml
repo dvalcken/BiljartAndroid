@@ -45,5 +45,13 @@
     <string name="home">Home</string>
     <string name="back">Back</string>
     <string name="email_the_developer">Email the developer</string>
+    <string name="developer">Developer:</string>
+    <string name="dimitri_valckenier">Dimitri Valckenier</string>
+    <string name="assignment">Assignment:</string>
+    <string name="android_project">Android project (2023-2024)</string>
+    <string name="additional_information">Additional information:</string>
+    <string name="additional_information_text">This application is a part of the Android development course for the academic year 2023-2024. \nIt uses the REST API from billiard club \'De Scheve Stoot\'.</string>
+    <string name="contact">Contact</string>
+    <string name="use_the_email_icon_fab">Use the email icon in the bottom right corner to contact the developer.</string>
 
 </resources>
