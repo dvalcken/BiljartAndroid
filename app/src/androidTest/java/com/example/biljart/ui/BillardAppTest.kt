@@ -64,15 +64,6 @@ class BillardAppTest {
     }
 
     @Test
-    fun test_startscreen_shows_about_button() {
-        composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
-            .assertExists()
-            .assertIsDisplayed()
-            .assertIsEnabled()
-    }
-
-    @Test
     fun test_startscreen_shows_ranking_button() {
         composeTestRule
             .onNodeWithContentDescription(getResourceString(R.string.bottombar_ranking))
@@ -99,7 +90,7 @@ class BillardAppTest {
     }
 
     @Test
-    fun click_on_about_navigates_to_RankingOverview_page() {
+    fun click_on_RankingIcon_navigates_to_RankingOverview_page() {
         composeTestRule
             .onNodeWithContentDescription(getResourceString(R.string.bottombar_ranking))
             .performClick()
@@ -110,32 +101,11 @@ class BillardAppTest {
     }
 
     @Test
-    fun click_on_about_navigates_to_About_page() {
-        composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
-            .performClick()
-        assertEquals(Destinations.About.route, navController.currentBackStackEntry?.destination?.route)
-    }
-
-    @Test
-    fun click_on_about_navigates_to_PlayingDays_page() {
+    fun click_on_PlayingdayIcon_navigates_to_Playingdays_page() {
         composeTestRule
             .onNodeWithContentDescription(getResourceString(R.string.bottombar_playingdays))
             .performClick()
         assertEquals(Destinations.Playingdays.route, navController.currentBackStackEntry?.destination?.route)
-    }
-
-    @Test
-    fun test_fab_visibility_and_functionality() {
-        composeTestRule
-            .onNodeWithContentDescription(getResourceString(R.string.bottombar_about))
-            .performClick()
-
-        // Check if FAB is displayed -> temporarily test, component will be adapted
-        composeTestRule
-            .onNodeWithContentDescription("Email the developer")
-            .assertExists()
-            .assertIsDisplayed()
     }
 
     @Test

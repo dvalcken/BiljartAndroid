@@ -17,7 +17,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +60,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
             MyTopAppBar(
 //                appName,
                 toggleTheme,
+                { navController.navigate(Destinations.About.route) },
                 title = titleResId,
             ) {
                 val isStartDestination = route == Destinations.Home.route
@@ -80,7 +80,6 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                 { navController.popBackStack(Destinations.Home.route, false) }, // onHome
                 // popBackStack pops the back stack until the destination is found
                 // inclusive is false, so the destination itself is not popped
-                { navController.navigate(Destinations.About.route) }, // onAbout
                 { navController.navigate(Destinations.Ranking.route) }, // onRanking
                 { navController.navigate(Destinations.Playingdays.route) }, // onPlayingDays
             )
@@ -103,7 +102,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                             }
                         context.startActivity(Intent.createChooser(emailIntent, "Send email..."))
                     }) {
-                        Icon(Icons.Default.Email, contentDescription = "Email the developer")
+                        Icon(Icons.Default.Email, contentDescription = stringResource(R.string.email_the_developer))
                     }
                 }
             }
@@ -125,7 +124,7 @@ fun BilliardApp(toggleTheme: () -> Unit, navController: NavHostController = reme
                     verticalArrangement = Arrangement.Center, // center the content vertically.
                     horizontalAlignment = Alignment.CenterHorizontally, // center the content horizontally.
                 ) {
-                    Text(text = "Temporary about screen", style = MaterialTheme.typography.bodyMedium)
+                    AboutScreen()
                 }
             }
             composable(Destinations.Ranking.route) {
