@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.example.biljart.ui
+package com.example.biljart.ui.Player
 
 import android.util.Log
 import com.example.biljart.data.CashingPlayerRepository

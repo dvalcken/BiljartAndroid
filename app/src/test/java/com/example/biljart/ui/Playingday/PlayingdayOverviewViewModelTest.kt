@@ -1,4 +1,4 @@
-package com.example.biljart.ui
+package com.example.biljart.ui.Playingday
 
 import android.util.Log
 import com.example.biljart.data.PlayingdayRepository

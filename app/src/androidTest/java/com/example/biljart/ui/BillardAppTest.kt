@@ -11,6 +11,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.biljart.Destinations
 import com.example.biljart.R
@@ -18,11 +19,14 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class BillardAppTest {
 
     // Helper function to get a string from the resources,
     // because the normal way to get resources in a test doesn't work in a Compose test
+    // Les 5 11'20"
     private fun getResourceString(@StringRes resId: Int): String {
         val targetContext: Context = InstrumentationRegistry.getInstrumentation().targetContext
         return targetContext.getString(resId)
@@ -85,15 +89,6 @@ class BillardAppTest {
             .assertIsDisplayed()
             .assertIsEnabled()
     }
-
-//    Deze is vervangen door test hieronder met getResourceString
-//    @Test
-//    fun test_app_shows_startscreen() {
-//        composeTestRule
-//            .onNodeWithText("Home")
-//            .assertExists()
-//            .assertIsDisplayed()
-//    }
 
     @Test
     fun test_app_shows_startscreen() {

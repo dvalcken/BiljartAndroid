@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.example.biljart.ui
+package com.example.biljart.ui.Match
 
 import android.util.Log
 import com.example.biljart.data.CashingMatchRepository
@@ -14,7 +14,6 @@ import com.example.biljart.fake.FakePlayerDataSource
 import com.example.biljart.fake.FakePlayingdayDataSource
 import com.example.biljart.fake.asDomainObject
 import com.example.biljart.network.MatchApiService
-import com.example.biljart.network.asDbMatch
 import com.example.biljart.util.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
