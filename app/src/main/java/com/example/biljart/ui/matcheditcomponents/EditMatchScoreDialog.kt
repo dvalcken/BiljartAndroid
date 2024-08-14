@@ -1,5 +1,7 @@
 package com.example.biljart.ui.matcheditcomponents
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +16,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -41,8 +45,23 @@ fun EditMatchScoreDialog(
         factory = EditMatchScoreViewModel.provideFactory(appContainer.appContainer, matchId),
     )
 
-    var player1Score: Int by remember { mutableIntStateOf(player1FramesWon ?: 0) } // Default to 0 if null
-    var player2Score: Int by remember { mutableIntStateOf(player2FramesWon ?: 0) }
+    val context = LocalContext.current
+    val toastMessage by editMatchScoreViewModel.toastMessage.observeAsState()
+
+    // Observe the toast message and show the toast when it changes
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let {
+            Log.d("Toast", "Showing toast: $it")
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            editMatchScoreViewModel.clearToastMessage()
+        }
+    }
+
+    // Display a blank field if the value is null, otherwise convert the value to a string
+    var player1Score: String by remember { mutableStateOf(player1FramesWon?.toString() ?: "") }
+    var player2Score: String by remember { mutableStateOf(player2FramesWon?.toString() ?: "") }
+    // var player1Score: Int by remember { mutableIntStateOf(player1FramesWon ?: 0) } // Default to 0 if null
+    // var player2Score: Int by remember { mutableIntStateOf(player2FramesWon ?: 0) }
 
     AlertDialog(
         // This is a Material M3 AlertDialog: https://developer.android.com/develop/ui/compose/components/dialog
@@ -57,11 +76,13 @@ fun EditMatchScoreDialog(
         text = {
             Column {
                 OutlinedTextField(
-                    value = player1Score.toString(),
-                    // check if the input is a number AND not negative, if not default to 0
-                    onValueChange = {
-                        val newValue = it.toIntOrNull() ?: 0
-                        if (newValue >= 0) player1Score = newValue
+                    value = player1Score, // .toString(),
+                    // Allow the user to clear the field and enter a new value
+                    onValueChange = { newValue ->
+                        // Only update the value if it's a valid number or empty
+                        if (newValue.isEmpty() || newValue.all { it.isDigit() }) { // isDigit() checks if all characters are digits (0-9)
+                            player1Score = newValue
+                        }
                     },
                     label = { Text(stringResource(R.string.player_score, player1)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -69,11 +90,13 @@ fun EditMatchScoreDialog(
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))
                 OutlinedTextField(
-                    value = player2Score.toString(),
-                    // check if the input is a number AND not negative, if not default to 0
-                    onValueChange = {
-                        val newValue = it.toIntOrNull() ?: 0
-                        if (newValue >= 0) player2Score = newValue
+                    value = player2Score, // .toString(),
+                    // Allow the user to clear the field and enter a new value
+                    onValueChange = { newValue ->
+                        // Only update the value if it's a valid number or empty
+                        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+                            player2Score = newValue
+                        }
                     },
                     label = { Text(stringResource(R.string.player_score, player2)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

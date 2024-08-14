@@ -27,7 +27,10 @@ class EditMatchScoreViewModel(
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage
 
-    fun updateScores(player1FramesWon: Int, player2FramesWon: Int) {
+    fun updateScores(player1Score: String, player2Score: String) {
+        val player1FramesWon = player1Score.toIntOrNull() ?: 0
+        val player2FramesWon = player2Score.toIntOrNull() ?: 0
+
         viewModelScope.launch {
             try {
                 Log.i("EditMatchScoreViewModel", "Updating match score for matchId $matchId, player1FramesWon $player1FramesWon, player2FramesWon $player2FramesWon")
