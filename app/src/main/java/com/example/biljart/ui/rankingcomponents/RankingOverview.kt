@@ -3,6 +3,11 @@ package com.example.biljart.ui.rankingcomponents
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,7 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.biljart.R
 import com.example.biljart.ui.genericcomponents.ErrorMessageComponent
 import com.example.biljart.ui.genericcomponents.LoadingMessageComponent
 import com.example.biljart.ui.genericcomponents.NoItemFoundComponent
@@ -37,17 +44,63 @@ fun RankingOverview(
         }
     }
 
-    Box(modifier = modifier) {
-        when (rankApiState) {
-            is RankingApiState.Loading -> LoadingMessageComponent(message = "Loading ranks...")
-            is RankingApiState.Error -> ErrorMessageComponent(message = "Error loading ranks")
-            is RankingApiState.Success -> {
-                if (rankingListState.value.isEmpty()) {
-                    NoItemFoundComponent(message = "No rankings available")
-                } else {
-                    RankingTableLayout(rankingListState.value)
+    // Similar to the MatchOverviewScreen, we show a loading message, error message, or the ranking table
+    // The RankingTableLayout composable is replaced by the LazyColumn composable
+    // The LazyColumn composable is used to show a list of RankListItem items in a scrollable list
+    // Each item in the list is a RankDetail composable, which shows the rank of a player and can be clicked
+    // to expand and show more details about the player
+    Column(modifier = modifier.fillMaxWidth()) {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(dimensionResource(R.dimen.padding_medium)),
+//            contentAlignment = Alignment.Center,
+//        ) {
+//            Text(
+//                text = stringResource(R.string.ranking_title),
+//                style = MaterialTheme.typography.headlineSmall,
+//                color = MaterialTheme.colorScheme.primary,
+//                textAlign = TextAlign.Center,
+//            )
+//        }
+
+        Box(modifier = modifier) {
+            when (rankApiState) {
+                is RankingApiState.Loading -> LoadingMessageComponent(message = "Loading ranks...")
+                is RankingApiState.Error -> ErrorMessageComponent(message = "Error loading ranks")
+                is RankingApiState.Success -> {
+                    if (rankingListState.value.isEmpty()) {
+                        NoItemFoundComponent(message = "No rankings available")
+                    } else {
+                        LazyColumn(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
+                            items(rankingListState.value) { player ->
+                                RankListItem(
+                                    playerId = player.playerId,
+                                    name = player.name,
+                                    rank = player.rank,
+                                    totalFramesWon = player.totalFramesWon,
+                                    totalFramesLost = player.totalFramesLost,
+                                    totalMatchesWon = player.totalMatchesWon,
+                                    totalMatchesPlayed = player.totalMatchesPlayed,
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+//    Box(modifier = modifier) {
+//        when (rankApiState) {
+//            is RankingApiState.Loading -> LoadingMessageComponent(message = "Loading ranks...")
+//            is RankingApiState.Error -> ErrorMessageComponent(message = "Error loading ranks")
+//            is RankingApiState.Success -> {
+//                if (rankingListState.value.isEmpty()) {
+//                    NoItemFoundComponent(message = "No rankings available")
+//                } else {
+//                    RankingTableLayout(rankingListState.value)
+//                }
+//            }
+//        }
+//    }
 }
