@@ -86,20 +86,6 @@ fun RankListItem(
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
-
-//                Row {
-//                    Text(
-//                        text = stringResource(R.string.Ranking_total_frames_won, totalFramesWon),
-//                        style = MaterialTheme.typography.bodyLarge,
-//                    )
-//                }
-//                Spacer(Modifier.width(dimensionResource(R.dimen.padding_small)))
-//                Row {
-//                    Text(
-//                        text = stringResource(R.string.Ranking_total_frames_lost, totalFramesLost),
-//                        style = MaterialTheme.typography.bodyLarge,
-//                    )
-//                }
             }
             IconButton(onClick = { showDetail = true }) {
                 Icon(

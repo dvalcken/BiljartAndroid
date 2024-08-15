@@ -1,12 +1,19 @@
 package com.example.biljart.ui.rankingcomponents
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.biljart.R
 
@@ -26,38 +33,65 @@ fun RankDetail(
         title = { Text(text = stringResource(R.string.player_details, name)) },
         text = {
             Column {
-                Text(
-                    text = stringResource(R.string.Ranking_player_id, playerId),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Player_id),
+                    value = playerId.toString(),
                 )
-                Text(
-                    text = stringResource(R.string.Ranking_rank, rank),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Rank),
+                    value = rank.toString(),
                 )
-                Text(
-                    text = stringResource(R.string.Ranking_total_frames_won, totalFramesWon),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Total_frames_won),
+                    value = totalFramesWon.toString(),
                 )
-                Text(
-                    text = stringResource(R.string.Ranking_total_frames_lost, totalFramesLost),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Total_frames_lost),
+                    value = totalFramesLost.toString(),
                 )
-                Text(
-                    text = stringResource(R.string.Ranking_total_matches_won, totalMatchesWon),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Total_matches_won),
+                    value = totalMatchesWon.toString(),
                 )
-                Text(
-                    text = stringResource(R.string.Ranking_total_matches_played, totalMatchesPlayed),
-                    style = MaterialTheme.typography.bodyLarge,
+                RankDetailItem(
+                    label = stringResource(R.string.Total_matches_played),
+                    value = totalMatchesPlayed.toString(),
                 )
             }
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.ok))
+                Text(
+                    text = stringResource(R.string.ok),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
             }
         },
     )
+}
+
+@Composable
+fun RankDetailItem(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensionResource(R.dimen.padding_extra_small)),
+    ) {
+        Row {
+            Text(
+                text = "$label:",
+                style = MaterialTheme.typography.bodyLarge,
+//                color = MaterialTheme.colorScheme.primary,
+//                fontWeight = FontWeight.Bold,
+            )
+            Spacer(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_extra_small)))
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)

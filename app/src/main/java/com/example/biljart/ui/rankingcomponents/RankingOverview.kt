@@ -50,20 +50,6 @@ fun RankingOverview(
     // Each item in the list is a RankDetail composable, which shows the rank of a player and can be clicked
     // to expand and show more details about the player
     Column(modifier = modifier.fillMaxWidth()) {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(dimensionResource(R.dimen.padding_medium)),
-//            contentAlignment = Alignment.Center,
-//        ) {
-//            Text(
-//                text = stringResource(R.string.ranking_title),
-//                style = MaterialTheme.typography.headlineSmall,
-//                color = MaterialTheme.colorScheme.primary,
-//                textAlign = TextAlign.Center,
-//            )
-//        }
-
         Box(modifier = modifier) {
             when (rankApiState) {
                 is RankingApiState.Loading -> LoadingMessageComponent(message = "Loading ranks...")
@@ -90,17 +76,4 @@ fun RankingOverview(
             }
         }
     }
-//    Box(modifier = modifier) {
-//        when (rankApiState) {
-//            is RankingApiState.Loading -> LoadingMessageComponent(message = "Loading ranks...")
-//            is RankingApiState.Error -> ErrorMessageComponent(message = "Error loading ranks")
-//            is RankingApiState.Success -> {
-//                if (rankingListState.value.isEmpty()) {
-//                    NoItemFoundComponent(message = "No rankings available")
-//                } else {
-//                    RankingTableLayout(rankingListState.value)
-//                }
-//            }
-//        }
-//    }
 }
