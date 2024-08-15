@@ -64,7 +64,7 @@ class EditMatchScoreViewModelTest {
     fun `test updateScores updates the match score successfully`() = runTest {
         coEvery { matchRepository.updateMatchScores(matchId, player1FramesWon, player2FramesWon) } just Runs
 
-        viewModel.updateScores(player1FramesWon, player2FramesWon)
+        viewModel.updateScores(player1FramesWon.toString(), player2FramesWon.toString())
 
         // Simulate the delay for the coroutine to complete
         advanceUntilIdle()

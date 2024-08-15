@@ -89,22 +89,10 @@ fun PlayingdayItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column {
-//                Text(
-//                    text = stringResource(R.string.playingday_id, playingdayId),
-//                    style = MaterialTheme.typography.titleMedium,
-//                    modifier = Modifier.align(Alignment.CenterHorizontally),
-//                )
-//
-//                Spacer(Modifier.height(dimensionResource(R.dimen.padding_small)))
-
                 Text(
                     text = stringResource(R.string.date, formattedDate),
                     style = MaterialTheme.typography.bodyLarge,
                 )
-//                Text(
-//                    text = stringResource(R.string.is_finished, isFinished),
-//                    style = MaterialTheme.typography.bodySmall,
-//                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
