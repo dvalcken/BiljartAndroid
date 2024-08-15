@@ -41,6 +41,7 @@ fun EditMatchScoreDialog(
 ) {
     val appContainer = LocalContext.current.applicationContext as BiljartApplication
     val editMatchScoreViewModel: EditMatchScoreViewModel = viewModel(
+        key = "EditMatchScoreViewModel_$matchId", // matchId is used as a key to create a new ViewModel instance for each match
         factory = EditMatchScoreViewModel.provideFactory(appContainer.appContainer, matchId),
     )
 
