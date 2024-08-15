@@ -8,10 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.example.biljart.data.AppContainer
 import com.example.biljart.data.MatchRepository
-import kotlinx.coroutines.launch
 
 class EditMatchScoreViewModel(
     private val matchRepository: MatchRepository,
@@ -24,26 +22,29 @@ class EditMatchScoreViewModel(
     var player2FramesWon: Int by mutableIntStateOf(0)
         private set
 
-    private val _toastMessage = MutableLiveData<String?>()
-    val toastMessage: LiveData<String?> = _toastMessage
+    // The UI observes the LiveData errorMessage to display the error message (observer pattern)
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
 
-    fun updateScores(player1FramesWon: Int, player2FramesWon: Int) {
-        viewModelScope.launch {
-            try {
-                Log.i("EditMatchScoreViewModel", "Updating match score for matchId $matchId, player1FramesWon $player1FramesWon, player2FramesWon $player2FramesWon")
-                matchRepository.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
-                _toastMessage.postValue("Match score updated successfully")
-                Log.i("EditMatchScoreViewModel", "Match score updated successfully")
-            } catch (e: Exception) {
-                _toastMessage.postValue("Error updating the match score...")
-                Log.w("EditMatchScoreViewModel", "Error updating the match score: ${e.message}", e)
-            }
+    suspend fun updateScores(player1Score: String, player2Score: String): Boolean {
+        // Convert the scores to integers or return false if invalid
+        // Return of false will keep the dialog open in EditMatchScoreDialog
+        val player1FramesWon = player1Score.toIntOrNull() ?: return false
+        val player2FramesWon = player2Score.toIntOrNull() ?: return false
+
+        return try {
+            Log.i("EditMatchScoreViewModel", "Updating match score for matchId $matchId, player1FramesWon $player1FramesWon, player2FramesWon $player2FramesWon")
+            matchRepository.updateMatchScores(matchId, player1FramesWon, player2FramesWon)
+            _errorMessage.postValue(null) // Clear any existing error message if updateMatchScores did not throw an exception
+            Log.i("EditMatchScoreViewModel", "Match score updated successfully")
+            true // Return true if the update was successful, so the dialog can be dismissed in EditMatchScoreDialog
+        } catch (e: Exception) {
+            _errorMessage.postValue(e.message)
+            Log.w("EditMatchScoreViewModel", "Error updating the match score: ${e.message}", e)
+            false // Return false if the update was not successful, so the dialog can stay open in EditMatchScoreDialog
         }
     }
 
-    fun clearToastMessage() {
-        _toastMessage.value = null
-    }
     companion object {
         // Same setup as in MatchOverviewViewModel, because matchId is passed as a parameter
         fun provideFactory(

@@ -32,6 +32,7 @@
     <string name="edit_match">Edit match</string>
     <string name="match">Match: %1$s</string>
     <string name="edit_match_scores">Edit match scores</string>
+    <string name="edit_match_scores_with_matchId">Edit match %1$s scores</string>
     <string name="player_score">%1$s score</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>

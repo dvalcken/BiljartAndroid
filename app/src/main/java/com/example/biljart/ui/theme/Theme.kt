@@ -2,6 +2,7 @@ package com.example.biljart.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.annotation.experimental.R
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -29,6 +30,8 @@ private val LightColorScheme = lightColorScheme(
     primaryContainer = Green500,
     onPrimaryContainer = ContentColorOnPrimaryLightMode,
     error = Amber700,
+    onError = Red200,
+    onErrorContainer = Grey200,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -45,6 +48,8 @@ private val DarkColorScheme = darkColorScheme(
     primaryContainer = Green500,
     onPrimaryContainer = DarkOnBackground,
     error = Amber700,
+    onError = Red200,
+    onErrorContainer = Grey200,
 )
 
 @Composable

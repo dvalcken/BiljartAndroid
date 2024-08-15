@@ -1,6 +1,5 @@
 package com.example.biljart.ui.matchoverviewcomponents
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,8 +55,8 @@ fun MatchItem(
 
     Card(
         modifier = modifier
-            .padding(dimensionResource(R.dimen.padding_small))
-            .clickable { /* TODO open edit dialog action here also? */ },
+            .padding(dimensionResource(R.dimen.padding_small)),
+        // .clickable { /* TODO open edit dialog action here also? */ },
         shape = RoundedCornerShape(dimensionResource(R.dimen.cornerradius_small)),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = dimensionResource(R.dimen.elevation_small)),
     ) {

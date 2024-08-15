@@ -1,9 +1,12 @@
 package com.example.biljart.ui.matcheditcomponents
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -15,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.biljart.BiljartApplication
 import com.example.biljart.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditMatchScoreDialog(
@@ -38,11 +44,17 @@ fun EditMatchScoreDialog(
 ) {
     val appContainer = LocalContext.current.applicationContext as BiljartApplication
     val editMatchScoreViewModel: EditMatchScoreViewModel = viewModel(
+        key = "EditMatchScoreViewModel_$matchId", // matchId is used as a key to create a new ViewModel instance for each match
         factory = EditMatchScoreViewModel.provideFactory(appContainer.appContainer, matchId),
     )
 
-    var player1Score: Int by remember { mutableIntStateOf(player1FramesWon ?: 0) } // Default to 0 if null
-    var player2Score: Int by remember { mutableIntStateOf(player2FramesWon ?: 0) }
+    // Display a blank field if the value is null, otherwise convert the value to a string
+    var player1Score: String by remember { mutableStateOf(player1FramesWon?.toString() ?: "") }
+    var player2Score: String by remember { mutableStateOf(player2FramesWon?.toString() ?: "") }
+
+    val errorMessage by editMatchScoreViewModel.errorMessage.observeAsState()
+
+    val scope = rememberCoroutineScope()
 
     AlertDialog(
         // This is a Material M3 AlertDialog: https://developer.android.com/develop/ui/compose/components/dialog
@@ -53,40 +65,64 @@ fun EditMatchScoreDialog(
                 tint = MaterialTheme.colorScheme.primary,
             )
         },
-        title = { Text(text = stringResource(R.string.edit_match_scores)) },
+        title = { Text(text = stringResource(R.string.edit_match_scores_with_matchId, matchId)) },
         text = {
             Column {
                 OutlinedTextField(
-                    value = player1Score.toString(),
-                    // check if the input is a number AND not negative, if not default to 0
-                    onValueChange = {
-                        val newValue = it.toIntOrNull() ?: 0
-                        if (newValue >= 0) player1Score = newValue
+                    value = player1Score,
+                    // Allow the user to clear the field and enter a new value
+                    onValueChange = { newValue ->
+                        // Only update the value if it's a valid number
+                        if (newValue.all { it.isDigit() }) { // isDigit() checks if all characters are digits (0-9)
+                            player1Score = newValue
+                        }
                     },
                     label = { Text(stringResource(R.string.player_score, player1)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacer_small)))
                 OutlinedTextField(
-                    value = player2Score.toString(),
-                    // check if the input is a number AND not negative, if not default to 0
-                    onValueChange = {
-                        val newValue = it.toIntOrNull() ?: 0
-                        if (newValue >= 0) player2Score = newValue
+                    value = player2Score,
+                    // Allow the user to clear the field and enter a new value
+                    onValueChange = { newValue ->
+                        // Only update the value if it's a valid number or empty
+                        if (newValue.all { it.isDigit() }) {
+                            player2Score = newValue
+                        }
                     },
                     label = { Text(stringResource(R.string.player_score, player2)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),
                 )
+
+                if (!errorMessage.isNullOrEmpty()) {
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacer_small)))
+                    Box(
+                        modifier = Modifier
+                            .background(color = MaterialTheme.colorScheme.onErrorContainer)
+                            .padding(dimensionResource(id = R.dimen.padding_small)),
+                    ) {
+                        Text(
+                            text = errorMessage ?: "",
+                            color = MaterialTheme.colorScheme.onError,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
             }
         },
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = {
-                // Handle the save button click in the viewmodel, and dismiss the dialog
-                editMatchScoreViewModel.updateScores(player1Score, player2Score)
-                onDismiss()
+                // Attempt to update the scores; don't dismiss dialog if there's an error
+                // Launch a coroutine to handle the suspend function 'updateScores'
+                scope.launch {
+                    val success = editMatchScoreViewModel.updateScores(player1Score, player2Score)
+                    if (success) {
+                        onDismiss()
+                    }
+                }
             }) {
                 Text(stringResource(R.string.save))
             }
