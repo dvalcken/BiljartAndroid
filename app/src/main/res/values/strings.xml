@@ -54,5 +54,15 @@
     <string name="additional_information_text">This application is a part of the Android development course for the academic year 2023-2024. \nIt uses the REST API from billiard club \'De Scheve Stoot\'.</string>
     <string name="contact">Contact</string>
     <string name="use_the_email_icon_fab">Use the email icon in the bottom right corner to contact the developer.</string>
+    <string name="view_details">View player details</string>
+    <string name="ok">OK</string>
+    <string name="player_details">"Player: %1$s"</string>
+    <string name="frames_won_lost">Frames won: %1$s - Lost: %2$s</string>
+    <string name="Player_id">Player ID</string>
+    <string name="Rank">Rank</string>
+    <string name="Total_frames_won">Total frames won</string>
+    <string name="Total_frames_lost">Total frames lost</string>
+    <string name="Total_matches_won">Total matches won</string>
+    <string name="Total_matches_played">Total matches played</string>
 
 </resources>
