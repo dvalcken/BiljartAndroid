@@ -30,6 +30,7 @@ class EditMatchScoreViewModel(
 
     suspend fun updateScores(player1Score: String, player2Score: String): Boolean {
         // Convert the scores to integers or return false if invalid
+        // Return of false will keep the dialog open in EditMatchScoreDialog
         val player1FramesWon = player1Score.toIntOrNull() ?: return false
         val player2FramesWon = player2Score.toIntOrNull() ?: return false
 
@@ -43,7 +44,7 @@ class EditMatchScoreViewModel(
             true // Return true if the update was successful, so the dialog can be dismissed in EditMatchScoreDialog
         } catch (e: Exception) {
 //            _toastMessage.postValue("Error updating the match score...")
-            _errorMessage.postValue("Failed to update match scores: ${e.message}")
+            _errorMessage.postValue(e.message)
             Log.w("EditMatchScoreViewModel", "Error updating the match score: ${e.message}", e)
             false // Return false if the update was not successful, so the dialog can stay open in EditMatchScoreDialog
         }
